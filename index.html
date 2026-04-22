@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>学习小组</title>
+  <title>Seat Happens</title>
   <style>
     :root {
       --bg: #f5f7f6;
@@ -235,6 +235,86 @@
       background: #f2f7ff;
     }
 
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(112px, 1fr));
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .day-card {
+      min-height: 96px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px;
+      background: #fbfcfb;
+      cursor: pointer;
+      display: grid;
+      gap: 7px;
+      align-content: start;
+    }
+
+    .day-card.active {
+      border-color: #8db6ff;
+      background: #f2f7ff;
+    }
+
+    .day-card strong {
+      font-size: 13px;
+    }
+
+    .day-count {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .room-card {
+      border-left: 4px solid var(--green);
+    }
+
+    .room-card.full {
+      border-left-color: var(--red);
+    }
+
+    .room-card.soon {
+      border-left-color: var(--yellow);
+    }
+
+    .captain-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: #fff3c4;
+      color: #6b4a00;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: #eef4f0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .status-chip.open { background: #edf8ef; color: var(--green); }
+    .status-chip.tight { background: #fff7dc; color: var(--yellow); }
+    .status-chip.full { background: #fff0f0; color: var(--red); }
+
+    .compact-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
     .dot {
       width: 10px;
       height: 10px;
@@ -434,8 +514,8 @@
   <main id="appView" class="hidden">
     <div class="topbar">
       <div>
-        <h1>学习小组</h1>
-        <div class="muted">自习计划、课程周任务、个人进度、反馈和广场聊天。</div>
+        <h1>Seat Happens</h1>
+        <div class="muted">StudiTUM room sharing first. Course tasks stay as a lightweight helper.</div>
       </div>
       <div class="row">
         <span id="userBadge" class="pill"></span>
@@ -449,47 +529,85 @@
         <div class="panel">
           <div class="panel-head">
             <div>
-              <h2>本周自习</h2>
-              <div class="muted">所有登录用户都可以创建自习和报名。</div>
+              <h2>房间预约</h2>
+              <div class="muted">看未来 7 天谁会去 StudiTUM，占到房间后还有多少位置。</div>
             </div>
           </div>
           <div class="panel-body stack">
+            <div id="roomCalendar" class="calendar-grid"></div>
+            <div class="notice">
+              Captain 是愿意早到并发布房间计划的人。这里是小组内部的 soft reservation：到达并 check-in 后才算确认座位。
+            </div>
             <div class="grid-3">
               <label class="field">
                 <span>日期</span>
-                <input id="sessionDate" type="date">
+                <input id="roomPlanDate" type="date">
               </label>
               <label class="field">
-                <span>时间</span>
-                <input id="sessionTime" type="time" value="09:30">
+                <span>开始</span>
+                <input id="roomStartTime" type="time" value="09:00">
               </label>
               <label class="field">
-                <span>地点</span>
-                <input id="sessionPlace" value="主校区">
+                <span>结束</span>
+                <input id="roomEndTime" type="time" value="18:00">
               </label>
             </div>
-            <label class="field">
-              <span>主题</span>
-              <input id="sessionTitle" value="一起自习">
-            </label>
-            <label class="field">
-              <span>备注</span>
-              <textarea id="sessionNote" placeholder="例如：我会先去占房间"></textarea>
-            </label>
-            <button id="createSessionButton" class="primary" type="button">发布自习</button>
-            <div id="sessions" class="list"></div>
+            <div class="grid-3">
+              <label class="field">
+                <span>Captain 到达</span>
+                <input id="captainArrival" type="time" value="07:30">
+              </label>
+              <label class="field">
+                <span>房间类型</span>
+                <select id="roomType">
+                  <option value="small_room">小自习室 · 4 人</option>
+                  <option value="medium_room">中自习室 · 6 人</option>
+                  <option value="large_classroom">大教室</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>容量</span>
+                <input id="roomCapacity" type="number" min="1" max="40" value="4">
+              </label>
+            </div>
+            <div class="grid-2">
+              <label class="field">
+                <span>主题</span>
+                <input id="roomTopic" placeholder="无主题 / RD / i2dl / 安静自习">
+              </label>
+              <label class="field">
+                <span>讨论模式</span>
+                <select id="discussionMode">
+                  <option value="quiet">安静自习</option>
+                  <option value="flexible">可小声讨论</option>
+                  <option value="discussion">讨论型</option>
+                </select>
+              </label>
+            </div>
+            <div class="grid-2">
+              <label class="field">
+                <span>实际房间号</span>
+                <input id="actualRoomLabel" placeholder="到场后可补，例如 2.05">
+              </label>
+              <label class="field">
+                <span>备注</span>
+                <input id="roomNote" placeholder="例如：先抢中房间，抢不到就小房间">
+              </label>
+            </div>
+            <button id="createRoomPlanButton" class="primary" type="button">作为 Captain 发布计划</button>
+            <div id="roomPlans" class="list"></div>
           </div>
         </div>
 
         <div class="panel">
           <div class="panel-head">
             <div>
-              <h2>整体进度</h2>
-              <div class="muted">显示所有成员公开的任务完成率。</div>
+              <h2>Captain Board</h2>
+              <div class="muted">鼓励愿意早起并按承诺完成房间计划的人。</div>
             </div>
           </div>
           <div class="panel-body">
-            <div id="progressBars" class="list"></div>
+            <div id="captainBoard" class="list"></div>
           </div>
         </div>
 
@@ -661,8 +779,8 @@
       sharedTasks: [],
       myTasks: [],
       allUserTasks: [],
-      sessions: [],
-      rsvps: [],
+      roomPlans: [],
+      roomMembers: [],
       chat: [],
       feedback: []
     };
@@ -691,6 +809,21 @@
       return new Date().toISOString().slice(0, 10);
     }
 
+    function addDays(dateString, days) {
+      const date = new Date(`${dateString}T12:00:00`);
+      date.setDate(date.getDate() + days);
+      return date.toISOString().slice(0, 10);
+    }
+
+    function dayLabel(dateString) {
+      const date = new Date(`${dateString}T12:00:00`);
+      return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    }
+
+    function timeShort(value) {
+      return value ? String(value).slice(0, 5) : "";
+    }
+
     function profileName(id) {
       const profile = state.profiles.find((item) => item.id === id);
       return profile?.nickname || profile?.username || "未知用户";
@@ -717,6 +850,74 @@
       if (tasks.length === 0) return 0;
       const done = tasks.filter((task) => task.done).length;
       return Math.round((done / tasks.length) * 100);
+    }
+
+    function roomTypeLabel(type) {
+      return {
+        small_room: "小自习室",
+        medium_room: "中自习室",
+        large_classroom: "大教室"
+      }[type] || type;
+    }
+
+    function discussionLabel(mode) {
+      return {
+        quiet: "安静自习",
+        flexible: "可小声讨论",
+        discussion: "讨论型"
+      }[mode] || mode;
+    }
+
+    function defaultCapacity(type) {
+      return {
+        small_room: 4,
+        medium_room: 6,
+        large_classroom: 20
+      }[type] || 4;
+    }
+
+    function membersForPlan(planId) {
+      return state.roomMembers.filter((member) => member.room_plan_id === planId);
+    }
+
+    function activeMembersForPlan(planId) {
+      return membersForPlan(planId).filter((member) => ["requested", "expected", "confirmed"].includes(member.status));
+    }
+
+    function confirmedMembersForPlan(planId) {
+      return membersForPlan(planId).filter((member) => member.status === "confirmed");
+    }
+
+    function seatsLeft(plan) {
+      return Math.max(0, plan.max_capacity - activeMembersForPlan(plan.id).length);
+    }
+
+    function hasJoined(planId) {
+      return membersForPlan(planId).some((member) => member.user_id === state.profile.id && !["cancelled", "released"].includes(member.status));
+    }
+
+    function myMembership(planId) {
+      return membersForPlan(planId).find((member) => member.user_id === state.profile.id);
+    }
+
+    function captainTitle(userId) {
+      const plans = state.roomPlans.filter((plan) => plan.captain_id === userId);
+      const completed = plans.filter((plan) => plan.status === "completed");
+      const early = completed.filter((plan) => plan.planned_arrival && timeShort(plan.planned_arrival) <= "07:45");
+      if (completed.length >= 5) return "Room Ranger";
+      if (early.length >= 1) return "7:30 Hero";
+      if (completed.length >= 1) return "Promise Keeper";
+      if (plans.length >= 1) return "Captain";
+      return "";
+    }
+
+    function captainReliability(userId) {
+      const plans = state.roomPlans.filter((plan) => plan.captain_id === userId);
+      const completed = plans.filter((plan) => plan.status === "completed").length;
+      const cancelled = plans.filter((plan) => plan.status === "cancelled").length;
+      const total = completed + cancelled;
+      if (total === 0) return "new";
+      return `${Math.round((completed / total) * 100)}%`;
     }
 
     async function requireOk(result, fallbackMessage) {
@@ -828,14 +1029,14 @@
         "Cannot load progress"
       );
 
-      state.sessions = await requireOk(
-        await supabase.from("study_sessions").select("*").is("archived_at", null).gte("session_date", today()).order("session_date").order("start_time").limit(20),
-        "Cannot load study sessions"
+      state.roomPlans = await requireOk(
+        await supabase.from("room_plans").select("*").gte("plan_date", addDays(today(), -30)).order("plan_date").order("start_time").limit(500),
+        "Cannot load room plans. Please run supabase_room_mvp_migration.sql first."
       );
 
-      const sessionIds = state.sessions.map((item) => item.id);
-      state.rsvps = sessionIds.length
-        ? await requireOk(await supabase.from("session_rsvps").select("*").in("session_id", sessionIds), "Cannot load RSVPs")
+      const roomPlanIds = state.roomPlans.map((item) => item.id);
+      state.roomMembers = roomPlanIds.length
+        ? await requireOk(await supabase.from("room_plan_members").select("*").in("room_plan_id", roomPlanIds), "Cannot load room members")
         : [];
 
       state.chat = await requireOk(
@@ -856,10 +1057,11 @@
     function renderApp() {
       $("authView").classList.add("hidden");
       $("appView").classList.remove("hidden");
-      $("sessionDate").value ||= today();
+      $("roomPlanDate").value ||= today();
       renderUserBadge();
-      renderSessions();
-      renderProgress();
+      renderRoomCalendar();
+      renderRoomPlans();
+      renderCaptainBoard();
       renderCourseTags();
       renderSharedTasks();
       renderMyTasks();
@@ -875,77 +1077,142 @@
       badge.textContent = `${state.profile.nickname} · ${state.profile.role}`;
     }
 
-    function renderSessions() {
-      const box = $("sessions");
+    function renderRoomCalendar() {
+      const selected = $("roomPlanDate").value || today();
+      const box = $("roomCalendar");
       box.replaceChildren();
-      if (state.sessions.length === 0) {
-        box.innerHTML = `<div class="empty">还没有即将到来的自习。</div>`;
+
+      for (let i = 0; i < 7; i += 1) {
+        const date = addDays(today(), i);
+        const plans = state.roomPlans.filter((plan) => plan.plan_date === date && !["cancelled"].includes(plan.status));
+        const openPlans = plans.filter((plan) => seatsLeft(plan) > 0).length;
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = `day-card ${date === selected ? "active" : ""}`;
+        card.innerHTML = `
+          <strong>${escapeHtml(dayLabel(date))}</strong>
+          <span class="day-count">${plans.length} plans · ${openPlans} open</span>
+        `;
+        card.addEventListener("click", () => {
+          $("roomPlanDate").value = date;
+          renderRoomCalendar();
+          renderRoomPlans();
+        });
+        box.appendChild(card);
+      }
+    }
+
+    function renderRoomPlans() {
+      const selected = $("roomPlanDate").value || today();
+      const box = $("roomPlans");
+      box.replaceChildren();
+      const plans = state.roomPlans.filter((plan) => plan.plan_date === selected).sort((a, b) => `${a.start_time}`.localeCompare(`${b.start_time}`));
+
+      if (plans.length === 0) {
+        box.innerHTML = `<div class="empty">这一天还没有房间计划。愿意早起的人可以先作为 Captain 发布一个。</div>`;
         return;
       }
 
-      state.sessions.forEach((session) => {
-        const rsvps = state.rsvps.filter((item) => item.session_id === session.id);
-        const yes = rsvps.filter((item) => item.status === "yes").length;
-        const maybe = rsvps.filter((item) => item.status === "maybe").length;
-        const interested = yes + maybe;
-        const room = interested <= 0 ? "无需占房" : interested <= 2 ? "小房间" : interested <= 6 ? "大房间" : "建议两间";
-        const mine = rsvps.find((item) => item.user_id === state.profile.id);
+      plans.forEach((plan) => {
+        const members = membersForPlan(plan.id);
+        const active = activeMembersForPlan(plan.id);
+        const confirmed = confirmedMembersForPlan(plan.id);
+        const left = seatsLeft(plan);
+        const joined = hasJoined(plan.id);
+        const mine = myMembership(plan.id);
+        const isCaptain = plan.captain_id === state.profile.id;
+        const canManage = isCaptain || isAdmin();
+        const fullnessClass = left <= 0 ? "full" : left <= 1 ? "soon" : "";
+        const statusClass = left <= 0 ? "full" : left <= 1 ? "tight" : "open";
+        const captainTitleText = captainTitle(plan.captain_id);
+        const item = document.createElement("div");
+        item.className = `item room-card ${fullnessClass}`;
+        item.innerHTML = `
+          <div class="split">
+            <div>
+              <strong>${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))} · ${escapeHtml(roomTypeLabel(plan.room_type))}</strong>
+              <div class="muted">Captain: ${escapeHtml(profileName(plan.captain_id))} ${captainTitleText ? `<span class="captain-badge">${escapeHtml(captainTitleText)}</span>` : ""}</div>
+            </div>
+            <span class="status-chip ${statusClass}">${left} seats left</span>
+          </div>
+          <div class="compact-list">
+            <span class="pill">${escapeHtml(plan.status)}</span>
+            <span class="pill">${escapeHtml(discussionLabel(plan.discussion_mode))}</span>
+            <span class="pill">${confirmed.length} checked in</span>
+            <span class="pill">${active.length}/${plan.max_capacity} planned</span>
+          </div>
+          <div>${escapeHtml(plan.topic || "无主题")}</div>
+          <div class="muted">${escapeHtml(plan.actual_room_label ? "Room " + plan.actual_room_label : "房间号到场后补充")} · Captain ETA ${escapeHtml(timeShort(plan.planned_arrival) || "未设置")}</div>
+          ${plan.note ? `<div class="muted">${escapeHtml(plan.note)}</div>` : ""}
+          <div class="compact-list">
+            ${members.length ? members.map((member) => `<span class="pill">${escapeHtml(profileName(member.user_id))} · ${escapeHtml(member.status)}${member.eta ? " · " + escapeHtml(timeShort(member.eta)) : ""}</span>`).join("") : `<span class="muted">还没有人加入。</span>`}
+          </div>
+          <div class="row">
+            ${!joined && left > 0 && plan.status !== "cancelled" ? `<button class="small primary" data-room-join="${plan.id}" type="button">申请加入</button>` : ""}
+            ${joined && mine?.status !== "confirmed" ? `<button class="small" data-room-checkin="${mine.id}" type="button">我已到达</button>` : ""}
+            ${joined ? `<button class="small danger" data-room-cancel-member="${mine.id}" type="button">取消加入</button>` : ""}
+            ${canManage ? `<button class="small" data-room-status="${plan.id}" data-status="active" type="button">标记 active</button>` : ""}
+            ${canManage ? `<button class="small" data-room-status="${plan.id}" data-status="completed" type="button">完成承诺</button>` : ""}
+            ${canManage ? `<button class="small danger" data-room-status="${plan.id}" data-status="cancelled" type="button">取消计划</button>` : ""}
+          </div>
+        `;
+        box.appendChild(item);
+      });
+
+      box.querySelectorAll("[data-room-join]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const eta = prompt("预计到达时间，例如 09:30", "09:30");
+          if (eta === null) return;
+          await joinRoomPlan(button.dataset.roomJoin, eta);
+        });
+      });
+
+      box.querySelectorAll("[data-room-checkin]").forEach((button) => {
+        button.addEventListener("click", async () => updateRoomMember(button.dataset.roomCheckin, { status: "confirmed", checked_in_at: new Date().toISOString() }));
+      });
+
+      box.querySelectorAll("[data-room-cancel-member]").forEach((button) => {
+        button.addEventListener("click", async () => updateRoomMember(button.dataset.roomCancelMember, { status: "cancelled" }));
+      });
+
+      box.querySelectorAll("[data-room-status]").forEach((button) => {
+        button.addEventListener("click", async () => updateRoomPlanStatus(button.dataset.roomStatus, button.dataset.status));
+      });
+    }
+
+    function renderCaptainBoard() {
+      const box = $("captainBoard");
+      box.replaceChildren();
+      const captains = state.profiles
+        .map((profile) => {
+          const plans = state.roomPlans.filter((plan) => plan.captain_id === profile.id);
+          return {
+            profile,
+            plans,
+            completed: plans.filter((plan) => plan.status === "completed").length,
+            title: captainTitle(profile.id),
+            reliability: captainReliability(profile.id)
+          };
+        })
+        .filter((entry) => entry.plans.length > 0)
+        .sort((a, b) => b.completed - a.completed || b.plans.length - a.plans.length);
+
+      if (captains.length === 0) {
+        box.innerHTML = `<div class="empty">还没有 Captain。第一个发布房间计划的人会获得 Captain 标识。</div>`;
+        return;
+      }
+
+      captains.forEach((entry) => {
         const item = document.createElement("div");
         item.className = "item";
         item.innerHTML = `
           <div class="split">
-            <strong>${escapeHtml(session.title)}</strong>
-            <span class="pill">${escapeHtml(room)}</span>
+            <strong>${escapeHtml(entry.profile.nickname)}</strong>
+            <span class="captain-badge">${escapeHtml(entry.title || "Captain")}</span>
           </div>
-          <div class="muted">${escapeHtml(session.session_date)} ${escapeHtml(session.start_time || "")} · ${escapeHtml(session.place)} · ${yes} 去 / ${maybe} 可能</div>
-          <div>${escapeHtml(session.note || "")}</div>
-          <div class="row">
-            <select data-rsvp-status="${session.id}">
-              <option value="yes">去</option>
-              <option value="maybe">可能去</option>
-              <option value="no">不去</option>
-            </select>
-            <input data-rsvp-arrival="${session.id}" type="time" value="${escapeHtml(mine?.arrival_time || "")}">
-            <button data-rsvp-save="${session.id}" type="button">保存报名</button>
-          </div>
+          <div class="muted">${entry.completed} completed · ${entry.plans.length} total · reliability ${escapeHtml(entry.reliability)}</div>
         `;
-        item.querySelector("[data-rsvp-status]").value = mine?.status || "maybe";
         box.appendChild(item);
-      });
-
-      box.querySelectorAll("[data-rsvp-save]").forEach((button) => {
-        button.addEventListener("click", async () => {
-          const sessionId = button.dataset.rsvpSave;
-          const status = box.querySelector(`[data-rsvp-status="${sessionId}"]`).value;
-          const arrival = box.querySelector(`[data-rsvp-arrival="${sessionId}"]`).value || null;
-          await requireOk(
-            await supabase.from("session_rsvps").upsert({
-              session_id: sessionId,
-              user_id: state.profile.id,
-              status,
-              arrival_time: arrival
-            }),
-            "Cannot save RSVP"
-          );
-          await loadApp();
-          renderApp();
-        });
-      });
-    }
-
-    function renderProgress() {
-      const box = $("progressBars");
-      box.replaceChildren();
-      state.profiles.forEach((profile) => {
-        const percent = taskProgressForUser(profile.id);
-        const row = document.createElement("div");
-        row.className = "bar-row";
-        row.innerHTML = `
-          <strong>${escapeHtml(profile.nickname)}</strong>
-          <div class="bar"><span style="width:${percent}%"></span></div>
-          <span class="mono">${percent}%</span>
-        `;
-        box.appendChild(row);
       });
     }
 
@@ -1200,22 +1467,78 @@
       });
     }
 
-    async function createSession() {
-      const title = $("sessionTitle").value.trim();
-      const sessionDate = $("sessionDate").value;
-      if (!title || !sessionDate) return;
-      await requireOk(
-        await supabase.from("study_sessions").insert({
-          title,
-          session_date: sessionDate,
-          start_time: $("sessionTime").value || null,
-          place: $("sessionPlace").value.trim() || "主校区",
-          note: $("sessionNote").value.trim() || null,
-          created_by: state.profile.id
-        }),
-        "Cannot create session"
+    async function createRoomPlan() {
+      const roomType = $("roomType").value;
+      const payload = {
+        captain_id: state.profile.id,
+        plan_date: $("roomPlanDate").value || today(),
+        start_time: $("roomStartTime").value,
+        end_time: $("roomEndTime").value,
+        planned_arrival: $("captainArrival").value || null,
+        campus: "StudiTUM Innenstadt",
+        room_type: roomType,
+        actual_room_label: $("actualRoomLabel").value.trim() || null,
+        topic: $("roomTopic").value.trim() || null,
+        discussion_mode: $("discussionMode").value,
+        max_capacity: Number($("roomCapacity").value) || defaultCapacity(roomType),
+        note: $("roomNote").value.trim() || null
+      };
+
+      if (!payload.plan_date || !payload.start_time || !payload.end_time) {
+        alert("请填写日期、开始和结束时间。");
+        return;
+      }
+
+      const plan = await requireOk(
+        await supabase.from("room_plans").insert(payload).select().single(),
+        "Cannot create room plan"
       );
-      $("sessionNote").value = "";
+
+      await requireOk(
+        await supabase.from("room_plan_members").upsert({
+          room_plan_id: plan.id,
+          user_id: state.profile.id,
+          status: "expected",
+          eta: payload.planned_arrival
+        }),
+        "Cannot add Captain to room plan"
+      );
+
+      $("roomTopic").value = "";
+      $("actualRoomLabel").value = "";
+      $("roomNote").value = "";
+      await loadApp();
+      renderApp();
+    }
+
+    async function joinRoomPlan(planId, eta) {
+      await requireOk(
+        await supabase.from("room_plan_members").upsert({
+          room_plan_id: planId,
+          user_id: state.profile.id,
+          status: "requested",
+          eta: eta || null
+        }, { onConflict: "room_plan_id,user_id" }),
+        "Cannot join room plan"
+      );
+      await loadApp();
+      renderApp();
+    }
+
+    async function updateRoomMember(memberId, patch) {
+      await requireOk(
+        await supabase.from("room_plan_members").update(patch).eq("id", memberId),
+        "Cannot update room member"
+      );
+      await loadApp();
+      renderApp();
+    }
+
+    async function updateRoomPlanStatus(planId, status) {
+      await requireOk(
+        await supabase.from("room_plans").update({ status }).eq("id", planId),
+        "Cannot update room plan"
+      );
       await loadApp();
       renderApp();
     }
@@ -1345,7 +1668,14 @@
         await loadApp();
         renderApp();
       });
-      $("createSessionButton").addEventListener("click", createSession);
+      $("createRoomPlanButton").addEventListener("click", createRoomPlan);
+      $("roomType").addEventListener("change", () => {
+        $("roomCapacity").value = String(defaultCapacity($("roomType").value));
+      });
+      $("roomPlanDate").addEventListener("change", () => {
+        renderRoomCalendar();
+        renderRoomPlans();
+      });
       $("activeWeek").addEventListener("change", () => {
         renderSharedTasks();
         renderMyTasks();
