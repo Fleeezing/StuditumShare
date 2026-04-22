@@ -1,0 +1,1387 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>学习小组</title>
+  <style>
+    :root {
+      --bg: #f5f7f6;
+      --panel: #fff;
+      --ink: #17211c;
+      --muted: #65716a;
+      --line: #d8e0dc;
+      --soft: #edf3ef;
+      --blue: #2368d8;
+      --green: #227a48;
+      --red: #bd2c2c;
+      --yellow: #9b6700;
+      --violet: #6d54c8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    button {
+      min-height: 34px;
+      border: 1px solid #b9c7bd;
+      border-radius: 7px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: #edf4f0;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    button.primary {
+      border-color: #8db6ff;
+      background: #e6f0ff;
+      color: #163f86;
+    }
+
+    button.danger {
+      border-color: #efc2c2;
+      background: #fff0f0;
+      color: var(--red);
+    }
+
+    button.small {
+      min-height: 28px;
+      padding: 0 9px;
+      font-size: 12px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 8px 10px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #91b7ff;
+      box-shadow: 0 0 0 3px rgba(35, 104, 216, 0.12);
+    }
+
+    main {
+      width: min(1400px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 18px 0 30px;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    h1 { font-size: 23px; }
+    h2 { font-size: 16px; }
+    h3 { font-size: 14px; }
+
+    .topbar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(390px, 0.92fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 15px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfb;
+    }
+
+    .panel-body {
+      padding: 14px 15px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .split {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+    }
+
+    .field span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .auth-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .auth {
+      width: min(760px, 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .hidden { display: none !important; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 9px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .pill.admin {
+      color: #fff;
+      background: var(--violet);
+    }
+
+    .tag-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fbfcfb;
+      display: grid;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .tag.active {
+      border-color: #8db6ff;
+      background: #f2f7ff;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      background: var(--blue);
+      flex: 0 0 auto;
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fbfcfb;
+      display: grid;
+      gap: 7px;
+    }
+
+    .task {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 9px;
+      align-items: start;
+    }
+
+    .task input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+    }
+
+    .task.done .task-title {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .task-title {
+      font-size: 14px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfb;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 96px 1fr 44px;
+      gap: 9px;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .bar {
+      height: 11px;
+      border-radius: 999px;
+      background: #e7eeea;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: var(--green);
+    }
+
+    .chat {
+      max-height: 330px;
+      overflow: auto;
+      padding-right: 3px;
+    }
+
+    .message {
+      border-left: 3px solid #c8d7cf;
+      padding: 7px 9px;
+      background: #fbfcfb;
+      border-radius: 0 7px 7px 0;
+    }
+
+    .notice {
+      border: 1px solid #d5dce8;
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #f5f8ff;
+      color: #2a4068;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .error {
+      color: var(--red);
+      font-size: 13px;
+      min-height: 19px;
+    }
+
+    .empty {
+      border: 1px dashed #c8d3cd;
+      border-radius: 8px;
+      padding: 14px;
+      color: var(--muted);
+      background: #fbfcfb;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .mono {
+      font-family: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+    }
+
+    @media (max-width: 980px) {
+      main { width: min(100vw - 18px, 780px); }
+      .layout, .auth, .grid-2, .grid-3, .metric-row { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div id="authView" class="auth-wrap">
+    <div class="auth">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>登录</h2>
+            <div class="muted">使用小组用户名，不需要真实邮箱。</div>
+          </div>
+        </div>
+        <div class="panel-body stack">
+          <label class="field">
+            <span>用户名</span>
+            <input id="loginUsername" autocomplete="username" placeholder="例如 alice">
+          </label>
+          <label class="field">
+            <span>密码</span>
+            <input id="loginPassword" type="password" autocomplete="current-password">
+          </label>
+          <button id="loginButton" class="primary" type="button">登录</button>
+          <div id="loginError" class="error"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>注册</h2>
+            <div class="muted">用户名会映射为内部邮箱，界面不显示真实邮箱。</div>
+          </div>
+        </div>
+        <div class="panel-body stack">
+          <label class="field">
+            <span>用户名</span>
+            <input id="signupUsername" autocomplete="username" placeholder="小写字母/数字">
+          </label>
+          <label class="field">
+            <span>昵称</span>
+            <input id="signupNickname" placeholder="页面上显示的名字">
+          </label>
+          <label class="field">
+            <span>密码</span>
+            <input id="signupPassword" type="password" autocomplete="new-password">
+          </label>
+          <label class="field">
+            <span>管理员邀请码</span>
+            <input id="adminSetupCode" autocomplete="off" placeholder="普通用户留空">
+          </label>
+          <button id="signupButton" class="primary" type="button">创建账号</button>
+          <div class="notice">如果注册后不能立刻登录，需要在 Supabase Authentication 的 Email provider 里关闭 Confirm email。</div>
+          <div id="signupError" class="error"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <main id="appView" class="hidden">
+    <div class="topbar">
+      <div>
+        <h1>学习小组</h1>
+        <div class="muted">自习计划、课程周任务、个人进度、反馈和广场聊天。</div>
+      </div>
+      <div class="row">
+        <span id="userBadge" class="pill"></span>
+        <button id="refreshButton" type="button">刷新</button>
+        <button id="logoutButton" type="button">退出</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <section class="stack">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>本周自习</h2>
+              <div class="muted">所有登录用户都可以创建自习和报名。</div>
+            </div>
+          </div>
+          <div class="panel-body stack">
+            <div class="grid-3">
+              <label class="field">
+                <span>日期</span>
+                <input id="sessionDate" type="date">
+              </label>
+              <label class="field">
+                <span>时间</span>
+                <input id="sessionTime" type="time" value="09:30">
+              </label>
+              <label class="field">
+                <span>地点</span>
+                <input id="sessionPlace" value="主校区">
+              </label>
+            </div>
+            <label class="field">
+              <span>主题</span>
+              <input id="sessionTitle" value="一起自习">
+            </label>
+            <label class="field">
+              <span>备注</span>
+              <textarea id="sessionNote" placeholder="例如：我会先去占房间"></textarea>
+            </label>
+            <button id="createSessionButton" class="primary" type="button">发布自习</button>
+            <div id="sessions" class="list"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>整体进度</h2>
+              <div class="muted">显示所有成员公开的任务完成率。</div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div id="progressBars" class="list"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>广场聊天</h2>
+              <div class="muted">所有登录用户都可见。</div>
+            </div>
+          </div>
+          <div class="panel-body stack">
+            <div id="chatList" class="list chat"></div>
+            <div class="row">
+              <input id="chatInput" placeholder="写一条消息">
+              <button id="sendChatButton" type="button">发送</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="stack">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>新用户说明</h2>
+              <div class="muted">给第一次进入的成员看的简短流程。</div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="notice">
+              先注册一个用户名和昵称，然后选择自己这学期上的课程标签。进入对应周次后，可以把共享任务加入自己的清单，也可以添加个人任务。自习区可以报名或发布自习；反馈只有管理员能看到，广场聊天所有成员可见。
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>我的课程与任务</h2>
+              <div class="muted">选择课程标签后，可以把对应周任务加入自己的清单。</div>
+            </div>
+          </div>
+          <div class="panel-body stack">
+            <label class="field">
+              <span>当前周次</span>
+              <input id="activeWeek" value="Week 2">
+            </label>
+            <div>
+              <div class="split">
+                <h3>课程标签</h3>
+                <button id="syncTasksButton" class="small" type="button">加入本周共享任务</button>
+              </div>
+              <div id="courseTags" class="tag-grid"></div>
+            </div>
+            <div>
+              <div class="split">
+                <h3>本周共享任务</h3>
+                <span class="muted">用户可向某门课某周添加</span>
+              </div>
+              <div id="sharedTasks" class="list"></div>
+            </div>
+            <div class="item">
+              <h3>添加课程周任务</h3>
+              <div class="grid-2">
+                <label class="field">
+                  <span>课程</span>
+                  <select id="sharedCourse"></select>
+                </label>
+                <label class="field">
+                  <span>类型</span>
+                  <select id="sharedType">
+                    <option value="required">required</option>
+                    <option value="bonus">bonus</option>
+                    <option value="optional">optional</option>
+                  </select>
+                </label>
+              </div>
+              <input id="sharedTitle" placeholder="例如：Bonus exercise 2">
+              <textarea id="sharedDetails" placeholder="补充说明，可留空"></textarea>
+              <button id="addSharedTaskButton" type="button">添加到课程周任务库</button>
+            </div>
+            <div>
+              <div class="split">
+                <h3>我的任务</h3>
+                <span id="myTaskSummary" class="pill">0 / 0</span>
+              </div>
+              <div id="myTasks" class="list"></div>
+            </div>
+            <div class="row">
+              <input id="customTaskInput" placeholder="添加个人自定义任务">
+              <button id="addCustomTaskButton" type="button">添加</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="adminCoursesPanel" class="panel hidden">
+          <div class="panel-head">
+            <div>
+              <h2>管理员：课程管理</h2>
+              <div class="muted">新增课程后，普通用户就可以选择该课程标签。</div>
+            </div>
+          </div>
+          <div class="panel-body stack">
+            <div class="grid-3">
+              <label class="field">
+                <span>课程缩写</span>
+                <input id="newCourseSlug" placeholder="例如 cv">
+              </label>
+              <label class="field">
+                <span>课程名称</span>
+                <input id="newCourseName" placeholder="例如 Computer Vision">
+              </label>
+              <label class="field">
+                <span>颜色</span>
+                <input id="newCourseColor" value="#2368d8">
+              </label>
+            </div>
+            <button id="addCourseButton" class="primary" type="button">添加课程</button>
+            <div id="courseAdminList" class="list"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>私密反馈</h2>
+              <div class="muted">普通用户只能提交，只有管理员能阅读。</div>
+            </div>
+          </div>
+          <div class="panel-body stack">
+            <label class="field">
+              <span>分类</span>
+              <select id="feedbackCategory">
+                <option value="general">general</option>
+                <option value="bug">bug</option>
+                <option value="suggestion">suggestion</option>
+                <option value="privacy">privacy</option>
+              </select>
+            </label>
+            <textarea id="feedbackMessage" placeholder="写下反馈，其他普通用户看不到"></textarea>
+            <button id="sendFeedbackButton" type="button">提交反馈</button>
+            <div id="feedbackStatus" class="muted"></div>
+            <div id="adminFeedbackPanel" class="hidden stack">
+              <div class="split">
+                <h3>管理员反馈箱</h3>
+                <button id="reloadFeedbackButton" class="small" type="button">刷新</button>
+              </div>
+              <div id="feedbackList" class="list"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL = "https://egocecoudqerewvurumh.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_ENREznKaAif0g72RnSJxEg_7QJgk0WN";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const state = {
+      session: null,
+      profile: null,
+      profiles: [],
+      courses: [],
+      userCourses: [],
+      sharedTasks: [],
+      myTasks: [],
+      allUserTasks: [],
+      sessions: [],
+      rsvps: [],
+      chat: [],
+      feedback: []
+    };
+
+    function $(id) {
+      return document.getElementById(id);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function normalizeUsername(value) {
+      return value.trim().toLowerCase().replace(/[^a-z0-9_.-]/g, "");
+    }
+
+    function fakeEmail(username) {
+      return `${normalizeUsername(username)}@study.local`;
+    }
+
+    function today() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function profileName(id) {
+      const profile = state.profiles.find((item) => item.id === id);
+      return profile?.nickname || profile?.username || "未知用户";
+    }
+
+    function isAdmin() {
+      return state.profile?.role === "admin";
+    }
+
+    function activeWeek() {
+      return $("activeWeek").value.trim() || "Week 1";
+    }
+
+    function selectedCourseIds() {
+      return state.userCourses.map((item) => item.course_id);
+    }
+
+    function courseById(id) {
+      return state.courses.find((course) => course.id === id);
+    }
+
+    function taskProgressForUser(userId) {
+      const tasks = state.allUserTasks.filter((task) => task.user_id === userId);
+      if (tasks.length === 0) return 0;
+      const done = tasks.filter((task) => task.done).length;
+      return Math.round((done / tasks.length) * 100);
+    }
+
+    async function requireOk(result, fallbackMessage) {
+      if (result.error) throw new Error(result.error.message || fallbackMessage);
+      return result.data;
+    }
+
+    async function signUp() {
+      $("signupError").textContent = "";
+      const username = normalizeUsername($("signupUsername").value);
+      const nickname = $("signupNickname").value.trim() || username;
+      const password = $("signupPassword").value;
+      const adminSetupCode = $("adminSetupCode").value.trim();
+      if (!username || password.length < 6) {
+        $("signupError").textContent = "用户名不能为空，密码至少 6 位。";
+        return;
+      }
+
+      const result = await supabase.auth.signUp({
+        email: fakeEmail(username),
+        password,
+        options: { data: { username, nickname, admin_setup_code: adminSetupCode } }
+      });
+
+      if (result.error) {
+        $("signupError").textContent = result.error.message;
+        return;
+      }
+
+      $("signupError").textContent = "账号已创建。如果没有自动进入，请尝试登录。";
+      await boot();
+    }
+
+    async function login() {
+      $("loginError").textContent = "";
+      const username = normalizeUsername($("loginUsername").value);
+      const password = $("loginPassword").value;
+      if (!username || !password) {
+        $("loginError").textContent = "请输入用户名和密码。";
+        return;
+      }
+
+      const result = await supabase.auth.signInWithPassword({
+        email: fakeEmail(username),
+        password
+      });
+
+      if (result.error) {
+        $("loginError").textContent = result.error.message;
+        return;
+      }
+
+      await boot();
+    }
+
+    async function logout() {
+      await supabase.auth.signOut();
+      state.session = null;
+      state.profile = null;
+      renderAuth();
+    }
+
+    async function boot() {
+      const result = await supabase.auth.getSession();
+      state.session = result.data.session;
+      if (!state.session) {
+        renderAuth();
+        return;
+      }
+      await loadApp();
+      renderApp();
+    }
+
+    async function loadApp() {
+      const userId = state.session.user.id;
+
+      state.profile = await requireOk(
+        await supabase.from("profiles").select("*").eq("id", userId).single(),
+        "Cannot load profile"
+      );
+
+      state.profiles = await requireOk(
+        await supabase.from("profiles").select("*").order("nickname"),
+        "Cannot load profiles"
+      );
+
+      state.courses = await requireOk(
+        await supabase.from("courses").select("*").is("archived_at", null).order("name"),
+        "Cannot load courses"
+      );
+
+      state.userCourses = await requireOk(
+        await supabase.from("user_courses").select("*").eq("user_id", userId),
+        "Cannot load user courses"
+      );
+
+      state.sharedTasks = await requireOk(
+        await supabase.from("shared_tasks").select("*").is("archived_at", null).order("created_at", { ascending: false }).limit(300),
+        "Cannot load shared tasks"
+      );
+
+      state.myTasks = await requireOk(
+        await supabase.from("user_tasks").select("*").eq("user_id", userId).order("created_at", { ascending: false }),
+        "Cannot load my tasks"
+      );
+
+      state.allUserTasks = await requireOk(
+        await supabase.from("user_tasks").select("id,user_id,done").limit(5000),
+        "Cannot load progress"
+      );
+
+      state.sessions = await requireOk(
+        await supabase.from("study_sessions").select("*").is("archived_at", null).gte("session_date", today()).order("session_date").order("start_time").limit(20),
+        "Cannot load study sessions"
+      );
+
+      const sessionIds = state.sessions.map((item) => item.id);
+      state.rsvps = sessionIds.length
+        ? await requireOk(await supabase.from("session_rsvps").select("*").in("session_id", sessionIds), "Cannot load RSVPs")
+        : [];
+
+      state.chat = await requireOk(
+        await supabase.from("chat_messages").select("*").is("deleted_at", null).order("created_at", { ascending: false }).limit(50),
+        "Cannot load chat"
+      );
+
+      state.feedback = isAdmin()
+        ? await requireOk(await supabase.from("feedback").select("*").order("created_at", { ascending: false }).limit(100), "Cannot load feedback")
+        : [];
+    }
+
+    function renderAuth() {
+      $("authView").classList.remove("hidden");
+      $("appView").classList.add("hidden");
+    }
+
+    function renderApp() {
+      $("authView").classList.add("hidden");
+      $("appView").classList.remove("hidden");
+      $("sessionDate").value ||= today();
+      renderUserBadge();
+      renderSessions();
+      renderProgress();
+      renderCourseTags();
+      renderSharedTasks();
+      renderMyTasks();
+      renderCourseSelect();
+      renderAdminCourses();
+      renderChat();
+      renderFeedback();
+    }
+
+    function renderUserBadge() {
+      const badge = $("userBadge");
+      badge.className = `pill ${isAdmin() ? "admin" : ""}`;
+      badge.textContent = `${state.profile.nickname} · ${state.profile.role}`;
+    }
+
+    function renderSessions() {
+      const box = $("sessions");
+      box.replaceChildren();
+      if (state.sessions.length === 0) {
+        box.innerHTML = `<div class="empty">还没有即将到来的自习。</div>`;
+        return;
+      }
+
+      state.sessions.forEach((session) => {
+        const rsvps = state.rsvps.filter((item) => item.session_id === session.id);
+        const yes = rsvps.filter((item) => item.status === "yes").length;
+        const maybe = rsvps.filter((item) => item.status === "maybe").length;
+        const interested = yes + maybe;
+        const room = interested <= 0 ? "无需占房" : interested <= 2 ? "小房间" : interested <= 6 ? "大房间" : "建议两间";
+        const mine = rsvps.find((item) => item.user_id === state.profile.id);
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <div class="split">
+            <strong>${escapeHtml(session.title)}</strong>
+            <span class="pill">${escapeHtml(room)}</span>
+          </div>
+          <div class="muted">${escapeHtml(session.session_date)} ${escapeHtml(session.start_time || "")} · ${escapeHtml(session.place)} · ${yes} 去 / ${maybe} 可能</div>
+          <div>${escapeHtml(session.note || "")}</div>
+          <div class="row">
+            <select data-rsvp-status="${session.id}">
+              <option value="yes">去</option>
+              <option value="maybe">可能去</option>
+              <option value="no">不去</option>
+            </select>
+            <input data-rsvp-arrival="${session.id}" type="time" value="${escapeHtml(mine?.arrival_time || "")}">
+            <button data-rsvp-save="${session.id}" type="button">保存报名</button>
+          </div>
+        `;
+        item.querySelector("[data-rsvp-status]").value = mine?.status || "maybe";
+        box.appendChild(item);
+      });
+
+      box.querySelectorAll("[data-rsvp-save]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const sessionId = button.dataset.rsvpSave;
+          const status = box.querySelector(`[data-rsvp-status="${sessionId}"]`).value;
+          const arrival = box.querySelector(`[data-rsvp-arrival="${sessionId}"]`).value || null;
+          await requireOk(
+            await supabase.from("session_rsvps").upsert({
+              session_id: sessionId,
+              user_id: state.profile.id,
+              status,
+              arrival_time: arrival
+            }),
+            "Cannot save RSVP"
+          );
+          await loadApp();
+          renderApp();
+        });
+      });
+    }
+
+    function renderProgress() {
+      const box = $("progressBars");
+      box.replaceChildren();
+      state.profiles.forEach((profile) => {
+        const percent = taskProgressForUser(profile.id);
+        const row = document.createElement("div");
+        row.className = "bar-row";
+        row.innerHTML = `
+          <strong>${escapeHtml(profile.nickname)}</strong>
+          <div class="bar"><span style="width:${percent}%"></span></div>
+          <span class="mono">${percent}%</span>
+        `;
+        box.appendChild(row);
+      });
+    }
+
+    function renderCourseTags() {
+      const selected = new Set(selectedCourseIds());
+      const box = $("courseTags");
+      box.replaceChildren();
+      state.courses.forEach((course) => {
+        const active = selected.has(course.id);
+        const tag = document.createElement("label");
+        tag.className = `tag ${active ? "active" : ""}`;
+        tag.innerHTML = `
+          <div class="row">
+            <span class="dot" style="background:${escapeHtml(course.color)}"></span>
+            <strong>${escapeHtml(course.name)}</strong>
+            <input type="checkbox" ${active ? "checked" : ""} data-course-toggle="${course.id}">
+          </div>
+          <span class="muted">${escapeHtml(course.slug)}</span>
+        `;
+        box.appendChild(tag);
+      });
+
+      box.querySelectorAll("[data-course-toggle]").forEach((checkbox) => {
+        checkbox.addEventListener("change", async () => {
+          const courseId = checkbox.dataset.courseToggle;
+          if (checkbox.checked) {
+            await requireOk(
+              await supabase.from("user_courses").insert({ user_id: state.profile.id, course_id: courseId }),
+              "Cannot add course"
+            );
+            await loadApp();
+            await addSharedTasksToMine([courseId]);
+          } else {
+            await requireOk(
+              await supabase.from("user_courses").delete().eq("user_id", state.profile.id).eq("course_id", courseId),
+              "Cannot remove course"
+            );
+          }
+          await loadApp();
+          renderApp();
+        });
+      });
+    }
+
+    function renderSharedTasks() {
+      const box = $("sharedTasks");
+      box.replaceChildren();
+      const courseIds = new Set(selectedCourseIds());
+      const tasks = state.sharedTasks.filter((task) => courseIds.has(task.course_id) && task.week_label === activeWeek());
+      if (tasks.length === 0) {
+        box.innerHTML = `<div class="empty">当前周次没有共享任务。你可以在下面向某门课添加一个。</div>`;
+        return;
+      }
+
+      const mySourceIds = new Set(state.myTasks.map((task) => task.source_shared_task_id).filter(Boolean));
+      tasks.forEach((task) => {
+        const course = courseById(task.course_id);
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <div class="split">
+            <strong>${escapeHtml(task.title)}</strong>
+            <span class="pill">${escapeHtml(task.task_type)}</span>
+          </div>
+          <div class="muted">${escapeHtml(course?.name || "")} · ${escapeHtml(task.week_label)} · added by ${escapeHtml(profileName(task.created_by))}</div>
+          <div>${escapeHtml(task.details || "")}</div>
+          <div class="row">
+            <button class="small" data-add-shared-to-mine="${task.id}" ${mySourceIds.has(task.id) ? "disabled" : ""}>${mySourceIds.has(task.id) ? "已加入" : "加入我的任务"}</button>
+            ${(isAdmin() || task.created_by === state.profile.id) ? `<button class="small danger" data-delete-shared="${task.id}">删除</button>` : ""}
+          </div>
+        `;
+        box.appendChild(item);
+      });
+
+      box.querySelectorAll("[data-add-shared-to-mine]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const task = state.sharedTasks.find((item) => item.id === button.dataset.addSharedToMine);
+          if (task) await addOneSharedTaskToMine(task);
+          await loadApp();
+          renderApp();
+        });
+      });
+
+      box.querySelectorAll("[data-delete-shared]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          await requireOk(
+            await supabase.from("shared_tasks").delete().eq("id", button.dataset.deleteShared),
+            "Cannot delete shared task"
+          );
+          await loadApp();
+          renderApp();
+        });
+      });
+    }
+
+    function renderMyTasks() {
+      const box = $("myTasks");
+      box.replaceChildren();
+      const tasks = state.myTasks.filter((task) => !task.week_label || task.week_label === activeWeek());
+      const done = tasks.filter((task) => task.done).length;
+      $("myTaskSummary").textContent = `${done} / ${tasks.length}`;
+
+      if (tasks.length === 0) {
+        box.innerHTML = `<div class="empty">还没有任务。选择课程标签后加入共享任务，或添加个人自定义任务。</div>`;
+        return;
+      }
+
+      tasks.forEach((task) => {
+        const item = document.createElement("div");
+        item.className = `item task ${task.done ? "done" : ""}`;
+        item.innerHTML = `
+          <input type="checkbox" ${task.done ? "checked" : ""} data-task-done="${task.id}">
+          <div>
+            <div class="task-title">${escapeHtml(task.title)}</div>
+            <div class="muted">${task.is_custom ? "个人任务" : "共享任务"}${task.week_label ? " · " + escapeHtml(task.week_label) : ""}</div>
+          </div>
+          <button class="small danger" data-delete-my-task="${task.id}" type="button">删除</button>
+        `;
+        box.appendChild(item);
+      });
+
+      box.querySelectorAll("[data-task-done]").forEach((checkbox) => {
+        checkbox.addEventListener("change", async () => {
+          await requireOk(
+            await supabase.from("user_tasks").update({ done: checkbox.checked }).eq("id", checkbox.dataset.taskDone),
+            "Cannot update task"
+          );
+          await loadApp();
+          renderApp();
+        });
+      });
+
+      box.querySelectorAll("[data-delete-my-task]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          await requireOk(
+            await supabase.from("user_tasks").delete().eq("id", button.dataset.deleteMyTask),
+            "Cannot delete task"
+          );
+          await loadApp();
+          renderApp();
+        });
+      });
+    }
+
+    function renderCourseSelect() {
+      const select = $("sharedCourse");
+      select.replaceChildren();
+      state.courses.forEach((course) => {
+        const option = document.createElement("option");
+        option.value = course.id;
+        option.textContent = course.name;
+        select.appendChild(option);
+      });
+    }
+
+    function renderAdminCourses() {
+      const panel = $("adminCoursesPanel");
+      panel.classList.toggle("hidden", !isAdmin());
+      if (!isAdmin()) return;
+
+      const list = $("courseAdminList");
+      list.replaceChildren();
+      if (state.courses.length === 0) {
+        list.innerHTML = `<div class="empty">还没有课程。</div>`;
+        return;
+      }
+
+      state.courses.forEach((course) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <div class="split">
+            <div class="row">
+              <span class="dot" style="background:${escapeHtml(course.color)}"></span>
+              <strong>${escapeHtml(course.name)}</strong>
+              <span class="muted">${escapeHtml(course.slug)}</span>
+            </div>
+            <button class="small danger" data-archive-course="${course.id}" type="button">归档</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+
+      list.querySelectorAll("[data-archive-course]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          if (!confirm("归档后普通用户不再看到这门课，已有历史记录仍保留。确定吗？")) return;
+          await requireOk(
+            await supabase.from("courses").update({ archived_at: new Date().toISOString() }).eq("id", button.dataset.archiveCourse),
+            "Cannot archive course"
+          );
+          await loadApp();
+          renderApp();
+        });
+      });
+    }
+
+    function renderChat() {
+      const box = $("chatList");
+      box.replaceChildren();
+      if (state.chat.length === 0) {
+        box.innerHTML = `<div class="empty">广场还没有消息。</div>`;
+        return;
+      }
+      [...state.chat].reverse().forEach((message) => {
+        const row = document.createElement("div");
+        row.className = "message";
+        row.innerHTML = `
+          <div class="muted">${escapeHtml(profileName(message.user_id))} · ${new Date(message.created_at).toLocaleString()}</div>
+          <div>${escapeHtml(message.body)}</div>
+        `;
+        box.appendChild(row);
+      });
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function renderFeedback() {
+      $("adminFeedbackPanel").classList.toggle("hidden", !isAdmin());
+      const box = $("feedbackList");
+      if (!isAdmin()) return;
+      box.replaceChildren();
+      if (state.feedback.length === 0) {
+        box.innerHTML = `<div class="empty">暂无反馈。</div>`;
+        return;
+      }
+      state.feedback.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "item";
+        row.innerHTML = `
+          <div class="split">
+            <strong>${escapeHtml(item.category)}</strong>
+            <span class="pill">${escapeHtml(item.status)}</span>
+          </div>
+          <div class="muted">${escapeHtml(profileName(item.user_id))} · ${new Date(item.created_at).toLocaleString()}</div>
+          <div>${escapeHtml(item.message)}</div>
+          <div class="row">
+            <button class="small" data-feedback-status="${item.id}" data-status="read">标记 read</button>
+            <button class="small" data-feedback-status="${item.id}" data-status="resolved">标记 resolved</button>
+          </div>
+        `;
+        box.appendChild(row);
+      });
+
+      box.querySelectorAll("[data-feedback-status]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          await requireOk(
+            await supabase.from("feedback").update({ status: button.dataset.status }).eq("id", button.dataset.feedbackStatus),
+            "Cannot update feedback"
+          );
+          await loadApp();
+          renderApp();
+        });
+      });
+    }
+
+    async function createSession() {
+      const title = $("sessionTitle").value.trim();
+      const sessionDate = $("sessionDate").value;
+      if (!title || !sessionDate) return;
+      await requireOk(
+        await supabase.from("study_sessions").insert({
+          title,
+          session_date: sessionDate,
+          start_time: $("sessionTime").value || null,
+          place: $("sessionPlace").value.trim() || "主校区",
+          note: $("sessionNote").value.trim() || null,
+          created_by: state.profile.id
+        }),
+        "Cannot create session"
+      );
+      $("sessionNote").value = "";
+      await loadApp();
+      renderApp();
+    }
+
+    async function addOneSharedTaskToMine(sharedTask) {
+      const exists = state.myTasks.some((task) => task.source_shared_task_id === sharedTask.id);
+      if (exists) return;
+      await requireOk(
+        await supabase.from("user_tasks").insert({
+          user_id: state.profile.id,
+          source_shared_task_id: sharedTask.id,
+          course_id: sharedTask.course_id,
+          week_label: sharedTask.week_label,
+          title: sharedTask.title,
+          details: sharedTask.details,
+          is_custom: false,
+          created_by: state.profile.id
+        }),
+        "Cannot add shared task"
+      );
+    }
+
+    async function addSharedTasksToMine(courseIds = selectedCourseIds()) {
+      const ids = new Set(courseIds);
+      const tasks = state.sharedTasks.filter((task) => ids.has(task.course_id) && task.week_label === activeWeek());
+      for (const task of tasks) {
+        await addOneSharedTaskToMine(task);
+      }
+    }
+
+    async function addSharedTask() {
+      const title = $("sharedTitle").value.trim();
+      const courseId = $("sharedCourse").value;
+      if (!title || !courseId) return;
+      const inserted = await requireOk(
+        await supabase.from("shared_tasks").insert({
+          course_id: courseId,
+          week_label: activeWeek(),
+          title,
+          details: $("sharedDetails").value.trim() || null,
+          task_type: $("sharedType").value,
+          created_by: state.profile.id
+        }).select().single(),
+        "Cannot add shared task"
+      );
+      $("sharedTitle").value = "";
+      $("sharedDetails").value = "";
+      await loadApp();
+      await addOneSharedTaskToMine(inserted);
+      await loadApp();
+      renderApp();
+    }
+
+    async function addCourse() {
+      const slug = $("newCourseSlug").value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "");
+      const name = $("newCourseName").value.trim();
+      const color = $("newCourseColor").value.trim() || "#2368d8";
+      if (!slug || !name) {
+        alert("请填写课程缩写和课程名称。");
+        return;
+      }
+      await requireOk(
+        await supabase.from("courses").insert({
+          slug,
+          name,
+          color,
+          created_by: state.profile.id
+        }),
+        "Cannot add course"
+      );
+      $("newCourseSlug").value = "";
+      $("newCourseName").value = "";
+      await loadApp();
+      renderApp();
+    }
+
+    async function addCustomTask() {
+      const title = $("customTaskInput").value.trim();
+      if (!title) return;
+      await requireOk(
+        await supabase.from("user_tasks").insert({
+          user_id: state.profile.id,
+          week_label: activeWeek(),
+          title,
+          is_custom: true,
+          created_by: state.profile.id
+        }),
+        "Cannot add custom task"
+      );
+      $("customTaskInput").value = "";
+      await loadApp();
+      renderApp();
+    }
+
+    async function sendFeedback() {
+      const message = $("feedbackMessage").value.trim();
+      if (!message) return;
+      await requireOk(
+        await supabase.from("feedback").insert({
+          user_id: state.profile.id,
+          category: $("feedbackCategory").value,
+          message
+        }),
+        "Cannot send feedback"
+      );
+      $("feedbackMessage").value = "";
+      $("feedbackStatus").textContent = "已提交。普通用户无法读取反馈箱，管理员可以看到。";
+    }
+
+    async function sendChat() {
+      const body = $("chatInput").value.trim();
+      if (!body) return;
+      await requireOk(
+        await supabase.from("chat_messages").insert({ user_id: state.profile.id, body }),
+        "Cannot send chat"
+      );
+      $("chatInput").value = "";
+      await loadApp();
+      renderApp();
+    }
+
+    function bind() {
+      $("signupButton").addEventListener("click", signUp);
+      $("loginButton").addEventListener("click", login);
+      $("logoutButton").addEventListener("click", logout);
+      $("refreshButton").addEventListener("click", async () => {
+        await loadApp();
+        renderApp();
+      });
+      $("createSessionButton").addEventListener("click", createSession);
+      $("activeWeek").addEventListener("change", () => {
+        renderSharedTasks();
+        renderMyTasks();
+      });
+      $("syncTasksButton").addEventListener("click", async () => {
+        await addSharedTasksToMine();
+        await loadApp();
+        renderApp();
+      });
+      $("addSharedTaskButton").addEventListener("click", addSharedTask);
+      $("addCourseButton").addEventListener("click", addCourse);
+      $("addCustomTaskButton").addEventListener("click", addCustomTask);
+      $("customTaskInput").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") addCustomTask();
+      });
+      $("sendFeedbackButton").addEventListener("click", sendFeedback);
+      $("reloadFeedbackButton").addEventListener("click", async () => {
+        await loadApp();
+        renderApp();
+      });
+      $("sendChatButton").addEventListener("click", sendChat);
+      $("chatInput").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") sendChat();
+      });
+    }
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      state.session = session;
+    });
+
+    bind();
+    boot().catch((error) => {
+      console.error(error);
+      alert(`加载失败：${error.message}\n\n请确认已经在 Supabase SQL Editor 运行 schema，并关闭 Email Confirm。`);
+      renderAuth();
+    });
+  </script>
+</body>
+</html>
