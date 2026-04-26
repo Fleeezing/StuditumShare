@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudiTUM 主校区简化平面图 v2</title>
+  <style>
+    :root {
+      --bg: #f5f7f6;
+      --panel: #ffffff;
+      --ink: #17211c;
+      --muted: #66716b;
+      --line: #d7dfdb;
+      --small: #e9f3ff;
+      --medium: #e8f7ef;
+      --large: #eef0ff;
+      --service: #fff3d7;
+      --core: #eff3ef;
+      --wc-m: #e7f0ff;
+      --wc-f: #fff0f4;
+      --stairs: #e5f8ec;
+      --unknown: #f4f4f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    main {
+      width: min(1240px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 20px 0 34px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfb;
+    }
+
+    h2 { margin: 0; font-size: 16px; }
+    .code { color: var(--muted); font: 12px "Cascadia Mono", Consolas, ui-monospace, monospace; }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #fff;
+    }
+
+    .outer { fill: #fff; stroke: #17211c; stroke-width: 5; }
+    .wall { stroke: #17211c; stroke-width: 4; fill: none; }
+    .small-room { fill: var(--small); stroke: #2368d8; stroke-width: 2; }
+    .medium-room { fill: var(--medium); stroke: #227a48; stroke-width: 2; }
+    .large-area { fill: var(--large); stroke: #6d54c8; stroke-width: 2; }
+    .service { fill: var(--service); stroke: #a36d00; stroke-width: 2; }
+    .core { fill: var(--core); stroke: #6d7770; stroke-width: 2; }
+    .wc-m { fill: var(--wc-m); stroke: #2368d8; stroke-width: 2; }
+    .wc-f { fill: var(--wc-f); stroke: #bd2c6b; stroke-width: 2; }
+    .stairs { fill: var(--stairs); stroke: #227a48; stroke-width: 2; }
+    .unknown { fill: var(--unknown); stroke: #8a948d; stroke-width: 2; }
+    .door { stroke: #17211c; stroke-width: 2; fill: none; }
+    .label {
+      fill: var(--ink);
+      font-weight: 720;
+      font-size: 15px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    .small-label {
+      fill: var(--muted);
+      font-size: 11px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    .vertical {
+      writing-mode: tb;
+      glyph-orientation-vertical: 0;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      padding: 12px 14px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+
+    .swatch { display: inline-flex; align-items: center; gap: 6px; }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      border: 1px solid var(--line);
+      background: var(--small);
+    }
+    .dot.medium { background: var(--medium); }
+    .dot.large { background: var(--large); }
+    .dot.service { background: var(--service); }
+    .dot.core { background: var(--core); }
+    .dot.wcm { background: var(--wc-m); }
+    .dot.wcf { background: var(--wc-f); }
+    .dot.stairs { background: var(--stairs); }
+
+    .notes {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px 14px;
+      background: #fff;
+    }
+
+    ul {
+      margin: 8px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>StudiTUM 主校区 · 中文简化平面图 v2</h1>
+    <p>根据你提供的 0-3 楼逃生图和纠错信息重画。仍然是草案：比例尽量贴近原图，但真实门牌、可用/不可用房间、插座数量等后续再补。</p>
+
+    <div class="grid">
+      <section class="card">
+        <div class="head">
+          <h2>0 层 / EG</h2>
+          <span class="code">主-0层</span>
+        </div>
+        <svg viewBox="0 0 640 430" role="img" aria-label="0层简化平面图">
+          <rect class="outer" x="118" y="44" width="408" height="312" rx="2"></rect>
+
+          <rect class="large-area" x="157" y="58" width="330" height="92"></rect>
+          <text class="label" x="322" y="94">0层-大自习区01</text>
+          <text class="small-label" x="322" y="118">大空间 / 学生工作位</text>
+
+          <rect class="small-room" x="148" y="182" width="98" height="58"></rect>
+          <text class="label" x="197" y="211">0层-小01</text>
+          <rect class="small-room" x="148" y="268" width="118" height="70"></rect>
+          <text class="label" x="207" y="303">0层-小02</text>
+
+          <rect class="service" x="390" y="180" width="100" height="62"></rect>
+          <text class="label" x="440" y="204">自助区</text>
+          <text class="small-label" x="440" y="225">售卖机 / 咖啡机</text>
+          <rect class="small-room" x="388" y="268" width="115" height="70"></rect>
+          <text class="label" x="445" y="303">0层-小03</text>
+
+          <rect class="core" x="276" y="183" width="44" height="72"></rect>
+          <text class="small-label vertical" x="298" y="219">电梯</text>
+          <rect class="core" x="322" y="183" width="36" height="72"></rect>
+          <text class="small-label vertical" x="340" y="219">技术</text>
+          <rect class="stairs" x="281" y="263" width="76" height="74"></rect>
+          <text class="label" x="319" y="292">步梯</text>
+          <text class="small-label" x="319" y="314">主楼梯</text>
+
+          <rect class="wc-m" x="248" y="275" width="38" height="60"></rect>
+          <text class="label" x="267" y="305">男</text>
+          <rect class="wc-f" x="360" y="275" width="38" height="60"></rect>
+          <text class="label" x="379" y="305">女</text>
+
+          <path class="door" d="M246 182 q28 0 28 28"></path>
+          <path class="door" d="M388 180 q-28 0 -28 28"></path>
+        </svg>
+        <div class="legend">
+          <span class="swatch"><span class="dot large"></span>大自习区</span>
+          <span class="swatch"><span class="dot"></span>小自习室</span>
+          <span class="swatch"><span class="dot service"></span>自助/设备区</span>
+          <span class="swatch"><span class="dot wcm"></span>男厕</span>
+          <span class="swatch"><span class="dot wcf"></span>女厕</span>
+          <span class="swatch"><span class="dot stairs"></span>步梯</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="head">
+          <h2>1 层 / 1. OG</h2>
+          <span class="code">主-1层</span>
+        </div>
+        <svg viewBox="0 0 640 430" role="img" aria-label="1层简化平面图">
+          <rect class="outer" x="118" y="44" width="408" height="312" rx="2"></rect>
+
+          <rect class="large-area" x="158" y="58" width="328" height="92"></rect>
+          <text class="label" x="322" y="94">1层-大自习区01</text>
+          <text class="small-label" x="322" y="118">大空间 / 学生工作位</text>
+
+          <rect class="small-room" x="146" y="166" width="105" height="54"></rect>
+          <text class="label" x="199" y="193">1层-小01</text>
+          <rect class="small-room" x="146" y="226" width="105" height="54"></rect>
+          <text class="label" x="199" y="253">1层-小02</text>
+          <rect class="small-room" x="146" y="288" width="118" height="52"></rect>
+          <text class="label" x="205" y="314">1层-小03</text>
+
+          <rect class="small-room" x="394" y="166" width="94" height="56"></rect>
+          <text class="label" x="441" y="194">1层-小04</text>
+          <rect class="small-room" x="390" y="248" width="110" height="90"></rect>
+          <text class="label" x="445" y="293">1层-小05</text>
+
+          <rect class="core" x="278" y="184" width="43" height="76"></rect>
+          <text class="small-label vertical" x="299" y="222">电梯</text>
+          <rect class="core" x="323" y="184" width="36" height="76"></rect>
+          <text class="small-label vertical" x="341" y="222">技术</text>
+          <rect class="stairs" x="281" y="263" width="78" height="76"></rect>
+          <text class="label" x="320" y="292">步梯</text>
+          <text class="small-label" x="320" y="314">主楼梯</text>
+
+          <rect class="wc-m" x="248" y="280" width="38" height="58"></rect>
+          <text class="label" x="267" y="309">男</text>
+          <rect class="wc-f" x="362" y="280" width="38" height="58"></rect>
+          <text class="label" x="381" y="309">女</text>
+        </svg>
+        <div class="legend">
+          <span class="swatch"><span class="dot large"></span>大自习区</span>
+          <span class="swatch"><span class="dot"></span>小自习室</span>
+          <span class="swatch"><span class="dot wcm"></span>男厕</span>
+          <span class="swatch"><span class="dot wcf"></span>女厕</span>
+          <span class="swatch"><span class="dot stairs"></span>步梯</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="head">
+          <h2>2 层 / 2. OG</h2>
+          <span class="code">主-2层</span>
+        </div>
+        <svg viewBox="0 0 640 430" role="img" aria-label="2层简化平面图">
+          <rect class="outer" x="118" y="44" width="408" height="312" rx="2"></rect>
+
+          <rect class="large-area" x="158" y="58" width="328" height="92"></rect>
+          <text class="label" x="322" y="94">2层-大自习区01</text>
+          <text class="small-label" x="322" y="118">大空间 / 学生工作位</text>
+
+          <rect class="small-room" x="146" y="166" width="98" height="54"></rect>
+          <text class="label" x="195" y="193">2层-小01</text>
+          <rect class="small-room" x="146" y="226" width="98" height="54"></rect>
+          <text class="label" x="195" y="253">2层-小02</text>
+          <rect class="small-room" x="146" y="288" width="118" height="52"></rect>
+          <text class="label" x="205" y="314">2层-待查03</text>
+
+          <rect class="small-room" x="394" y="166" width="94" height="56"></rect>
+          <text class="label" x="441" y="194">2层-小04</text>
+          <rect class="small-room" x="394" y="226" width="94" height="56"></rect>
+          <text class="label" x="441" y="254">2层-小05</text>
+          <rect class="unknown" x="388" y="292" width="112" height="46"></rect>
+          <text class="label" x="444" y="315">2层-待查06</text>
+
+          <rect class="core" x="278" y="184" width="43" height="76"></rect>
+          <text class="small-label vertical" x="299" y="222">电梯</text>
+          <rect class="core" x="323" y="184" width="36" height="76"></rect>
+          <text class="small-label vertical" x="341" y="222">技术</text>
+          <rect class="stairs" x="281" y="263" width="78" height="76"></rect>
+          <text class="label" x="320" y="292">步梯</text>
+          <text class="small-label" x="320" y="314">主楼梯</text>
+
+          <rect class="wc-m" x="248" y="280" width="38" height="58"></rect>
+          <text class="label" x="267" y="309">男</text>
+          <rect class="wc-f" x="362" y="280" width="38" height="58"></rect>
+          <text class="label" x="381" y="309">女</text>
+        </svg>
+        <div class="legend">
+          <span class="swatch"><span class="dot large"></span>大自习区</span>
+          <span class="swatch"><span class="dot"></span>小自习室</span>
+          <span class="swatch"><span class="dot core"></span>待查/可能不可用</span>
+          <span class="swatch"><span class="dot wcm"></span>男厕</span>
+          <span class="swatch"><span class="dot wcf"></span>女厕</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="head">
+          <h2>3 层 / 3. OG</h2>
+          <span class="code">主-3层</span>
+        </div>
+        <svg viewBox="0 0 640 430" role="img" aria-label="3层简化平面图">
+          <rect class="outer" x="118" y="44" width="408" height="312" rx="2"></rect>
+
+          <rect class="small-room" x="158" y="58" width="328" height="92"></rect>
+          <text class="label" x="322" y="94">3层-小01</text>
+          <text class="small-label" x="322" y="118">原 LC01 修正为小自习室</text>
+
+          <rect class="medium-room" x="146" y="288" width="118" height="52"></rect>
+          <text class="label" x="205" y="314">3层-中01</text>
+          <rect class="small-room" x="394" y="166" width="94" height="58"></rect>
+          <text class="label" x="441" y="195">3层-小02</text>
+          <rect class="medium-room" x="388" y="264" width="112" height="76"></rect>
+          <text class="label" x="444" y="302">3层-中03</text>
+
+          <rect class="service" x="146" y="166" width="98" height="42"></rect>
+          <text class="label" x="195" y="187">休息区</text>
+          <rect class="service" x="146" y="214" width="98" height="36"></rect>
+          <text class="label" x="195" y="232">淋浴</text>
+          <rect class="service" x="146" y="252" width="98" height="30"></rect>
+          <text class="label" x="195" y="267">杂物间</text>
+
+          <rect class="core" x="278" y="184" width="43" height="76"></rect>
+          <text class="small-label vertical" x="299" y="222">电梯</text>
+          <rect class="core" x="323" y="184" width="36" height="76"></rect>
+          <text class="small-label vertical" x="341" y="222">技术</text>
+          <rect class="stairs" x="281" y="263" width="78" height="76"></rect>
+          <text class="label" x="320" y="292">步梯</text>
+          <text class="small-label" x="320" y="314">主楼梯</text>
+
+          <rect class="wc-m" x="248" y="280" width="38" height="58"></rect>
+          <text class="label" x="267" y="309">男</text>
+          <rect class="wc-f" x="362" y="280" width="38" height="58"></rect>
+          <text class="label" x="381" y="309">女</text>
+        </svg>
+        <div class="legend">
+          <span class="swatch"><span class="dot"></span>小自习室</span>
+          <span class="swatch"><span class="dot medium"></span>中自习室</span>
+          <span class="swatch"><span class="dot service"></span>休息/淋浴/杂物</span>
+          <span class="swatch"><span class="dot wcm"></span>男厕</span>
+          <span class="swatch"><span class="dot wcf"></span>女厕</span>
+        </div>
+      </section>
+    </div>
+
+    <section class="notes">
+      <h2>本版编码规则</h2>
+      <ul>
+        <li>全部中文命名，暂用 <strong>主-楼层-类型编号</strong>。例如：<strong>3层-中01</strong>、<strong>2层-小04</strong>。</li>
+        <li>厕所统一按你指出的规则：左侧男厕，右侧女厕。</li>
+        <li>三楼已修正：两个厕所；淋浴下方为杂物间；3层-中01 与 3层-中03 为中自习室，3层-小02 为小自习室，顶部原 LC01 改为 3层-小01。</li>
+        <li>二楼已标注 2层-小01、小02、小04、小05；其他房间先标为待查，等你现场确认。</li>
+        <li>0层已删除不存在的 SR02，右侧改为自助售卖机/咖啡机区域。</li>
+        <li>电梯和步梯都已单独标明，但电梯门朝向仍需你现场确认后微调。</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

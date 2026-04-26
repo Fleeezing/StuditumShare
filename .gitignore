@@ -1,0 +1,28 @@
+# Local environment files
+.env
+.env.*
+*.local
+
+# Logs and temporary files
+*.log
+*.tmp
+tmp/
+temp/
+
+# Dependency/build output
+node_modules/
+dist/
+build/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Supabase/local secrets
+*.key
+*.pem
+*secret*
+*credential*
+*token*

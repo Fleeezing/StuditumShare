@@ -1,0 +1,19 @@
+name: Check Publish Sync
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify publish files are in sync
+        shell: pwsh
+        run: ./scripts/sync-pages.ps1 -CheckOnly

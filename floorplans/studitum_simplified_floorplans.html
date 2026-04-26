@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudiTUM Simplified Floor Plans</title>
+  <style>
+    :root {
+      --bg: #f5f7f6;
+      --panel: #ffffff;
+      --ink: #17211c;
+      --muted: #66716b;
+      --line: #d7dfdb;
+      --room: #e9f3ff;
+      --room-stroke: #2368d8;
+      --core: #eff3ef;
+      --wc: #fff3d7;
+      --relax: #eee9ff;
+      --danger: #fff0f0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    main {
+      width: min(1220px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 20px 0 34px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfb;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .code {
+      color: var(--muted);
+      font: 12px "Cascadia Mono", Consolas, ui-monospace, monospace;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #fff;
+    }
+
+    .outer { fill: #fff; stroke: #17211c; stroke-width: 5; }
+    .wall { stroke: #17211c; stroke-width: 4; fill: none; }
+    .room { fill: var(--room); stroke: var(--room-stroke); stroke-width: 2; }
+    .core { fill: var(--core); stroke: #6d7770; stroke-width: 2; }
+    .wc { fill: var(--wc); stroke: #a36d00; stroke-width: 2; }
+    .relax { fill: var(--relax); stroke: #6d54c8; stroke-width: 2; }
+    .label {
+      fill: var(--ink);
+      font-weight: 720;
+      font-size: 15px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    .small {
+      fill: var(--muted);
+      font-size: 11px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    .entry { fill: #e5f8ec; stroke: #227a48; stroke-width: 2; }
+    .arrow { stroke: #227a48; stroke-width: 3; marker-end: url(#arrow); }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      padding: 12px 14px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+
+    .swatch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      border: 1px solid var(--line);
+      background: var(--room);
+    }
+
+    .dot.core { background: var(--core); }
+    .dot.wc { background: var(--wc); }
+    .dot.relax { background: var(--relax); }
+    .dot.entry { background: #e5f8ec; }
+
+    .notes {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px 14px;
+      background: #fff;
+    }
+
+    ul {
+      margin: 8px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>StudiTUM Stammgelände · 简化平面图草案</h1>
+    <p>基于你拍的 0-3 楼逃生平面图手工抽象。比例和门位不是最终版，重点是先确认房间相对位置与编码。</p>
+
+    <div class="grid">
+      <section class="card">
+        <div class="head">
+          <h2>0 楼 / EG</h2>
+          <span class="code">SG-F0</span>
+        </div>
+        <svg viewBox="0 0 620 430" role="img" aria-label="Simplified ground floor">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#227a48"></path>
+            </marker>
+          </defs>
+          <rect class="outer" x="110" y="45" width="400" height="310" rx="2"></rect>
+          <rect class="room" x="150" y="58" width="320" height="95"></rect>
+          <text class="label" x="310" y="96">SG-F0-LC01</text>
+          <text class="small" x="310" y="120">large student area</text>
+
+          <rect class="wc" x="145" y="188" width="85" height="56"></rect>
+          <text class="label" x="187" y="216">B-WC</text>
+
+          <rect class="room" x="145" y="260" width="115" height="78"></rect>
+          <text class="label" x="202" y="294">SG-F0-SR01</text>
+          <text class="small" x="202" y="316">student</text>
+
+          <rect class="room" x="395" y="184" width="85" height="66"></rect>
+          <text class="label" x="438" y="216">SG-F0-SR02</text>
+          <rect class="room" x="385" y="266" width="115" height="72"></rect>
+          <text class="label" x="443" y="299">SG-F0-SR03</text>
+
+          <rect class="core" x="270" y="190" width="80" height="75"></rect>
+          <text class="label" x="310" y="215">Core</text>
+          <text class="small" x="310" y="238">stairs/elevator</text>
+          <rect class="entry" x="274" y="282" width="72" height="70"></rect>
+          <text class="label" x="310" y="314">Entry</text>
+          <line class="arrow" x1="310" y1="382" x2="310" y2="350"></line>
+        </svg>
+        <div class="legend">
+          <span class="swatch"><span class="dot"></span>student room/area</span>
+          <span class="swatch"><span class="dot wc"></span>WC / shower</span>
+          <span class="swatch"><span class="dot core"></span>stairs/elevator/core</span>
+          <span class="swatch"><span class="dot entry"></span>entry</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="head">
+          <h2>1 楼 / 1. OG</h2>
+          <span class="code">SG-F1</span>
+        </div>
+        <svg viewBox="0 0 620 430" role="img" aria-label="Simplified first floor">
+          <rect class="outer" x="110" y="45" width="400" height="310" rx="2"></rect>
+          <rect class="room" x="150" y="58" width="320" height="95"></rect>
+          <text class="label" x="310" y="96">SG-F1-LC01</text>
+          <text class="small" x="310" y="120">large student area</text>
+
+          <rect class="room" x="142" y="170" width="103" height="55"></rect>
+          <text class="label" x="194" y="197">SG-F1-SR01</text>
+          <rect class="room" x="142" y="230" width="103" height="55"></rect>
+          <text class="label" x="194" y="257">SG-F1-SR02</text>
+          <rect class="room" x="142" y="290" width="103" height="50"></rect>
+          <text class="label" x="194" y="315">SG-F1-SR03</text>
+
+          <rect class="room" x="390" y="170" width="95" height="55"></rect>
+          <text class="label" x="438" y="197">SG-F1-SR04</text>
+          <rect class="room" x="390" y="235" width="95" height="55"></rect>
+          <text class="label" x="438" y="262">SG-F1-SR05</text>
+
+          <rect class="wc" x="250" y="280" width="48" height="56"></rect>
+          <text class="label" x="274" y="308">WC</text>
+          <rect class="wc" x="356" y="280" width="48" height="56"></rect>
+          <text class="label" x="380" y="308">WC</text>
+          <rect class="core" x="270" y="194" width="84" height="80"></rect>
+          <text class="label" x="312" y="224">Core</text>
+          <text class="small" x="312" y="247">stairs/elevator</text>
+        </svg>
+        <div class="legend">
+          <span class="swatch"><span class="dot"></span>student room/area</span>
+          <span class="swatch"><span class="dot wc"></span>WC</span>
+          <span class="swatch"><span class="dot core"></span>stairs/elevator/core</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="head">
+          <h2>2 楼 / 2. OG</h2>
+          <span class="code">SG-F2</span>
+        </div>
+        <svg viewBox="0 0 620 430" role="img" aria-label="Simplified second floor">
+          <rect class="outer" x="110" y="45" width="400" height="310" rx="2"></rect>
+          <rect class="room" x="150" y="58" width="320" height="95"></rect>
+          <text class="label" x="310" y="96">SG-F2-LC01</text>
+          <text class="small" x="310" y="120">large student area</text>
+
+          <rect class="room" x="142" y="165" width="92" height="54"></rect>
+          <text class="label" x="188" y="192">SG-F2-SR01</text>
+          <rect class="room" x="142" y="224" width="92" height="54"></rect>
+          <text class="label" x="188" y="251">SG-F2-SR02</text>
+          <rect class="room" x="142" y="283" width="115" height="55"></rect>
+          <text class="label" x="200" y="310">SG-F2-SR03</text>
+
+          <rect class="room" x="398" y="158" width="86" height="58"></rect>
+          <text class="label" x="441" y="187">SG-F2-SR04</text>
+          <rect class="room" x="398" y="225" width="86" height="58"></rect>
+          <text class="label" x="441" y="254">SG-F2-SR05</text>
+          <rect class="room" x="384" y="290" width="110" height="48"></rect>
+          <text class="label" x="439" y="314">SG-F2-SR06</text>
+
+          <rect class="wc" x="250" y="280" width="48" height="56"></rect>
+          <text class="label" x="274" y="308">WC</text>
+          <rect class="wc" x="356" y="280" width="48" height="56"></rect>
+          <text class="label" x="380" y="308">WC</text>
+          <rect class="core" x="270" y="194" width="84" height="80"></rect>
+          <text class="label" x="312" y="224">Core</text>
+          <text class="small" x="312" y="247">stairs/elevator</text>
+        </svg>
+        <div class="legend">
+          <span class="swatch"><span class="dot"></span>student room/area</span>
+          <span class="swatch"><span class="dot wc"></span>WC</span>
+          <span class="swatch"><span class="dot core"></span>stairs/elevator/core</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="head">
+          <h2>3 楼 / 3. OG</h2>
+          <span class="code">SG-F3</span>
+        </div>
+        <svg viewBox="0 0 620 430" role="img" aria-label="Simplified third floor">
+          <rect class="outer" x="110" y="45" width="400" height="310" rx="2"></rect>
+          <rect class="room" x="150" y="58" width="320" height="95"></rect>
+          <text class="label" x="310" y="96">SG-F3-LC01</text>
+          <text class="small" x="310" y="120">large student area</text>
+
+          <rect class="relax" x="142" y="168" width="98" height="48"></rect>
+          <text class="label" x="191" y="192">Relax</text>
+          <rect class="wc" x="142" y="222" width="98" height="42"></rect>
+          <text class="label" x="191" y="243">Shower</text>
+          <rect class="room" x="142" y="288" width="115" height="52"></rect>
+          <text class="label" x="200" y="314">SG-F3-SR01</text>
+
+          <rect class="room" x="393" y="170" width="90" height="58"></rect>
+          <text class="label" x="438" y="199">SG-F3-SR02</text>
+          <rect class="room" x="386" y="266" width="110" height="72"></rect>
+          <text class="label" x="441" y="302">SG-F3-SR03</text>
+
+          <rect class="wc" x="250" y="280" width="48" height="56"></rect>
+          <text class="label" x="274" y="308">WC</text>
+          <rect class="core" x="270" y="194" width="84" height="80"></rect>
+          <text class="label" x="312" y="224">Core</text>
+          <text class="small" x="312" y="247">stairs/elevator</text>
+        </svg>
+        <div class="legend">
+          <span class="swatch"><span class="dot"></span>student room/area</span>
+          <span class="swatch"><span class="dot relax"></span>relax / non-study</span>
+          <span class="swatch"><span class="dot wc"></span>WC / shower</span>
+          <span class="swatch"><span class="dot core"></span>stairs/elevator/core</span>
+        </div>
+      </section>
+    </div>
+
+    <section class="notes">
+      <h2>建议编码规则</h2>
+      <ul>
+        <li><strong>SG</strong> = StudiTUM Stammgelände / Gabelsbergerstraße 43。</li>
+        <li><strong>F0-F3</strong> = 楼层。F0 为 EG，F1-F3 为 1.-3. OG。</li>
+        <li><strong>LC</strong> = large classroom / large student area，<strong>SR</strong> = small room。目前先不强分 MR，等你实测桌型后再把中房间改为 MR。</li>
+        <li>编号先按平面图从左上到左下、再右上到右下。之后如果现场门牌更清楚，可以整体重命名。</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
