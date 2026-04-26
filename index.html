@@ -515,7 +515,7 @@
     <div class="topbar">
       <div>
         <h1>Seat Happens</h1>
-        <div class="muted">StudiTUM room sharing first. Course tasks stay as a lightweight helper.</div>
+        <div class="muted">先把房间共享和座位加入流程跑顺，再补别的功能。</div>
       </div>
       <div class="row">
         <span id="userBadge" class="pill"></span>
@@ -529,8 +529,8 @@
         <div class="panel">
           <div class="panel-head">
             <div>
-              <h2>房间预约</h2>
-              <div class="muted">看未来 7 天谁会去 StudiTUM，占到房间后还有多少位置。</div>
+              <h2>房间共享</h2>
+              <div class="muted">看未来 7 天谁会去 StudiTUM；Captain 到场后可以补房间号、调整开放座位，并给未注册朋友留位。</div>
             </div>
           </div>
           <div class="panel-body stack">
@@ -569,6 +569,10 @@
                 <span>容量</span>
                 <input id="roomCapacity" type="number" min="1" max="40" value="4">
               </label>
+              <label class="field">
+                <span>给朋友留位</span>
+                <input id="guestHoldCount" type="number" min="0" max="20" value="0">
+              </label>
             </div>
             <div class="grid-2">
               <label class="field">
@@ -595,6 +599,7 @@
               </label>
             </div>
             <button id="createRoomPlanButton" class="primary" type="button">作为 Captain 发布计划</button>
+            <div id="myCaptainActions" class="list"></div>
             <div id="roomPlans" class="list"></div>
           </div>
         </div>
@@ -638,95 +643,8 @@
           </div>
           <div class="panel-body">
             <div class="notice">
-              先注册一个用户名和昵称，然后选择自己这学期上的课程标签。进入对应周次后，可以把共享任务加入自己的清单，也可以添加个人任务。自习区可以报名或发布自习；反馈只有管理员能看到，广场聊天所有成员可见。
+              先注册一个用户名和昵称。愿意早到的人可以作为 Captain 发布今天的房间共享计划；其他人看到后申请加入。Captain 到场后补房间号、确认还开放多少座位，也可以先给未注册的朋友留几个位置。
             </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <h2>我的课程与任务</h2>
-              <div class="muted">选择课程标签后，可以把对应周任务加入自己的清单。</div>
-            </div>
-          </div>
-          <div class="panel-body stack">
-            <label class="field">
-              <span>当前周次</span>
-              <input id="activeWeek" value="Week 2">
-            </label>
-            <div>
-              <div class="split">
-                <h3>课程标签</h3>
-                <button id="syncTasksButton" class="small" type="button">加入本周共享任务</button>
-              </div>
-              <div id="courseTags" class="tag-grid"></div>
-            </div>
-            <div>
-              <div class="split">
-                <h3>本周共享任务</h3>
-                <span class="muted">用户可向某门课某周添加</span>
-              </div>
-              <div id="sharedTasks" class="list"></div>
-            </div>
-            <div class="item">
-              <h3>添加课程周任务</h3>
-              <div class="grid-2">
-                <label class="field">
-                  <span>课程</span>
-                  <select id="sharedCourse"></select>
-                </label>
-                <label class="field">
-                  <span>类型</span>
-                  <select id="sharedType">
-                    <option value="required">required</option>
-                    <option value="bonus">bonus</option>
-                    <option value="optional">optional</option>
-                  </select>
-                </label>
-              </div>
-              <input id="sharedTitle" placeholder="例如：Bonus exercise 2">
-              <textarea id="sharedDetails" placeholder="补充说明，可留空"></textarea>
-              <button id="addSharedTaskButton" type="button">添加到课程周任务库</button>
-            </div>
-            <div>
-              <div class="split">
-                <h3>我的任务</h3>
-                <span id="myTaskSummary" class="pill">0 / 0</span>
-              </div>
-              <div id="myTasks" class="list"></div>
-            </div>
-            <div class="row">
-              <input id="customTaskInput" placeholder="添加个人自定义任务">
-              <button id="addCustomTaskButton" type="button">添加</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="adminCoursesPanel" class="panel hidden">
-          <div class="panel-head">
-            <div>
-              <h2>管理员：课程管理</h2>
-              <div class="muted">新增课程后，普通用户就可以选择该课程标签。</div>
-            </div>
-          </div>
-          <div class="panel-body stack">
-            <div class="grid-3">
-              <label class="field">
-                <span>课程缩写</span>
-                <input id="newCourseSlug" placeholder="例如 cv">
-              </label>
-              <label class="field">
-                <span>课程名称</span>
-                <input id="newCourseName" placeholder="例如 Computer Vision">
-              </label>
-              <label class="field">
-                <span>颜色</span>
-                <input id="newCourseColor" value="#2368d8">
-              </label>
-            </div>
-            <button id="addCourseButton" class="primary" type="button">添加课程</button>
-            <div id="courseAdminList" class="list"></div>
           </div>
         </div>
 
@@ -774,11 +692,6 @@
       session: null,
       profile: null,
       profiles: [],
-      courses: [],
-      userCourses: [],
-      sharedTasks: [],
-      myTasks: [],
-      allUserTasks: [],
       roomPlans: [],
       roomMembers: [],
       chat: [],
@@ -833,25 +746,6 @@
       return state.profile?.role === "admin";
     }
 
-    function activeWeek() {
-      return $("activeWeek").value.trim() || "Week 1";
-    }
-
-    function selectedCourseIds() {
-      return state.userCourses.map((item) => item.course_id);
-    }
-
-    function courseById(id) {
-      return state.courses.find((course) => course.id === id);
-    }
-
-    function taskProgressForUser(userId) {
-      const tasks = state.allUserTasks.filter((task) => task.user_id === userId);
-      if (tasks.length === 0) return 0;
-      const done = tasks.filter((task) => task.done).length;
-      return Math.round((done / tasks.length) * 100);
-    }
-
     function roomTypeLabel(type) {
       return {
         small_room: "小自习室",
@@ -876,6 +770,10 @@
       }[type] || 4;
     }
 
+    function guestSeatsHeld(plan) {
+      return Math.max(0, Number(plan.guest_hold_count || 0));
+    }
+
     function membersForPlan(planId) {
       return state.roomMembers.filter((member) => member.room_plan_id === planId);
     }
@@ -889,7 +787,7 @@
     }
 
     function seatsLeft(plan) {
-      return Math.max(0, plan.max_capacity - activeMembersForPlan(plan.id).length);
+      return Math.max(0, plan.max_capacity - activeMembersForPlan(plan.id).length - guestSeatsHeld(plan));
     }
 
     function hasJoined(planId) {
@@ -918,6 +816,19 @@
       const total = completed + cancelled;
       if (total === 0) return "new";
       return `${Math.round((completed / total) * 100)}%`;
+    }
+
+    function hoursUntilPlan(plan) {
+      const start = new Date(`${plan.plan_date}T${timeShort(plan.start_time) || "00:00"}:00`);
+      return (start.getTime() - Date.now()) / 36e5;
+    }
+
+    function canEditRoomPlan(plan) {
+      return isAdmin() || (plan.captain_id === state.profile.id && hoursUntilPlan(plan) > 12);
+    }
+
+    function canManageArrivalInfo(plan) {
+      return isAdmin() || plan.captain_id === state.profile.id;
     }
 
     async function requireOk(result, fallbackMessage) {
@@ -1004,31 +915,6 @@
         "Cannot load profiles"
       );
 
-      state.courses = await requireOk(
-        await supabase.from("courses").select("*").is("archived_at", null).order("name"),
-        "Cannot load courses"
-      );
-
-      state.userCourses = await requireOk(
-        await supabase.from("user_courses").select("*").eq("user_id", userId),
-        "Cannot load user courses"
-      );
-
-      state.sharedTasks = await requireOk(
-        await supabase.from("shared_tasks").select("*").is("archived_at", null).order("created_at", { ascending: false }).limit(300),
-        "Cannot load shared tasks"
-      );
-
-      state.myTasks = await requireOk(
-        await supabase.from("user_tasks").select("*").eq("user_id", userId).order("created_at", { ascending: false }),
-        "Cannot load my tasks"
-      );
-
-      state.allUserTasks = await requireOk(
-        await supabase.from("user_tasks").select("id,user_id,done").limit(5000),
-        "Cannot load progress"
-      );
-
       state.roomPlans = await requireOk(
         await supabase.from("room_plans").select("*").gte("plan_date", addDays(today(), -30)).order("plan_date").order("start_time").limit(500),
         "Cannot load room plans. Please run supabase_room_mvp_migration.sql first."
@@ -1060,13 +946,9 @@
       $("roomPlanDate").value ||= today();
       renderUserBadge();
       renderRoomCalendar();
+      renderMyCaptainActions();
       renderRoomPlans();
       renderCaptainBoard();
-      renderCourseTags();
-      renderSharedTasks();
-      renderMyTasks();
-      renderCourseSelect();
-      renderAdminCourses();
       renderChat();
       renderFeedback();
     }
@@ -1122,6 +1004,9 @@
         const mine = myMembership(plan.id);
         const isCaptain = plan.captain_id === state.profile.id;
         const canManage = isCaptain || isAdmin();
+        const canEdit = canEditRoomPlan(plan);
+        const canManageArrival = canManageArrivalInfo(plan);
+        const held = guestSeatsHeld(plan);
         const fullnessClass = left <= 0 ? "full" : left <= 1 ? "soon" : "";
         const statusClass = left <= 0 ? "full" : left <= 1 ? "tight" : "open";
         const captainTitleText = captainTitle(plan.captain_id);
@@ -1133,16 +1018,17 @@
               <strong>${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))} · ${escapeHtml(roomTypeLabel(plan.room_type))}</strong>
               <div class="muted">Captain: ${escapeHtml(profileName(plan.captain_id))} ${captainTitleText ? `<span class="captain-badge">${escapeHtml(captainTitleText)}</span>` : ""}</div>
             </div>
-            <span class="status-chip ${statusClass}">${left} seats left</span>
+            <span class="status-chip ${statusClass}">${left} 可加入</span>
           </div>
           <div class="compact-list">
             <span class="pill">${escapeHtml(plan.status)}</span>
             <span class="pill">${escapeHtml(discussionLabel(plan.discussion_mode))}</span>
             <span class="pill">${confirmed.length} checked in</span>
-            <span class="pill">${active.length}/${plan.max_capacity} planned</span>
+            <span class="pill">${active.length}/${plan.max_capacity} 已占</span>
+            ${held > 0 ? `<span class="pill">${held} 位留给朋友</span>` : ""}
           </div>
-          <div>${escapeHtml(plan.topic || "无主题")}</div>
-          <div class="muted">${escapeHtml(plan.actual_room_label ? "Room " + plan.actual_room_label : "房间号到场后补充")} · Captain ETA ${escapeHtml(timeShort(plan.planned_arrival) || "未设置")}</div>
+          <div><strong>${escapeHtml(plan.actual_room_label ? "房间 " + plan.actual_room_label : "房间号待 Captain 到场后补充")}</strong></div>
+          <div class="muted">${escapeHtml(plan.topic || "无主题")} · Captain ETA ${escapeHtml(timeShort(plan.planned_arrival) || "未设置")}</div>
           ${plan.note ? `<div class="muted">${escapeHtml(plan.note)}</div>` : ""}
           <div class="compact-list">
             ${members.length ? members.map((member) => `<span class="pill">${escapeHtml(profileName(member.user_id))} · ${escapeHtml(member.status)}${member.eta ? " · " + escapeHtml(timeShort(member.eta)) : ""}</span>`).join("") : `<span class="muted">还没有人加入。</span>`}
@@ -1151,7 +1037,9 @@
             ${!joined && left > 0 && plan.status !== "cancelled" ? `<button class="small primary" data-room-join="${plan.id}" type="button">申请加入</button>` : ""}
             ${joined && mine?.status !== "confirmed" ? `<button class="small" data-room-checkin="${mine.id}" type="button">我已到达</button>` : ""}
             ${joined ? `<button class="small danger" data-room-cancel-member="${mine.id}" type="button">取消加入</button>` : ""}
-            ${canManage ? `<button class="small" data-room-status="${plan.id}" data-status="active" type="button">标记 active</button>` : ""}
+            ${canEdit ? `<button class="small" data-room-edit="${plan.id}" type="button">修改计划</button>` : ""}
+            ${canManageArrival ? `<button class="small primary" data-room-arrival="${plan.id}" type="button">${plan.status === "active" ? "更新房间号/座位" : "填写房间号/座位"}</button>` : ""}
+            ${isCaptain && !canEdit ? `<span class="muted">开始前 12 小时内锁定核心信息</span>` : ""}
             ${canManage ? `<button class="small" data-room-status="${plan.id}" data-status="completed" type="button">完成承诺</button>` : ""}
             ${canManage ? `<button class="small danger" data-room-status="${plan.id}" data-status="cancelled" type="button">取消计划</button>` : ""}
           </div>
@@ -1175,8 +1063,53 @@
         button.addEventListener("click", async () => updateRoomMember(button.dataset.roomCancelMember, { status: "cancelled" }));
       });
 
+      box.querySelectorAll("[data-room-edit]").forEach((button) => {
+        button.addEventListener("click", () => editRoomPlan(button.dataset.roomEdit));
+      });
+
+      box.querySelectorAll("[data-room-arrival]").forEach((button) => {
+        button.addEventListener("click", () => updateArrivalInfo(button.dataset.roomArrival));
+      });
+
       box.querySelectorAll("[data-room-status]").forEach((button) => {
         button.addEventListener("click", async () => updateRoomPlanStatus(button.dataset.roomStatus, button.dataset.status));
+      });
+    }
+
+    function renderMyCaptainActions() {
+      const box = $("myCaptainActions");
+      box.replaceChildren();
+      const plans = state.roomPlans
+        .filter((plan) => plan.captain_id === state.profile.id && !["completed", "cancelled"].includes(plan.status))
+        .sort((a, b) => `${a.plan_date} ${a.start_time}`.localeCompare(`${b.plan_date} ${b.start_time}`));
+
+      if (plans.length === 0) {
+        box.innerHTML = `<div class="notice">你发布计划后，这里会出现 Captain 快捷操作，可直接填写房间号、开放座位和朋友留位。</div>`;
+        return;
+      }
+
+      const panel = document.createElement("div");
+      panel.className = "notice";
+      panel.innerHTML = `<strong>Captain 快捷操作</strong><div class="muted">这里可以直接更新你发起的计划，不用再到下面的卡片里找按钮。</div>`;
+      box.appendChild(panel);
+
+      plans.forEach((plan) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <div class="split">
+            <div>
+              <strong>${escapeHtml(plan.plan_date)} ${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))}</strong>
+              <div class="muted">${escapeHtml(plan.actual_room_label ? "房间 " + plan.actual_room_label : "房间号未填写")} · ${seatsLeft(plan)} 可加入 · ${guestSeatsHeld(plan)} 位留给朋友</div>
+            </div>
+            <button class="small primary" data-room-arrival="${plan.id}" type="button">${plan.status === "active" ? "更新房间号/座位" : "填写房间号/座位"}</button>
+          </div>
+        `;
+        box.appendChild(item);
+      });
+
+      box.querySelectorAll("[data-room-arrival]").forEach((button) => {
+        button.addEventListener("click", () => updateArrivalInfo(button.dataset.roomArrival));
       });
     }
 
@@ -1213,199 +1146,6 @@
           <div class="muted">${entry.completed} completed · ${entry.plans.length} total · reliability ${escapeHtml(entry.reliability)}</div>
         `;
         box.appendChild(item);
-      });
-    }
-
-    function renderCourseTags() {
-      const selected = new Set(selectedCourseIds());
-      const box = $("courseTags");
-      box.replaceChildren();
-      state.courses.forEach((course) => {
-        const active = selected.has(course.id);
-        const tag = document.createElement("label");
-        tag.className = `tag ${active ? "active" : ""}`;
-        tag.innerHTML = `
-          <div class="row">
-            <span class="dot" style="background:${escapeHtml(course.color)}"></span>
-            <strong>${escapeHtml(course.name)}</strong>
-            <input type="checkbox" ${active ? "checked" : ""} data-course-toggle="${course.id}">
-          </div>
-          <span class="muted">${escapeHtml(course.slug)}</span>
-        `;
-        box.appendChild(tag);
-      });
-
-      box.querySelectorAll("[data-course-toggle]").forEach((checkbox) => {
-        checkbox.addEventListener("change", async () => {
-          const courseId = checkbox.dataset.courseToggle;
-          if (checkbox.checked) {
-            await requireOk(
-              await supabase.from("user_courses").insert({ user_id: state.profile.id, course_id: courseId }),
-              "Cannot add course"
-            );
-            await loadApp();
-            await addSharedTasksToMine([courseId]);
-          } else {
-            await requireOk(
-              await supabase.from("user_courses").delete().eq("user_id", state.profile.id).eq("course_id", courseId),
-              "Cannot remove course"
-            );
-          }
-          await loadApp();
-          renderApp();
-        });
-      });
-    }
-
-    function renderSharedTasks() {
-      const box = $("sharedTasks");
-      box.replaceChildren();
-      const courseIds = new Set(selectedCourseIds());
-      const tasks = state.sharedTasks.filter((task) => courseIds.has(task.course_id) && task.week_label === activeWeek());
-      if (tasks.length === 0) {
-        box.innerHTML = `<div class="empty">当前周次没有共享任务。你可以在下面向某门课添加一个。</div>`;
-        return;
-      }
-
-      const mySourceIds = new Set(state.myTasks.map((task) => task.source_shared_task_id).filter(Boolean));
-      tasks.forEach((task) => {
-        const course = courseById(task.course_id);
-        const item = document.createElement("div");
-        item.className = "item";
-        item.innerHTML = `
-          <div class="split">
-            <strong>${escapeHtml(task.title)}</strong>
-            <span class="pill">${escapeHtml(task.task_type)}</span>
-          </div>
-          <div class="muted">${escapeHtml(course?.name || "")} · ${escapeHtml(task.week_label)} · added by ${escapeHtml(profileName(task.created_by))}</div>
-          <div>${escapeHtml(task.details || "")}</div>
-          <div class="row">
-            <button class="small" data-add-shared-to-mine="${task.id}" ${mySourceIds.has(task.id) ? "disabled" : ""}>${mySourceIds.has(task.id) ? "已加入" : "加入我的任务"}</button>
-            ${(isAdmin() || task.created_by === state.profile.id) ? `<button class="small danger" data-delete-shared="${task.id}">删除</button>` : ""}
-          </div>
-        `;
-        box.appendChild(item);
-      });
-
-      box.querySelectorAll("[data-add-shared-to-mine]").forEach((button) => {
-        button.addEventListener("click", async () => {
-          const task = state.sharedTasks.find((item) => item.id === button.dataset.addSharedToMine);
-          if (task) await addOneSharedTaskToMine(task);
-          await loadApp();
-          renderApp();
-        });
-      });
-
-      box.querySelectorAll("[data-delete-shared]").forEach((button) => {
-        button.addEventListener("click", async () => {
-          await requireOk(
-            await supabase.from("shared_tasks").delete().eq("id", button.dataset.deleteShared),
-            "Cannot delete shared task"
-          );
-          await loadApp();
-          renderApp();
-        });
-      });
-    }
-
-    function renderMyTasks() {
-      const box = $("myTasks");
-      box.replaceChildren();
-      const tasks = state.myTasks.filter((task) => !task.week_label || task.week_label === activeWeek());
-      const done = tasks.filter((task) => task.done).length;
-      $("myTaskSummary").textContent = `${done} / ${tasks.length}`;
-
-      if (tasks.length === 0) {
-        box.innerHTML = `<div class="empty">还没有任务。选择课程标签后加入共享任务，或添加个人自定义任务。</div>`;
-        return;
-      }
-
-      tasks.forEach((task) => {
-        const item = document.createElement("div");
-        item.className = `item task ${task.done ? "done" : ""}`;
-        item.innerHTML = `
-          <input type="checkbox" ${task.done ? "checked" : ""} data-task-done="${task.id}">
-          <div>
-            <div class="task-title">${escapeHtml(task.title)}</div>
-            <div class="muted">${task.is_custom ? "个人任务" : "共享任务"}${task.week_label ? " · " + escapeHtml(task.week_label) : ""}</div>
-          </div>
-          <button class="small danger" data-delete-my-task="${task.id}" type="button">删除</button>
-        `;
-        box.appendChild(item);
-      });
-
-      box.querySelectorAll("[data-task-done]").forEach((checkbox) => {
-        checkbox.addEventListener("change", async () => {
-          await requireOk(
-            await supabase.from("user_tasks").update({ done: checkbox.checked }).eq("id", checkbox.dataset.taskDone),
-            "Cannot update task"
-          );
-          await loadApp();
-          renderApp();
-        });
-      });
-
-      box.querySelectorAll("[data-delete-my-task]").forEach((button) => {
-        button.addEventListener("click", async () => {
-          await requireOk(
-            await supabase.from("user_tasks").delete().eq("id", button.dataset.deleteMyTask),
-            "Cannot delete task"
-          );
-          await loadApp();
-          renderApp();
-        });
-      });
-    }
-
-    function renderCourseSelect() {
-      const select = $("sharedCourse");
-      select.replaceChildren();
-      state.courses.forEach((course) => {
-        const option = document.createElement("option");
-        option.value = course.id;
-        option.textContent = course.name;
-        select.appendChild(option);
-      });
-    }
-
-    function renderAdminCourses() {
-      const panel = $("adminCoursesPanel");
-      panel.classList.toggle("hidden", !isAdmin());
-      if (!isAdmin()) return;
-
-      const list = $("courseAdminList");
-      list.replaceChildren();
-      if (state.courses.length === 0) {
-        list.innerHTML = `<div class="empty">还没有课程。</div>`;
-        return;
-      }
-
-      state.courses.forEach((course) => {
-        const item = document.createElement("div");
-        item.className = "item";
-        item.innerHTML = `
-          <div class="split">
-            <div class="row">
-              <span class="dot" style="background:${escapeHtml(course.color)}"></span>
-              <strong>${escapeHtml(course.name)}</strong>
-              <span class="muted">${escapeHtml(course.slug)}</span>
-            </div>
-            <button class="small danger" data-archive-course="${course.id}" type="button">归档</button>
-          </div>
-        `;
-        list.appendChild(item);
-      });
-
-      list.querySelectorAll("[data-archive-course]").forEach((button) => {
-        button.addEventListener("click", async () => {
-          if (!confirm("归档后普通用户不再看到这门课，已有历史记录仍保留。确定吗？")) return;
-          await requireOk(
-            await supabase.from("courses").update({ archived_at: new Date().toISOString() }).eq("id", button.dataset.archiveCourse),
-            "Cannot archive course"
-          );
-          await loadApp();
-          renderApp();
-        });
       });
     }
 
@@ -1469,6 +1209,8 @@
 
     async function createRoomPlan() {
       const roomType = $("roomType").value;
+      const capacity = Math.max(1, Number($("roomCapacity").value) || defaultCapacity(roomType));
+      const guestHoldCount = Math.max(0, Math.min(capacity, Number($("guestHoldCount").value) || 0));
       const payload = {
         captain_id: state.profile.id,
         plan_date: $("roomPlanDate").value || today(),
@@ -1480,7 +1222,8 @@
         actual_room_label: $("actualRoomLabel").value.trim() || null,
         topic: $("roomTopic").value.trim() || null,
         discussion_mode: $("discussionMode").value,
-        max_capacity: Number($("roomCapacity").value) || defaultCapacity(roomType),
+        max_capacity: capacity,
+        guest_hold_count: guestHoldCount,
         note: $("roomNote").value.trim() || null
       };
 
@@ -1506,6 +1249,7 @@
 
       $("roomTopic").value = "";
       $("actualRoomLabel").value = "";
+      $("guestHoldCount").value = "0";
       $("roomNote").value = "";
       await loadApp();
       renderApp();
@@ -1534,101 +1278,91 @@
       renderApp();
     }
 
+    async function editRoomPlan(planId) {
+      const plan = state.roomPlans.find((item) => item.id === planId);
+      if (!plan) return;
+      if (!canEditRoomPlan(plan)) {
+        alert("开始前 12 小时内不能修改时间、主题、容量等核心信息。");
+        return;
+      }
+
+      const startTime = prompt("开始时间，例如 09:00", timeShort(plan.start_time));
+      if (startTime === null) return;
+      const endTime = prompt("结束时间，例如 18:00", timeShort(plan.end_time));
+      if (endTime === null) return;
+      const plannedArrival = prompt("Captain 到达时间，例如 07:30", timeShort(plan.planned_arrival));
+      if (plannedArrival === null) return;
+      const topic = prompt("主题，空白表示无主题", plan.topic || "");
+      if (topic === null) return;
+      const note = prompt("备注", plan.note || "");
+      if (note === null) return;
+      const capacityText = prompt("容量", String(plan.max_capacity));
+      if (capacityText === null) return;
+      const capacity = Number(capacityText);
+
+      await requireOk(
+        await supabase.from("room_plans").update({
+          start_time: startTime,
+          end_time: endTime,
+          planned_arrival: plannedArrival || null,
+          topic: topic.trim() || null,
+          note: note.trim() || null,
+          max_capacity: Number.isFinite(capacity) ? capacity : plan.max_capacity
+        }).eq("id", planId),
+        "Cannot edit room plan"
+      );
+      await loadApp();
+      renderApp();
+    }
+
+    async function updateArrivalInfo(planId) {
+      const plan = state.roomPlans.find((item) => item.id === planId);
+      if (!plan) return;
+      if (!canManageArrivalInfo(plan)) return;
+
+      const roomLabel = prompt("实际房间号，例如 0.06", plan.actual_room_label || "");
+      if (roomLabel === null) return;
+      const capacityText = prompt("现在开放多少个座位", String(plan.max_capacity));
+      if (capacityText === null) return;
+      const guestHoldText = prompt("给未注册朋友预留几个位置", String(guestSeatsHeld(plan)));
+      if (guestHoldText === null) return;
+      const noteText = prompt("给后来想来的人补充一句话", plan.note || "");
+      if (noteText === null) return;
+
+      const capacity = Math.max(1, Number(capacityText) || plan.max_capacity);
+      const guestHoldCount = Math.max(0, Math.min(capacity, Number(guestHoldText) || 0));
+
+      await requireOk(
+        await supabase.from("room_plans").update({
+          actual_room_label: roomLabel.trim() || null,
+          max_capacity: capacity,
+          guest_hold_count: guestHoldCount,
+          note: noteText.trim() || null,
+          status: plan.status === "cancelled" ? "cancelled" : "active"
+        }).eq("id", planId),
+        "Cannot update arrival info"
+      );
+
+      const captainMembership = membersForPlan(planId).find((member) => member.user_id === state.profile.id && member.status !== "cancelled");
+      if (captainMembership && captainMembership.status !== "confirmed") {
+        await requireOk(
+          await supabase.from("room_plan_members").update({
+            status: "confirmed",
+            checked_in_at: new Date().toISOString()
+          }).eq("id", captainMembership.id),
+          "Cannot confirm captain arrival"
+        );
+      }
+
+      await loadApp();
+      renderApp();
+    }
+
     async function updateRoomPlanStatus(planId, status) {
       await requireOk(
         await supabase.from("room_plans").update({ status }).eq("id", planId),
         "Cannot update room plan"
       );
-      await loadApp();
-      renderApp();
-    }
-
-    async function addOneSharedTaskToMine(sharedTask) {
-      const exists = state.myTasks.some((task) => task.source_shared_task_id === sharedTask.id);
-      if (exists) return;
-      await requireOk(
-        await supabase.from("user_tasks").insert({
-          user_id: state.profile.id,
-          source_shared_task_id: sharedTask.id,
-          course_id: sharedTask.course_id,
-          week_label: sharedTask.week_label,
-          title: sharedTask.title,
-          details: sharedTask.details,
-          is_custom: false,
-          created_by: state.profile.id
-        }),
-        "Cannot add shared task"
-      );
-    }
-
-    async function addSharedTasksToMine(courseIds = selectedCourseIds()) {
-      const ids = new Set(courseIds);
-      const tasks = state.sharedTasks.filter((task) => ids.has(task.course_id) && task.week_label === activeWeek());
-      for (const task of tasks) {
-        await addOneSharedTaskToMine(task);
-      }
-    }
-
-    async function addSharedTask() {
-      const title = $("sharedTitle").value.trim();
-      const courseId = $("sharedCourse").value;
-      if (!title || !courseId) return;
-      const inserted = await requireOk(
-        await supabase.from("shared_tasks").insert({
-          course_id: courseId,
-          week_label: activeWeek(),
-          title,
-          details: $("sharedDetails").value.trim() || null,
-          task_type: $("sharedType").value,
-          created_by: state.profile.id
-        }).select().single(),
-        "Cannot add shared task"
-      );
-      $("sharedTitle").value = "";
-      $("sharedDetails").value = "";
-      await loadApp();
-      await addOneSharedTaskToMine(inserted);
-      await loadApp();
-      renderApp();
-    }
-
-    async function addCourse() {
-      const slug = $("newCourseSlug").value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "");
-      const name = $("newCourseName").value.trim();
-      const color = $("newCourseColor").value.trim() || "#2368d8";
-      if (!slug || !name) {
-        alert("请填写课程缩写和课程名称。");
-        return;
-      }
-      await requireOk(
-        await supabase.from("courses").insert({
-          slug,
-          name,
-          color,
-          created_by: state.profile.id
-        }),
-        "Cannot add course"
-      );
-      $("newCourseSlug").value = "";
-      $("newCourseName").value = "";
-      await loadApp();
-      renderApp();
-    }
-
-    async function addCustomTask() {
-      const title = $("customTaskInput").value.trim();
-      if (!title) return;
-      await requireOk(
-        await supabase.from("user_tasks").insert({
-          user_id: state.profile.id,
-          week_label: activeWeek(),
-          title,
-          is_custom: true,
-          created_by: state.profile.id
-        }),
-        "Cannot add custom task"
-      );
-      $("customTaskInput").value = "";
       await loadApp();
       renderApp();
     }
@@ -1675,21 +1409,6 @@
       $("roomPlanDate").addEventListener("change", () => {
         renderRoomCalendar();
         renderRoomPlans();
-      });
-      $("activeWeek").addEventListener("change", () => {
-        renderSharedTasks();
-        renderMyTasks();
-      });
-      $("syncTasksButton").addEventListener("click", async () => {
-        await addSharedTasksToMine();
-        await loadApp();
-        renderApp();
-      });
-      $("addSharedTaskButton").addEventListener("click", addSharedTask);
-      $("addCourseButton").addEventListener("click", addCourse);
-      $("addCustomTaskButton").addEventListener("click", addCustomTask);
-      $("customTaskInput").addEventListener("keydown", (event) => {
-        if (event.key === "Enter") addCustomTask();
       });
       $("sendFeedbackButton").addEventListener("click", sendFeedback);
       $("reloadFeedbackButton").addEventListener("click", async () => {
