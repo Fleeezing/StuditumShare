@@ -42,5 +42,11 @@ function Get-SupabaseMigrationMap {
       Name = "room_plan_time_guard"
       Target = "supabase/migrations/20260426000400_room_plan_time_guard.sql"
     }
+    [pscustomobject]@{
+      Source = "sql/supabase_admin_tools_migration.sql"
+      Version = "20260426000500"
+      Name = "admin_tools"
+      Target = "supabase/migrations/20260426000500_admin_tools.sql"
+    }
   )
 }

@@ -726,6 +726,7 @@
                 <option value="general">general</option>
                 <option value="bug">bug</option>
                 <option value="suggestion">suggestion</option>
+                <option value="emergency">emergency</option>
                 <option value="privacy">privacy</option>
               </select>
             </label>
@@ -739,6 +740,37 @@
               </div>
               <div id="feedbackList" class="list"></div>
             </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>站内消息</h2>
+            </div>
+          </div>
+          <div class="panel-body stack">
+            <div id="adminMessageComposer" class="captain-editor-section hidden">
+              <div class="captain-editor-title">
+                <strong>发送私信</strong>
+                <span class="muted">管理员可以向任意用户发送站内消息。</span>
+              </div>
+              <div class="captain-editor-grid">
+                <label class="field">
+                  <span>收件人</span>
+                  <select id="directMessageRecipient"></select>
+                </label>
+                <label class="field">
+                  <span>内容</span>
+                  <textarea id="directMessageBody" placeholder="写给用户的私信"></textarea>
+                </label>
+              </div>
+              <div class="captain-editor-actions">
+                <button id="sendDirectMessageButton" class="primary" type="button">发送私信</button>
+                <span id="directMessageStatus" class="muted"></span>
+              </div>
+            </div>
+            <div id="directMessages" class="list"></div>
           </div>
         </div>
 
@@ -772,10 +804,22 @@
       roomPlans: [],
       roomMembers: [],
       chat: [],
-      feedback: []
+      feedback: [],
+      directMessages: [],
+      directMessagesError: "",
+      adminEmergencyPhone: ""
     };
 
     const RELEASE_HISTORY = [
+      {
+        version: "v0.2.9",
+        date: "2026-04-26",
+        changes: [
+          "新增管理员删除任意房间计划入口，删除前需要二次确认。",
+          "新增站内私信：管理员可以向任意用户发送消息，用户可在页面下方查看。",
+          "紧急反馈提交后会提示管理员联系电话；号码从 Supabase 配置读取，不写入公开源码。"
+        ]
+      },
       {
         version: "v0.2.8",
         date: "2026-04-26",
@@ -920,6 +964,10 @@
 
     function isAdmin() {
       return state.profile?.role === "admin";
+    }
+
+    function emergencyPhoneText() {
+      return state.adminEmergencyPhone.trim();
     }
 
     function roomTypeLabel(type) {
@@ -1197,6 +1245,27 @@
       state.feedback = isAdmin()
         ? await requireOk(await supabase.from("feedback").select("*").order("created_at", { ascending: false }).limit(100), "Cannot load feedback")
         : [];
+
+      const emergencyPhoneResult = await supabase
+        .from("app_settings")
+        .select("value")
+        .eq("key", "admin_emergency_phone")
+        .maybeSingle();
+      state.adminEmergencyPhone = emergencyPhoneResult.error ? "" : emergencyPhoneResult.data?.value || "";
+
+      const messagesResult = await supabase
+        .from("direct_messages")
+        .select("*")
+        .or(`sender_id.eq.${userId},recipient_id.eq.${userId}`)
+        .order("created_at", { ascending: false })
+        .limit(100);
+      if (messagesResult.error) {
+        state.directMessages = [];
+        state.directMessagesError = messagesResult.error.message;
+      } else {
+        state.directMessages = messagesResult.data || [];
+        state.directMessagesError = "";
+      }
     }
 
     function renderAuth() {
@@ -1226,6 +1295,7 @@
       renderCaptainBoard();
       renderChat();
       renderFeedback();
+      renderDirectMessages();
       renderReleaseHistory();
     }
 
@@ -1264,7 +1334,10 @@
       const selected = $("roomPlanDate").value || today();
       const box = $("roomPlans");
       box.replaceChildren();
-      const plans = visiblePlansForDate(selected).sort((a, b) => `${a.start_time}`.localeCompare(`${b.start_time}`));
+      const plans = (isAdmin()
+        ? state.roomPlans.filter((plan) => plan.plan_date === selected)
+        : visiblePlansForDate(selected)
+      ).sort((a, b) => `${a.start_time}`.localeCompare(`${b.start_time}`));
 
       if (plans.length === 0) {
         box.innerHTML = `<div class="empty">这一天还没有房间计划。</div>`;
@@ -1323,6 +1396,7 @@
             ${isCaptain && !canEdit ? `<span class="muted">开始前 12 小时内锁定核心信息</span>` : ""}
             ${canManage && !["cancelled", "completed"].includes(plan.status) ? `<button class="small" data-room-status="${plan.id}" data-status="completed" type="button">完成承诺</button>` : ""}
             ${canManage && !["cancelled", "completed"].includes(plan.status) ? `<button class="small danger" data-room-status="${plan.id}" data-status="cancelled" type="button">取消计划</button>` : ""}
+            ${isAdmin() ? `<button class="small danger" data-room-delete="${plan.id}" type="button">删除计划</button>` : ""}
           </div>
         `;
         box.appendChild(item);
@@ -1361,6 +1435,10 @@
 
       box.querySelectorAll("[data-room-status]").forEach((button) => {
         button.addEventListener("click", async () => updateRoomPlanStatus(button.dataset.roomStatus, button.dataset.status));
+      });
+
+      box.querySelectorAll("[data-room-delete]").forEach((button) => {
+        button.addEventListener("click", async () => deleteRoomPlan(button.dataset.roomDelete));
       });
     }
 
@@ -1555,6 +1633,46 @@
           await loadApp();
           renderApp();
         });
+      });
+    }
+
+    function renderDirectMessages() {
+      const composer = $("adminMessageComposer");
+      const recipient = $("directMessageRecipient");
+      const box = $("directMessages");
+      composer.classList.toggle("hidden", !isAdmin());
+      box.replaceChildren();
+
+      if (isAdmin()) {
+        const currentValue = recipient.value;
+        const options = state.profiles
+          .filter((profile) => profile.id !== state.profile.id)
+          .map((profile) => `<option value="${profile.id}">${escapeHtml(profile.nickname || profile.username)}</option>`)
+          .join("");
+        recipient.innerHTML = options || `<option value="">暂无其他用户</option>`;
+        if (currentValue && state.profiles.some((profile) => profile.id === currentValue)) {
+          recipient.value = currentValue;
+        }
+      }
+
+      if (state.directMessagesError) {
+        box.innerHTML = `<div class="empty">站内消息需要先运行 direct_messages 数据库迁移。</div>`;
+        return;
+      }
+
+      if (state.directMessages.length === 0) {
+        box.innerHTML = `<div class="empty">暂无站内消息。</div>`;
+        return;
+      }
+
+      state.directMessages.forEach((message) => {
+        const row = document.createElement("div");
+        row.className = "message";
+        row.innerHTML = `
+          <div class="muted">${escapeHtml(profileName(message.sender_id))} → ${escapeHtml(profileName(message.recipient_id))} · ${new Date(message.created_at).toLocaleString()}</div>
+          <div>${escapeHtml(message.body)}</div>
+        `;
+        box.appendChild(row);
       });
     }
 
@@ -1829,19 +1947,68 @@
       renderApp();
     }
 
+    async function deleteRoomPlan(planId) {
+      if (!isAdmin()) return;
+      const plan = state.roomPlans.find((item) => item.id === planId);
+      const label = plan ? `${plan.plan_date} ${timeShort(plan.start_time)}-${timeShort(plan.end_time)} ${profileName(plan.captain_id)}` : planId;
+      const confirmed = confirm(`确认永久删除这个房间计划吗？\n\n${label}\n\n删除后成员记录也会一起删除，不能在页面内恢复。`);
+      if (!confirmed) return;
+      await requireOk(
+        await supabase.from("room_plans").delete().eq("id", planId),
+        "Cannot delete room plan"
+      );
+      await loadApp();
+      renderApp();
+    }
+
+    async function sendDirectMessage() {
+      if (!isAdmin()) return;
+      const recipientId = $("directMessageRecipient").value;
+      const body = $("directMessageBody").value.trim();
+      if (!recipientId || !body) {
+        $("directMessageStatus").textContent = "请选择收件人并填写内容。";
+        return;
+      }
+      try {
+        await requireOk(
+          await supabase.from("direct_messages").insert({
+            sender_id: state.profile.id,
+            recipient_id: recipientId,
+            body
+          }),
+          "Cannot send direct message"
+        );
+        $("directMessageBody").value = "";
+        $("directMessageStatus").textContent = "私信已发送。";
+        await loadApp();
+        renderApp();
+      }
+      catch (error) {
+        $("directMessageStatus").textContent = `发送失败：${error.message}`;
+      }
+    }
+
     async function sendFeedback() {
       const message = $("feedbackMessage").value.trim();
       if (!message) return;
+      const category = $("feedbackCategory").value;
       await requireOk(
         await supabase.from("feedback").insert({
           user_id: state.profile.id,
-          category: $("feedbackCategory").value,
+          category,
           message
         }),
         "Cannot send feedback"
       );
       $("feedbackMessage").value = "";
-      $("feedbackStatus").textContent = "已提交。";
+      if (category === "emergency") {
+        const phone = emergencyPhoneText();
+        $("feedbackStatus").textContent = phone
+          ? `紧急反馈已提交。情况紧急时请直接拨打管理员电话：${phone}`
+          : "紧急反馈已提交。管理员电话尚未配置，请先使用广场聊天或站内消息联系管理员。";
+      } else {
+        $("feedbackStatus").textContent = "已提交。";
+      }
     }
 
     async function sendChat() {
@@ -1877,6 +2044,7 @@
         await loadApp();
         renderApp();
       });
+      $("sendDirectMessageButton").addEventListener("click", sendDirectMessage);
       $("sendChatButton").addEventListener("click", sendChat);
       $("chatInput").addEventListener("keydown", (event) => {
         if (event.key === "Enter") sendChat();
