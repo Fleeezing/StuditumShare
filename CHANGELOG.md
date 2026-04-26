@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.6 - 2026-04-26
+
+- 前端新增创建前检查：同一个 Seat Captain 同一天只能发布一个未取消房间计划。
+- 新增 `sql/supabase_one_captain_plan_per_day_migration.sql` 和对应 `supabase/migrations/20260426000300_one_captain_plan_per_day.sql`，用部分唯一索引在数据库层兜底。
+- 房间计划发布按钮新增页内成功/失败提示。
+
 ## v0.2.5 - 2026-04-26
 
 - Seat Captain 编辑卡拆分为 `计划设置` 和 `到场房间信息` 两块，避免房间号误用 `保存计划设置` 保存。

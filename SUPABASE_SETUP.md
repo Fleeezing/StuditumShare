@@ -40,6 +40,7 @@ Supabase 项目用于 Seat Happens 的认证、数据库和 RLS。
 3. `sql/supabase_room_edit_lock_migration.sql` -> `supabase/migrations/20260422000300_room_edit_lock.sql`
 4. `sql/supabase_room_arrival_updates_migration.sql` -> `supabase/migrations/20260426000100_room_arrival_updates.sql`
 5. `sql/supabase_room_cancel_timing_migration.sql` -> `supabase/migrations/20260426000200_room_cancel_timing.sql`
+6. `sql/supabase_one_captain_plan_per_day_migration.sql` -> `supabase/migrations/20260426000300_one_captain_plan_per_day.sql`
 
 以后新增数据库改动时：
 
@@ -59,7 +60,7 @@ Supabase 项目用于 Seat Happens 的认证、数据库和 RLS。
 
 `./scripts/bootstrap-supabase-history.ps1`
 
-这一步会把当前五个基础迁移标记为“远端已应用”，避免 CLI 重复对现有线上库执行初始建表。
+这一步会把当前基础迁移标记为“远端已应用”，避免 CLI 重复对现有线上库执行初始建表。
 
 完成后可用下面命令核对：
 

@@ -23,6 +23,7 @@
 
 - 确认 `sql/supabase_room_mvp_migration.sql` 是否已在 Supabase 执行。
 - 确认 `sql/supabase_room_edit_lock_migration.sql` 是否已在 Supabase 执行。
+- 在 Supabase SQL Editor 执行 `sql/supabase_one_captain_plan_per_day_migration.sql`，启用同一 Seat Captain 每天只能有一个未取消计划的数据库约束。
 - 把 GitHub 仓库 secrets 里的 `SUPABASE_ACCESS_TOKEN` / `SUPABASE_DB_PASSWORD` / `SUPABASE_PROJECT_ID` 配好。
 - 第一次运行 `Deploy Supabase Database` workflow 时，记得开启 `bootstrap_existing_remote`。
 - 如果新增版本号、新用户说明状态、Captain 成就，需要新增迁移 SQL。

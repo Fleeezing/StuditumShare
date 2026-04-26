@@ -681,6 +681,7 @@
               <input id="roomNote" placeholder="例如：先抢中房间，抢不到就小房间">
             </label>
             <button id="createRoomPlanButton" class="primary" type="button">作为 Captain 发布计划</button>
+            <div id="roomCreateStatus" class="captain-editor-status"></div>
             <div id="myCaptainActions" class="list"></div>
             <div id="roomPlans" class="list"></div>
           </div>
@@ -775,6 +776,15 @@
     };
 
     const RELEASE_HISTORY = [
+      {
+        version: "v0.2.6",
+        date: "2026-04-26",
+        changes: [
+          "新增同一天重复发布保护：同一个 Seat Captain 每天只能有一个未取消房间计划。",
+          "发布房间计划时增加页内成功/失败提示。",
+          "补充数据库唯一索引迁移，避免绕过前端重复创建。"
+        ]
+      },
       {
         version: "v0.2.5",
         date: "2026-04-26",
@@ -1046,6 +1056,12 @@
     function setCaptainEditorStatus(planId, message, type = "") {
       const box = document.querySelector(`[data-captain-status="${planId}"]`);
       if (!box) return;
+      box.className = `captain-editor-status ${type}`.trim();
+      box.textContent = message;
+    }
+
+    function setRoomCreateStatus(message, type = "") {
+      const box = $("roomCreateStatus");
       box.className = `captain-editor-status ${type}`.trim();
       box.textContent = message;
     }
@@ -1540,6 +1556,7 @@
     }
 
     async function createRoomPlan() {
+      setRoomCreateStatus("", "");
       const roomType = $("roomType").value;
       const shareableSeats = Math.max(1, Number($("roomCapacity").value) || defaultCapacity(roomType));
       const payload = {
@@ -1559,29 +1576,55 @@
       };
 
       if (!payload.plan_date || !payload.start_time || !payload.end_time) {
-        alert("请填写日期、开始和结束时间。");
+        setRoomCreateStatus("请填写日期、开始和结束时间。", "error");
         return;
       }
 
-      const plan = await requireOk(
-        await supabase.from("room_plans").insert(payload).select().single(),
-        "Cannot create room plan"
+      const existingPlan = state.roomPlans.find((plan) =>
+        plan.captain_id === state.profile.id
+        && plan.plan_date === payload.plan_date
+        && plan.status !== "cancelled"
       );
 
-      await requireOk(
-        await supabase.from("room_plan_members").upsert({
-          room_plan_id: plan.id,
-          user_id: state.profile.id,
-          status: "expected",
-          eta: payload.planned_arrival
-        }),
-        "Cannot add Seat Captain to room plan"
-      );
+      if (existingPlan) {
+        setRoomCreateStatus("你这一天已经有一个房间计划了。同一个 Seat Captain 每天只能发布一个未取消计划。", "error");
+        $("roomPlanDate").value = existingPlan.plan_date;
+        renderRoomCalendar();
+        renderRoomPlans();
+        focusCaptainEditor(existingPlan.id, "plan");
+        return;
+      }
 
-      $("roomTopic").value = "";
-      $("roomNote").value = "";
-      await loadApp();
-      renderApp();
+      setRoomCreateStatus("正在发布房间计划...", "");
+      try {
+        const plan = await requireOk(
+          await supabase.from("room_plans").insert(payload).select().single(),
+          "Cannot create room plan"
+        );
+
+        await requireOk(
+          await supabase.from("room_plan_members").upsert({
+            room_plan_id: plan.id,
+            user_id: state.profile.id,
+            status: "expected",
+            eta: payload.planned_arrival
+          }),
+          "Cannot add Seat Captain to room plan"
+        );
+
+        $("roomTopic").value = "";
+        $("roomNote").value = "";
+        await loadApp();
+        renderApp();
+        setRoomCreateStatus("房间计划已发布。", "success");
+      }
+      catch (error) {
+        console.error(error);
+        const duplicateMessage = error.message.includes("room_plans_one_open_plan_per_captain_day")
+          ? "你这一天已经有一个房间计划了。同一个 Seat Captain 每天只能发布一个未取消计划。"
+          : `发布失败：${error.message}`;
+        setRoomCreateStatus(duplicateMessage, "error");
+      }
     }
 
     async function joinRoomPlan(planId, eta) {
