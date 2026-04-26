@@ -25,6 +25,7 @@ Seat Happens 是一个给 TUM 中国学生使用的轻量网页，用来解决 S
 - 当前线上地址：`https://fleeezing.github.io/StuditumShare/`
 - 当前版本归档：`versions/seat-happens-v0.2.3.html`
 - 当前仓库已准备 GitHub Actions 自动部署 GitHub Pages
+- 当前 Supabase 项目 ref：`egocecoudqerewvurumh`
 
 主要功能已有：
 
@@ -74,7 +75,8 @@ Seat Happens 是一个给 TUM 中国学生使用的轻量网页，用来解决 S
 - `public/index.html`：GitHub Pages 部署文件，由 `scripts/sync-pages.ps1` 从主应用同步生成。
 - `scripts/`：本地同步和发布辅助脚本。
 - `.github/workflows/`：GitHub Actions 校验和自动部署流程。
-- `sql/`：Supabase 建表和迁移 SQL。
+- `sql/`：Supabase SQL 源文件。
+- `supabase/`：Supabase CLI 工程目录；`supabase/migrations/` 由 `scripts/sync-supabase-migrations.ps1` 从 `sql/` 生成。
 - `docs/`：产品计划和部署说明。
 - `floorplans/`：StudiTUM 平面图和标注草图。
 - `versions/`：版本归档。

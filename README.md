@@ -23,6 +23,15 @@
 
 一次性初始化说明见 `docs/GITHUB_PAGES_DEPLOY.md`。
 
+## Supabase 流程
+
+- SQL 源文件：`sql/`
+- Supabase CLI 迁移目录：`supabase/migrations/`
+- 同步命令：`./scripts/sync-supabase-migrations.ps1`
+- 一次性远端历史 bootstrap：`./scripts/bootstrap-supabase-history.ps1`
+
+GitHub Actions 里的数据库发布不会直接读 `sql/`，而是读取 `supabase/migrations/`。每次改数据库后都先运行同步脚本。
+
 ## 新会话怎么接着做
 
 在 Codex 里打开这个文件夹：

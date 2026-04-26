@@ -26,3 +26,5 @@ Thumbs.db
 *secret*
 *credential*
 *token*
+supabase/.branches/
+supabase/.temp/

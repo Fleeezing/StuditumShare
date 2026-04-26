@@ -13,6 +13,7 @@
 - `Captain` 对外文案调整为 `Seat Captain`；页面改为更紧凑的单列布局；未到签到时间时不允许 `我已到达`，也不允许提前把房间信息标记为已到场。
 - 重新同步 `study_group_supabase.html`、`public/index.html` 和 `versions/seat-happens-v0.2.3.html`；修复发布文件里残留的 `?` 分隔文案，以及 `完成承诺` 后未清晰显示 `已完成` 的问题。
 - 新增 `scripts/sync-pages.ps1`、GitHub Actions Pages 自动部署和同步校验 workflow；移除旧 GitLab Pages 配置，统一发布流程为“同步 `public/` 后 push 到 `main` 自动部署”。
+- 新增 `supabase/config.toml`、`supabase/migrations/`、Supabase 迁移同步脚本、远端 migration history bootstrap 脚本，以及两个 Supabase GitHub Actions workflow，把数据库管理收口成标准流程。
 
 ## v0.2.2-workspace - 2026-04-22
 

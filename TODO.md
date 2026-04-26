@@ -23,6 +23,8 @@
 
 - 确认 `sql/supabase_room_mvp_migration.sql` 是否已在 Supabase 执行。
 - 确认 `sql/supabase_room_edit_lock_migration.sql` 是否已在 Supabase 执行。
+- 把 GitHub 仓库 secrets 里的 `SUPABASE_ACCESS_TOKEN` / `SUPABASE_DB_PASSWORD` / `SUPABASE_PROJECT_ID` 配好。
+- 第一次运行 `Deploy Supabase Database` workflow 时，记得开启 `bootstrap_existing_remote`。
 - 如果新增版本号、新用户说明状态、Captain 成就，需要新增迁移 SQL。
 
 ## 部署

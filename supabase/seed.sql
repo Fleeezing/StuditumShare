@@ -1,0 +1,2 @@
+-- Seat Happens currently does not seed demo data automatically.
+-- Keep this file so `supabase db reset` has a stable target in local/CI flows.

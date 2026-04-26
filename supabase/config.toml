@@ -1,0 +1,9 @@
+# Minimal Supabase CLI config for Seat Happens.
+# Official CLI docs state that `project_id` is required and other local settings
+# fall back to defaults. Keep this file committed so GitHub Actions and local CLI
+# commands can run without an extra `supabase init` step.
+
+project_id = "seat-happens"
+
+[remotes.main]
+project_id = "egocecoudqerewvurumh"
