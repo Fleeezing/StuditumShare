@@ -41,6 +41,7 @@ Supabase 项目用于 Seat Happens 的认证、数据库和 RLS。
 4. `sql/supabase_room_arrival_updates_migration.sql` -> `supabase/migrations/20260426000100_room_arrival_updates.sql`
 5. `sql/supabase_room_cancel_timing_migration.sql` -> `supabase/migrations/20260426000200_room_cancel_timing.sql`
 6. `sql/supabase_one_captain_plan_per_day_migration.sql` -> `supabase/migrations/20260426000300_one_captain_plan_per_day.sql`
+7. `sql/supabase_room_plan_time_guard_migration.sql` -> `supabase/migrations/20260426000400_room_plan_time_guard.sql`
 
 以后新增数据库改动时：
 

@@ -777,6 +777,15 @@
 
     const RELEASE_HISTORY = [
       {
+        version: "v0.2.7",
+        date: "2026-04-26",
+        changes: [
+          "新增时间校验：不能发布开始时间已经过去的房间计划。",
+          "修改计划时不能把开始时间改到过去。",
+          "结束时间必须晚于开始时间，并新增数据库 trigger 兜底。"
+        ]
+      },
+      {
         version: "v0.2.6",
         date: "2026-04-26",
         changes: [
@@ -867,6 +876,18 @@
 
     function roomPlanStartsAt(plan) {
       return new Date(`${plan.plan_date}T${timeShort(plan.start_time) || "00:00"}:00`);
+    }
+
+    function planStartsAt(planDate, startTime) {
+      return new Date(`${planDate}T${timeShort(startTime) || "00:00"}:00`);
+    }
+
+    function isPastStart(planDate, startTime) {
+      return planStartsAt(planDate, startTime).getTime() <= Date.now();
+    }
+
+    function isEndAfterStart(startTime, endTime) {
+      return Boolean(startTime && endTime && timeShort(endTime) > timeShort(startTime));
     }
 
     function addDays(dateString, days) {
@@ -1580,6 +1601,16 @@
         return;
       }
 
+      if (!isEndAfterStart(payload.start_time, payload.end_time)) {
+        setRoomCreateStatus("结束时间必须晚于开始时间。", "error");
+        return;
+      }
+
+      if (isPastStart(payload.plan_date, payload.start_time)) {
+        setRoomCreateStatus("不能发布开始时间已经过去的房间计划。", "error");
+        return;
+      }
+
       const existingPlan = state.roomPlans.find((plan) =>
         plan.captain_id === state.profile.id
         && plan.plan_date === payload.plan_date
@@ -1672,6 +1703,16 @@
       const shareableInput = document.querySelector(`[data-captain-shareable="${planId}"]`);
       const noteInput = document.querySelector(`[data-captain-note="${planId}"]`);
       if (!startInput || !endInput || !arrivalInput || !roomTypeInput || !discussionInput || !topicInput) return;
+
+      if (!isEndAfterStart(startInput.value, endInput.value)) {
+        setCaptainEditorStatus(planId, "结束时间必须晚于开始时间。", "error");
+        return;
+      }
+
+      if (isPastStart(plan.plan_date, startInput.value)) {
+        setCaptainEditorStatus(planId, "不能把计划开始时间改到已经过去的时间。", "error");
+        return;
+      }
 
       const roomInfoChanged = Boolean(
         roomInput && roomInput.value.trim() !== (plan.actual_room_label || "")

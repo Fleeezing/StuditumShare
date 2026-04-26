@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.7 - 2026-04-26
+
+- 新增前端时间校验：不能创建开始时间已经过去的房间计划，结束时间必须晚于开始时间。
+- 修改计划时不能把开始时间改到已经过去的时间。
+- 新增 `sql/supabase_room_plan_time_guard_migration.sql` 和对应 Supabase migration，用数据库 trigger 兜底时间规则。
+
 ## v0.2.6 - 2026-04-26
 
 - 前端新增创建前检查：同一个 Seat Captain 同一天只能发布一个未取消房间计划。

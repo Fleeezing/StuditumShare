@@ -36,5 +36,11 @@ function Get-SupabaseMigrationMap {
       Name = "one_captain_plan_per_day"
       Target = "supabase/migrations/20260426000300_one_captain_plan_per_day.sql"
     }
+    [pscustomobject]@{
+      Source = "sql/supabase_room_plan_time_guard_migration.sql"
+      Version = "20260426000400"
+      Name = "room_plan_time_guard"
+      Target = "supabase/migrations/20260426000400_room_plan_time_guard.sql"
+    }
   )
 }

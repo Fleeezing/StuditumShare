@@ -23,7 +23,7 @@ Seat Happens 是一个给 TUM 中国学生使用的轻量网页，用来解决 S
 - 文件：`study_group_supabase.html`
 - 部署入口：`public/index.html`
 - 当前线上地址：`https://fleeezing.github.io/StuditumShare/`
-- 当前版本归档：`versions/seat-happens-v0.2.6.html`
+- 当前版本归档：`versions/seat-happens-v0.2.7.html`
 - 当前仓库已准备 GitHub Actions 自动部署 GitHub Pages
 - 当前 Supabase 项目 ref：`egocecoudqerewvurumh`
 
