@@ -468,6 +468,46 @@
       line-height: 1.45;
     }
 
+    .release-item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfb;
+      display: grid;
+      gap: 8px;
+    }
+
+    .release-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .release-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .release-date {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .release-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      display: grid;
+      gap: 4px;
+    }
+
     .mono {
       font-family: "Cascadia Mono", "Consolas", ui-monospace, monospace;
     }
@@ -666,6 +706,19 @@
             </div>
           </div>
         </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>版本更新</h2>
+              <div class="muted">每次发布后，这里会简要记录当前版本和最近改动。</div>
+            </div>
+            <span id="releaseVersionBadge" class="pill"></span>
+          </div>
+          <div class="panel-body">
+            <div id="releaseHistory" class="list"></div>
+          </div>
+        </div>
       </section>
     </div>
   </main>
@@ -686,6 +739,54 @@
       chat: [],
       feedback: []
     };
+
+    const RELEASE_HISTORY = [
+      {
+        version: "v0.2.4",
+        date: "2026-04-26",
+        changes: [
+          "新增页面底部版本更新区，用户可以直接看到当前版本和最近上线内容。",
+          "版本记录改成简洁说明，方便每次发布后快速同步改动。",
+          "保留现有房间共享主流程，不把更新说明塞进主要操作区。"
+        ]
+      },
+      {
+        version: "v0.2.3",
+        date: "2026-04-26",
+        changes: [
+          "房间共享成为唯一主流程，课程计划入口从当前界面移除。",
+          "Seat Captain 可页内直接填写房间号、可共享座位和计划设置。",
+          "新增计划中、已到达、已取消状态，并限制提前签到和提前标记到场。"
+        ]
+      },
+      {
+        version: "v0.2.2",
+        date: "2026-04-22",
+        changes: [
+          "页面布局收紧，反馈移到底部，去掉多余说明区。",
+          "优化平面图和房间记录文件，补齐现场确认信息。",
+          "整理项目交接文档、待办和部署说明。"
+        ]
+      },
+      {
+        version: "v0.2.1",
+        date: "2026-04-22",
+        changes: [
+          "房间共享 MVP 上线，支持创建计划、加入、签到、完成和取消。",
+          "Captain 和管理员可编辑计划，开始前 12 小时内锁定核心信息。",
+          "开始建立 Captain 可信度和房间状态展示。"
+        ]
+      },
+      {
+        version: "v0.1.0",
+        date: "2026-04-22",
+        changes: [
+          "完成基础注册登录。",
+          "加入聊天广场和反馈功能。",
+          "接通 Supabase 认证和数据库。"
+        ]
+      }
+    ];
 
     function $(id) {
       return document.getElementById(id);
@@ -1027,6 +1128,7 @@
       renderCaptainBoard();
       renderChat();
       renderFeedback();
+      renderReleaseHistory();
     }
 
     function renderUserBadge() {
@@ -1341,6 +1443,32 @@
           await loadApp();
           renderApp();
         });
+      });
+    }
+
+    function renderReleaseHistory() {
+      const box = $("releaseHistory");
+      const badge = $("releaseVersionBadge");
+      if (!box || !badge) return;
+      box.replaceChildren();
+      const current = RELEASE_HISTORY[0];
+      badge.textContent = `当前 ${current.version}`;
+
+      RELEASE_HISTORY.forEach((entry) => {
+        const item = document.createElement("section");
+        item.className = "release-item";
+        item.innerHTML = `
+          <div class="release-head">
+            <div class="release-meta">
+              <strong>${escapeHtml(entry.version)}</strong>
+              <span class="release-date">${escapeHtml(entry.date)}</span>
+            </div>
+          </div>
+          <ul class="release-list">
+            ${entry.changes.map((change) => `<li>${escapeHtml(change)}</li>`).join("")}
+          </ul>
+        `;
+        box.appendChild(item);
       });
     }
 
