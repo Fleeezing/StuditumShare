@@ -6,17 +6,34 @@
   <title>Seat Happens</title>
   <style>
     :root {
-      --bg: #f5f7f6;
-      --panel: #fff;
-      --ink: #17211c;
-      --muted: #65716a;
-      --line: #d8e0dc;
-      --soft: #edf3ef;
-      --blue: #2368d8;
-      --green: #227a48;
-      --red: #bd2c2c;
-      --yellow: #9b6700;
-      --violet: #6d54c8;
+      --background: #f6faff;
+      --surface: #ffffff;
+      --surface-soft: #f2f7fd;
+      --border: #d7e6f5;
+      --border-strong: #9cc3e8;
+      --primary: #006fbc;
+      --primary-dark: #0b2341;
+      --success: #16a34a;
+      --warning: #f97316;
+      --danger: #dc2626;
+      --muted-text: #5b708a;
+      --bg: var(--background);
+      --panel: var(--surface);
+      --ink: var(--primary-dark);
+      --muted: var(--muted-text);
+      --line: var(--border);
+      --soft: var(--surface-soft);
+      --blue: var(--primary);
+      --blue-deep: var(--primary-dark);
+      --blue-soft: #e4f1fc;
+      --blue-pale: #f7fbff;
+      --cyan: #00a6d6;
+      --green: var(--success);
+      --red: var(--danger);
+      --yellow: var(--warning);
+      --violet: #6548b8;
+      --shadow-sm: 0 1px 2px rgba(11, 35, 65, 0.05), 0 8px 22px rgba(0, 111, 188, 0.05);
+      --shadow-md: 0 14px 34px rgba(11, 35, 65, 0.10);
     }
 
     * { box-sizing: border-box; }
@@ -24,7 +41,10 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: var(--bg);
+      background:
+        linear-gradient(90deg, rgba(0, 111, 188, 0.038) 1px, transparent 1px) 0 0 / 44px 44px,
+        linear-gradient(180deg, rgba(0, 111, 188, 0.03) 1px, transparent 1px) 0 0 / 44px 44px,
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 46%, #f5f8fc 100%);
       color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       letter-spacing: 0;
@@ -32,21 +52,43 @@
 
     button, input, select, textarea { font: inherit; }
 
+    ::selection {
+      background: rgba(0, 101, 189, 0.18);
+    }
+
     button {
-      min-height: 34px;
-      border: 1px solid #b9c7bd;
+      min-height: 38px;
+      border: 1px solid #b7cbe0;
       border-radius: 7px;
       padding: 0 12px;
       color: var(--ink);
-      background: #edf4f0;
+      background: linear-gradient(180deg, #fff, #edf5ff);
       font-weight: 650;
       cursor: pointer;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.86) inset;
+      touch-action: manipulation;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    button:hover {
+      border-color: #78aee4;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 6px 18px rgba(0, 101, 189, 0.11);
+    }
+
+    button:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.72) inset;
+    }
+
+    button:focus-visible {
+      outline: 3px solid rgba(0, 101, 189, 0.22);
+      outline-offset: 2px;
     }
 
     button.primary {
-      border-color: #8db6ff;
-      background: #e6f0ff;
-      color: #163f86;
+      border-color: #0065bd;
+      background: linear-gradient(180deg, #0a74cf, var(--blue));
+      color: #fff;
     }
 
     button.danger {
@@ -56,8 +98,8 @@
     }
 
     button.small {
-      min-height: 28px;
-      padding: 0 9px;
+      min-height: 32px;
+      padding: 0 10px;
       font-size: 12px;
     }
 
@@ -65,10 +107,11 @@
       width: 100%;
       border: 1px solid var(--line);
       border-radius: 7px;
-      padding: 8px 10px;
+      padding: 9px 10px;
       color: var(--ink);
       background: #fff;
       outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
     }
 
     textarea {
@@ -77,14 +120,14 @@
     }
 
     input:focus, select:focus, textarea:focus {
-      border-color: #91b7ff;
-      box-shadow: 0 0 0 3px rgba(35, 104, 216, 0.12);
+      border-color: #75aee7;
+      box-shadow: 0 0 0 3px rgba(0, 101, 189, 0.13);
     }
 
     main {
-      width: min(1180px, calc(100vw - 28px));
+      width: min(1120px, calc(100vw - 32px));
       margin: 0 auto;
-      padding: 18px 0 30px;
+      padding: 22px 0 42px;
     }
 
     h1, h2, h3 {
@@ -92,28 +135,77 @@
       line-height: 1.25;
     }
 
-    h1 { font-size: 23px; }
-    h2 { font-size: 16px; }
+    h1 { font-size: 28px; }
+    h2 { font-size: 17px; }
     h3 { font-size: 14px; }
 
     .topbar {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
       gap: 16px;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
+      padding: 16px;
+      border: 1px solid rgba(0, 101, 189, 0.16);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(0, 101, 189, 0.12), transparent 44%),
+        rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 101, 189, 0.18);
+      background: #fff;
+      padding: 3px;
+      overflow: hidden;
+      font-weight: 900;
+      box-shadow: 0 8px 22px rgba(0, 101, 189, 0.24);
+    }
+
+    .brand-logo {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .brand-kicker {
+      color: var(--blue-deep);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
     .layout {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 14px;
+      gap: 18px;
       align-items: start;
     }
 
     .stack {
       display: grid;
-      gap: 14px;
+      gap: 18px;
     }
 
     .panel {
@@ -121,6 +213,12 @@
       border-radius: 8px;
       background: var(--panel);
       overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    .panel:hover {
+      border-color: var(--border-strong);
     }
 
     .panel-head {
@@ -130,11 +228,24 @@
       gap: 12px;
       padding: 14px 15px;
       border-bottom: 1px solid var(--line);
-      background: #fbfcfb;
+      background:
+        linear-gradient(90deg, rgba(0, 101, 189, 0.08), transparent 72%),
+        #fbfdff;
+      position: relative;
+    }
+
+    .panel-head::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--blue);
     }
 
     .panel-body {
-      padding: 14px 15px;
+      padding: 18px;
     }
 
     .muted {
@@ -180,17 +291,236 @@
     }
 
     .auth-wrap {
-      min-height: 100vh;
+      min-height: 100dvh;
       display: grid;
       place-items: center;
-      padding: 24px;
+      padding: 32px 18px;
+      background:
+        linear-gradient(90deg, rgba(0, 111, 188, 0.04) 1px, transparent 1px) 0 0 / 44px 44px,
+        linear-gradient(180deg, rgba(0, 111, 188, 0.032) 1px, transparent 1px) 0 0 / 44px 44px,
+        linear-gradient(135deg, #f8fbff 0%, #eff7ff 50%, #f7fbff 100%);
     }
 
     .auth {
-      width: min(760px, 100%);
+      width: min(1060px, 100%);
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .auth-hero {
+      min-height: 560px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 26px;
+      background:
+        linear-gradient(135deg, rgba(0, 111, 188, 0.11), transparent 54%),
+        var(--surface);
+      color: var(--ink);
+      box-shadow: var(--shadow-md);
+      display: grid;
+      align-content: space-between;
+      gap: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .auth-hero::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -82px;
+      bottom: -86px;
+      border: 26px solid rgba(0, 111, 188, 0.07);
+      border-radius: 50%;
+    }
+
+    .auth-hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+    }
+
+    .auth-hero .brand-mark {
+      width: 124px;
+      height: 124px;
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 4px;
+      box-shadow: 0 16px 34px rgba(11, 35, 65, 0.10);
+    }
+
+    .auth-hero h1 {
+      max-width: 12ch;
+      font-size: clamp(40px, 6vw, 58px);
+      line-height: 1.05;
+    }
+
+    .auth-hero p {
+      max-width: 46ch;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .auth-intro {
+      display: grid;
+      gap: 10px;
+    }
+
+    .auth-flow {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .auth-step {
+      min-height: 112px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--surface-soft);
+      display: grid;
+      align-content: start;
+      gap: 7px;
+    }
+
+    .auth-step-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--blue);
+      font-size: 17px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .auth-step strong {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
+    .auth-step span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .auth-location {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 7px;
+      padding: 12px;
+      border: 1px solid rgba(0, 111, 188, 0.20);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .auth-location strong {
+      color: var(--ink);
+    }
+
+    .auth-location a {
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .auth-location span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .auth-card {
+      min-height: 560px;
+      display: grid;
+      align-content: center;
+      border-color: rgba(0, 111, 188, 0.18);
+      background:
+        linear-gradient(180deg, #fff, #fbfdff);
+    }
+
+    .auth-card .panel-head {
+      padding: 22px 22px 12px;
+      border-bottom: 0;
+      background: transparent;
+    }
+
+    .auth-card .panel-head::before {
+      display: none;
+    }
+
+    .auth-card .panel-body {
+      padding: 12px 22px 22px;
+    }
+
+    .auth-card h2 {
+      font-size: 28px;
+    }
+
+    .auth-card .field {
+      gap: 7px;
+    }
+
+    .auth-card input {
+      min-height: 46px;
+      font-size: 16px;
+    }
+
+    .auth-switch {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      padding-top: 4px;
+    }
+
+    .auth-link {
+      min-height: 0;
+      border: 0;
+      padding: 0;
+      color: var(--blue);
+      background: transparent;
+      box-shadow: none;
+      font-weight: 800;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .auth-link:hover {
+      box-shadow: none;
+    }
+
+    .location-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 9px 12px;
+      border: 1px solid rgba(0, 101, 189, 0.22);
+      border-left: 4px solid var(--blue);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(0, 101, 189, 0.08), transparent 58%),
+        #fff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .location-banner a {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
     .hidden { display: none !important; }
@@ -207,11 +537,50 @@
       font-size: 12px;
       font-weight: 650;
       white-space: nowrap;
+      border: 1px solid rgba(0, 101, 189, 0.08);
     }
 
     .pill.admin {
       color: #fff;
       background: var(--violet);
+    }
+
+    .user-badge {
+      min-height: 34px;
+      padding: 4px 10px 4px 5px;
+      background: #fff;
+      color: var(--ink);
+      border-color: rgba(0, 101, 189, 0.18);
+      box-shadow: 0 6px 18px rgba(0, 59, 112, 0.07);
+    }
+
+    .avatar {
+      --avatar-bg: var(--blue);
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 46%),
+        var(--avatar-bg);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      box-shadow: 0 0 0 2px #fff, 0 4px 12px rgba(16, 32, 51, 0.14);
+    }
+
+    .avatar.small {
+      width: 20px;
+      height: 20px;
+      font-size: 9px;
+    }
+
+    .member-name {
+      color: var(--member-color, var(--blue-deep));
+      font-weight: 800;
     }
 
     .tag-grid {
@@ -224,15 +593,22 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 10px;
-      background: #fbfcfb;
+      background: #fbfdff;
       display: grid;
       gap: 5px;
       cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .tag:hover {
+      transform: translateY(-1px);
+      border-color: #9cc4ef;
+      box-shadow: 0 8px 22px rgba(0, 59, 112, 0.08);
     }
 
     .tag.active {
-      border-color: #8db6ff;
-      background: #f2f7ff;
+      border-color: var(--blue);
+      background: var(--blue-pale);
     }
 
     .calendar-grid {
@@ -243,21 +619,139 @@
       padding-bottom: 2px;
     }
 
+    .room-view-tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .segmented {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    }
+
+    .segmented button {
+      min-height: 30px;
+      border-color: transparent;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .segmented button.active {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      color: var(--blue-deep);
+    }
+
+    .room-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .summary-tile {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px;
+      background: #fbfdff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-tile.primary {
+      border-color: #9bd9b8;
+      background: linear-gradient(180deg, #f4fff8, #fbfffd);
+    }
+
+    .summary-tile.closed {
+      border-color: #e1e7ec;
+      background: #f7f9fb;
+    }
+
+    .summary-tile::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+    }
+
+    .summary-tile.primary::before {
+      background: linear-gradient(90deg, #1d9a5d, #63d498);
+    }
+
+    .summary-tile.closed::before {
+      background: linear-gradient(90deg, #c7d1da, #e5ebf0);
+    }
+
+    .summary-tile strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    .summary-tile span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
     .day-card {
       min-height: 96px;
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 9px;
-      background: #fbfcfb;
+      background: #fbfdff;
       cursor: pointer;
       display: grid;
       gap: 7px;
       align-content: start;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .day-card.has-open {
+      border-color: #8fd6af;
+      background: linear-gradient(180deg, #f1fff7, #fbfffd);
+    }
+
+    .day-card.no-open {
+      border-color: #d5dee6;
+      background: linear-gradient(180deg, #f7fafc, #fcfdff);
+    }
+
+    .day-card.no-room {
+      border-color: #e1e7ec;
+      background: #f6f8fa;
+      color: #687684;
     }
 
     .day-card.active {
-      border-color: #8db6ff;
-      background: #f2f7ff;
+      border-color: var(--blue);
+      background: linear-gradient(180deg, var(--blue-pale), #fbfdff);
+      box-shadow: inset 0 0 0 1px rgba(0, 101, 189, 0.12);
+    }
+
+    .day-card.active.has-open {
+      border-color: #1f9d5c;
+      background: linear-gradient(180deg, #eafff2, #f8fffb);
+      box-shadow: inset 0 0 0 1px rgba(31, 157, 92, 0.16);
+    }
+
+    .day-card.active.no-room {
+      border-color: #b9c5cf;
+      background: #f2f5f7;
+      box-shadow: none;
+    }
+
+    .day-card:hover {
+      transform: translateY(-1px);
+      border-color: #93bfea;
+      box-shadow: 0 10px 24px rgba(0, 59, 112, 0.08);
     }
 
     .day-card strong {
@@ -269,21 +763,230 @@
       font-size: 12px;
     }
 
+    .day-card-lines {
+      display: grid;
+      gap: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .day-status {
+      display: inline-flex;
+      width: fit-content;
+      min-height: 21px;
+      align-items: center;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    .day-status.open {
+      color: #116239;
+      background: #dcf8e8;
+    }
+
+    .day-status.closed {
+      color: #697783;
+      background: #e9eef2;
+    }
+
     .room-card {
-      border-left: 4px solid var(--green);
+      border-left: 6px solid var(--green);
+      background:
+        linear-gradient(90deg, rgba(24, 112, 72, 0.075), transparent 36%),
+        #fff;
+      box-shadow: 0 10px 26px rgba(0, 59, 112, 0.07);
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+
+    .room-card:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
     }
 
     .room-card.full {
       border-left-color: var(--red);
+      background:
+        linear-gradient(90deg, rgba(184, 50, 50, 0.07), transparent 38%),
+        #fffafa;
     }
 
     .room-card.soon {
       border-left-color: var(--yellow);
+      background:
+        linear-gradient(90deg, rgba(154, 101, 0, 0.08), transparent 38%),
+        #fffdf7;
     }
 
     .room-card.cancelled {
       border-left-color: var(--red);
-      background: #fff7f7;
+      background:
+        linear-gradient(90deg, rgba(184, 50, 50, 0.08), transparent 38%),
+        #fff7f7;
+    }
+
+    .room-card.completed {
+      border-left-color: #a8b3bd;
+      background: #f7f9fb;
+    }
+
+    .room-list-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 2px 0;
+    }
+
+    .room-list-title {
+      display: grid;
+      gap: 2px;
+    }
+
+    .captain-publish-section {
+      margin-top: 6px;
+      padding-top: 16px;
+      border-top: 2px solid #dbe7f3;
+      display: grid;
+      gap: 12px;
+    }
+
+    .captain-publish-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-left: 5px solid var(--blue);
+      background: linear-gradient(90deg, rgba(0, 101, 189, 0.08), transparent 72%);
+    }
+
+    .captain-publish-head h3 {
+      font-size: 15px;
+    }
+
+    .captain-guide {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      color: var(--blue-deep);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .captain-guide span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 9px;
+      background: #eef6ff;
+      border: 1px solid rgba(0, 101, 189, 0.12);
+    }
+
+    .seat-timeline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      padding: 8px;
+      border: 1px dashed rgba(0, 101, 189, 0.2);
+      border-radius: 8px;
+      background: #f8fbff;
+    }
+
+    .seat-timeline.empty {
+      color: var(--muted);
+      border-color: var(--line);
+      background: #f7f9fb;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .seat-slot {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 9px;
+      background: #eaf8f0;
+      color: #116239;
+      font-size: 12px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .join-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: stretch;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(0, 101, 189, 0.08), transparent 62%),
+        #f8fbff;
+    }
+
+    .join-window-picker {
+      display: grid;
+      gap: 8px;
+    }
+
+    .join-window-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .join-window-meta strong {
+      font-size: 14px;
+    }
+
+    .join-window-availability {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .join-window-availability.closed {
+      color: var(--red);
+    }
+
+    .join-slider-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .join-controls .field span {
+      font-size: 11px;
+    }
+
+    .join-controls input[type="range"] {
+      width: 100%;
+      accent-color: var(--blue);
+      cursor: pointer;
+    }
+
+    .member-line {
+      align-items: center;
+      background: #fff;
+      border-color: rgba(0, 101, 189, 0.1);
+    }
+
+    .captain-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 3px;
     }
 
     .captain-badge {
@@ -296,6 +999,187 @@
       color: #6b4a00;
       font-size: 12px;
       font-weight: 750;
+    }
+
+    .achievement-list {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .achievement-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 760;
+      line-height: 1.2;
+      white-space: nowrap;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.78) inset;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      transform: translateZ(0);
+    }
+
+    .achievement-chip::before {
+      content: attr(data-rarity);
+      display: inline-grid;
+      min-width: 17px;
+      height: 17px;
+      place-items: center;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 850;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .achievement-chip::after {
+      content: "";
+      position: absolute;
+      inset: -30% -70%;
+      z-index: 0;
+      opacity: 0;
+      transform: translateX(-55%) rotate(18deg);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.66), transparent);
+      pointer-events: none;
+    }
+
+    .achievement-chip.rarity-c {
+      color: #52606d;
+      background: #f4f7f9;
+      border-color: #dbe3ea;
+      animation: rarity-c-matte 7s ease-in-out infinite;
+    }
+
+    .achievement-chip.rarity-c::before {
+      background: #fff;
+      color: #6c7785;
+      border: 1px solid #dbe3ea;
+    }
+
+    .achievement-chip.rarity-b {
+      color: #0f6b56;
+      background: #e7f6ef;
+      border-color: #bfe4d4;
+      animation: rarity-b-pulse 4.8s ease-in-out infinite;
+    }
+
+    .achievement-chip.rarity-b::before {
+      color: #fff;
+      background: #218a67;
+    }
+
+    .achievement-chip.rarity-a {
+      color: var(--blue-deep);
+      background: linear-gradient(180deg, #f7fbff, #dcecff);
+      border-color: #9fc7ef;
+      animation: rarity-a-lift 4.6s ease-in-out infinite;
+    }
+
+    .achievement-chip.rarity-a::after {
+      animation: rarity-sheen 4.6s ease-in-out infinite;
+    }
+
+    .achievement-chip.rarity-a::before {
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .achievement-chip.rarity-s {
+      color: #4b3298;
+      background: linear-gradient(135deg, #f8f5ff, #e8e0ff);
+      border-color: #d2c8ff;
+      font-family: "Palatino Linotype", Georgia, "Microsoft YaHei", serif;
+      font-weight: 800;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+      animation: rarity-s-aura 3.8s ease-in-out infinite;
+    }
+
+    .achievement-chip.rarity-s::after {
+      animation: rarity-sheen 3.8s ease-in-out infinite;
+      background: linear-gradient(90deg, transparent, rgba(183, 163, 255, 0.55), transparent);
+    }
+
+    .achievement-chip.rarity-s::before {
+      color: #fff;
+      background: var(--violet);
+    }
+
+    .achievement-chip.rarity-ss {
+      color: #664300;
+      background: linear-gradient(120deg, #fff7d6, #ffe39a, #fff3bd, #d99b18, #fff7d6);
+      background-size: 240% 240%;
+      border-color: #e4bd4d;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      font-family: "Segoe Script", "Palatino Linotype", "Microsoft YaHei", cursive;
+      font-weight: 800;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+      animation: rarity-ss-gold 3.2s ease-in-out infinite;
+    }
+
+    .achievement-chip.rarity-ss::after {
+      animation: rarity-sheen 3.2s ease-in-out infinite;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.92), transparent);
+    }
+
+    .achievement-chip.rarity-ss::before {
+      color: #624000;
+      background: linear-gradient(180deg, #fff4bc, #d89a18);
+    }
+
+    @keyframes rarity-c-matte {
+      0%, 100% { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.78) inset; }
+      50% { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.94) inset, 0 0 0 1px rgba(82, 96, 109, 0.05); }
+    }
+
+    @keyframes rarity-b-pulse {
+      0%, 100% { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.78) inset; }
+      50% { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 0 0 3px rgba(33, 138, 103, 0.09); }
+    }
+
+    @keyframes rarity-a-lift {
+      0%, 100% { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.78) inset, 0 0 0 rgba(0, 101, 189, 0); }
+      50% { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.92) inset, 0 8px 18px rgba(0, 101, 189, 0.12); }
+    }
+
+    @keyframes rarity-s-aura {
+      0%, 100% { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.78) inset, 0 0 0 rgba(109, 84, 200, 0); }
+      50% { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.92) inset, 0 0 18px rgba(109, 84, 200, 0.22); }
+    }
+
+    @keyframes rarity-ss-gold {
+      0%, 100% {
+        background-position: 0% 50%;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 0 0 rgba(216, 154, 24, 0);
+      }
+      50% {
+        background-position: 100% 50%;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 0 22px rgba(216, 154, 24, 0.28);
+      }
+    }
+
+    @keyframes rarity-sheen {
+      0%, 42% {
+        opacity: 0;
+        transform: translateX(-55%) rotate(18deg);
+      }
+      52% {
+        opacity: 0.9;
+      }
+      68%, 100% {
+        opacity: 0;
+        transform: translateX(55%) rotate(18deg);
+      }
     }
 
     .status-chip {
@@ -342,7 +1226,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 10px;
-      background: #fbfcfb;
+      background: #fbfdff;
       display: grid;
       gap: 7px;
     }
@@ -381,7 +1265,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 12px;
-      background: #fbfcfb;
+      background: #fbfdff;
     }
 
     .metric strong {
@@ -414,6 +1298,291 @@
       background: var(--green);
     }
 
+    .user-controls {
+      justify-content: flex-end;
+    }
+
+    .clean-head {
+      padding: 18px;
+      background:
+        linear-gradient(90deg, rgba(0, 111, 188, 0.07), transparent 68%),
+        #fff;
+    }
+
+    .section-kicker {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .main-flow {
+      gap: 22px;
+    }
+
+    .today-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr) auto;
+      gap: 22px;
+      align-items: center;
+      margin-bottom: 22px;
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(0, 111, 188, 0.12), transparent 54%),
+        #fff;
+    }
+
+    .today-hero h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.06;
+    }
+
+    .today-hero p {
+      max-width: 42ch;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .hero-metric {
+      min-height: 112px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: var(--surface-soft);
+      display: grid;
+      align-content: center;
+      gap: 6px;
+    }
+
+    .hero-metric.success {
+      border-color: rgba(22, 163, 74, 0.38);
+      background: #f0fff6;
+    }
+
+    .hero-metric.muted {
+      background: #f7f9fc;
+    }
+
+    .hero-metric strong {
+      color: var(--blue-deep);
+      font-size: clamp(26px, 3vw, 36px);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hero-metric span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .hero-actions button {
+      min-width: 150px;
+    }
+
+    .room-list-head-clean {
+      border: 0;
+      background: var(--surface-soft);
+    }
+
+    .room-card-clean {
+      padding: 16px;
+      display: grid;
+      gap: 13px;
+      border-left-width: 5px;
+    }
+
+    .room-card-main {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .room-card-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .room-card-meta span {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+      display: grid;
+      gap: 3px;
+    }
+
+    .room-card-meta strong {
+      color: var(--blue-deep);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .room-card-meta small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .secondary-room {
+      opacity: 0.86;
+    }
+
+    .room-hint {
+      border: 1px solid #ffe1c2;
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: #fff7ed;
+      color: #9a4b0a;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .danger-text {
+      border-color: #fecaca;
+      background: #fff5f5;
+      color: var(--red);
+    }
+
+    .room-extra {
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+    }
+
+    .room-extra summary {
+      color: var(--blue);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .room-actions {
+      padding-top: 2px;
+    }
+
+    .empty-action {
+      display: grid;
+      gap: 8px;
+      justify-items: start;
+    }
+
+    .fold-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .closed-room-toggle {
+      padding: 4px 0;
+    }
+
+    .captain-create-panel {
+      border-color: rgba(0, 111, 188, 0.22);
+    }
+
+    .captain-guide.compact {
+      justify-content: flex-start;
+    }
+
+    .captain-plan-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .captain-plan-summary {
+      width: 100%;
+      min-height: 0;
+      border: 0;
+      border-radius: 0;
+      padding: 14px;
+      background: #fff;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      text-align: left;
+    }
+
+    .captain-plan-summary:hover {
+      background: var(--surface-soft);
+      box-shadow: none;
+    }
+
+    .captain-plan-summary span:first-child {
+      display: grid;
+      gap: 3px;
+    }
+
+    .captain-plan-summary small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .captain-plan-stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .captain-plan-stats span {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: var(--surface-soft);
+      white-space: nowrap;
+    }
+
+    .captain-plan-detail {
+      padding: 14px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 12px;
+      background: #fbfdff;
+    }
+
+    .secondary-panel .panel-head {
+      background: #fff;
+    }
+
+    .support-block {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fff;
+      display: grid;
+      gap: 12px;
+    }
+
+    .support-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     .chat {
       max-height: 330px;
       overflow: auto;
@@ -421,9 +1590,9 @@
     }
 
     .message {
-      border-left: 3px solid #c8d7cf;
+      border-left: 3px solid #9fc7ef;
       padding: 7px 9px;
-      background: #fbfcfb;
+      background: #fbfdff;
       border-radius: 0 7px 7px 0;
     }
 
@@ -493,11 +1662,11 @@
     }
 
     .empty {
-      border: 1px dashed #c8d3cd;
+      border: 1px dashed #9fb9d1;
       border-radius: 8px;
       padding: 14px;
       color: var(--muted);
-      background: #fbfcfb;
+      background: #fbfdff;
       font-size: 13px;
       line-height: 1.45;
     }
@@ -506,7 +1675,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 12px;
-      background: #fbfcfb;
+      background: #fbfdff;
       display: grid;
       gap: 8px;
     }
@@ -546,20 +1715,1407 @@
       font-family: "Cascadia Mono", "Consolas", ui-monospace, monospace;
     }
 
+    .tap-sticker {
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) rotate(var(--sticker-tilt, -4deg));
+      border: 1px solid rgba(0, 101, 189, 0.28);
+      border-radius: 8px;
+      padding: 6px 9px;
+      background: #fff;
+      color: var(--blue-deep);
+      box-shadow: 0 10px 26px rgba(0, 59, 112, 0.18);
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+      animation: sticker-pop 220ms ease-out forwards;
+    }
+
+    .tap-sticker::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      top: -3px;
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+    }
+
+    @keyframes sticker-pop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -38%) rotate(var(--sticker-tilt, -4deg)) scale(0.84);
+      }
+      18% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -92%) rotate(var(--sticker-tilt, -4deg)) scale(1);
+      }
+    }
+
+    /* Refined blueprint editorial layer. CSS-only, no functional behavior changes. */
+    :root {
+      --bg: #f8fbff;
+      --grid: rgba(65, 120, 190, 0.08);
+      --surface: #ffffff;
+      --surface-soft: #f3f8fe;
+      --border: #cfe0f3;
+      --border-strong: #9fc2e8;
+      --text: #0b2341;
+      --text-muted: #5e7390;
+      --primary: #1673d1;
+      --primary-dark: #0b56a8;
+      --success: #59b97c;
+      --warning: #f2a65a;
+      --danger: #e46d6d;
+      --background: var(--bg);
+      --panel: var(--surface);
+      --ink: var(--text);
+      --muted: var(--text-muted);
+      --line: var(--border);
+      --soft: var(--surface-soft);
+      --blue: var(--primary);
+      --blue-deep: var(--text);
+      --blue-soft: #e7f2ff;
+      --blue-pale: #f8fbff;
+      --green: var(--success);
+      --red: var(--danger);
+      --yellow: var(--warning);
+      --shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.92) inset, 0 14px 34px rgba(11, 35, 65, 0.055);
+      --shadow-md: 0 20px 46px rgba(11, 35, 65, 0.10);
+      --icon-chair: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M7%2011V6a3%203%200%200%201%203-3h4a3%203%200%200%201%203%203v5M6%2014h12M8%2014v7M16%2014v7M9%2011h6a4%204%200%200%201%204%204H5a4%204%200%200%201%204-4Z'/%3E%3C/svg%3E");
+      --icon-door: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M5%2021h14M8%2021V4l8-1v18M12%2012h.01'/%3E%3C/svg%3E");
+      --icon-clock: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Ccircle%20cx='12'%20cy='12'%20r='8'/%3E%3Cpath%20d='M12%207v5l3%202'/%3E%3C/svg%3E");
+      --icon-users: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M16%2021v-2a4%204%200%200%200-4-4H6a4%204%200%200%200-4%204v2M9%2011a4%204%200%201%200%200-8%204%204%200%200%200%200%208M22%2021v-2a4%204%200%200%200-3-3.87M16%203.13a4%204%200%200%201%200%207.75'/%3E%3C/svg%3E");
+      --icon-check: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Crect%20x='4'%20y='4'%20width='16'%20height='16'%20rx='3'/%3E%3Cpath%20d='M8%2012l3%203%205-6'/%3E%3C/svg%3E");
+      --icon-calendar: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M7%202v4M17%202v4M4%209h16M5%205h14a1%201%200%200%201%201%201v14a1%201%200%200%201-1%201H5a1%201%200%200%201-1-1V6a1%201%200%200%201%201-1Z'/%3E%3C/svg%3E");
+      --icon-anchor: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M12%202v19M8%205h8M5%2012H3a9%209%200%200%200%2018%200h-2M7%2016l-3%203M17%2016l3%203'/%3E%3Ccircle%20cx='12'%20cy='4'%20r='2'/%3E%3C/svg%3E");
+      --icon-refresh: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M20%2012a8%208%200%201%201-2.34-5.66M20%204v6h-6'/%3E%3C/svg%3E");
+      --icon-logout: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M10%2017l5-5-5-5M15%2012H3M21%203v18h-8'/%3E%3C/svg%3E");
+      --icon-pin: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M20%2010c0%205-8%2012-8%2012S4%2015%204%2010a8%208%200%200%201%2016%200Z'/%3E%3Ccircle%20cx='12'%20cy='10'%20r='2.5'/%3E%3C/svg%3E");
+    }
+
+    body {
+      position: relative;
+      overflow-x: hidden;
+      background:
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 36px 36px,
+        linear-gradient(180deg, rgba(65, 120, 190, 0.055) 1px, transparent 1px) 0 0 / 36px 36px,
+        linear-gradient(90deg, rgba(65, 120, 190, 0.055) 1px, transparent 1px) 18px 18px / 12px 12px,
+        linear-gradient(180deg, rgba(65, 120, 190, 0.04) 1px, transparent 1px) 18px 18px / 12px 12px,
+        radial-gradient(circle at 78% 4%, rgba(22, 115, 209, 0.08), transparent 28%),
+        linear-gradient(180deg, #fbfdff 0%, var(--bg) 46%, #f4f9ff 100%);
+    }
+
+    body::before {
+      content: "MAKE SPACE.\A FOCUS BETTER.\A TOGETHER";
+      position: fixed;
+      left: 28px;
+      top: 174px;
+      z-index: 0;
+      white-space: pre;
+      color: rgba(22, 115, 209, 0.45);
+      font-size: 10px;
+      font-weight: 850;
+      line-height: 1.55;
+      letter-spacing: 0.11em;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(22, 115, 209, 0.28), rgba(22, 115, 209, 0.28)) 8.5vw 16.5vh / 1px 19vh no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.28), rgba(22, 115, 209, 0.28)) 3.1vw 23.8vh / 8.9vw 1px no-repeat,
+        repeating-linear-gradient(90deg, transparent 0 12px, rgba(22, 115, 209, 0.20) 12px 13px, transparent 13px 24px) 2.9vw 29vh / 74px 1px no-repeat,
+        radial-gradient(circle, transparent 0 18px, rgba(22, 115, 209, 0.24) 19px 20px, transparent 21px) 3.1vw 59vh / 92px 92px no-repeat,
+        radial-gradient(circle, rgba(22, 115, 209, 0.20) 0 3px, transparent 4px) 5.8vw 63.6vh / 20px 20px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.26), rgba(22, 115, 209, 0.26)) calc(100vw - 58px) 16vh / 1px 82vh no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.26), rgba(22, 115, 209, 0.26)) 9vw 17.4vh / calc(91vw - 58px) 1px no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.24), rgba(22, 115, 209, 0.24)) 9vw calc(100vh - 46px) / calc(91vw - 58px) 1px no-repeat,
+        radial-gradient(circle, transparent 0 34px, rgba(22, 115, 209, 0.23) 35px 36px, transparent 37px) calc(100vw - 132px) calc(100vh - 112px) / 118px 118px no-repeat,
+        linear-gradient(135deg, transparent 0 42%, rgba(22, 115, 209, 0.18) 42% 44%, transparent 44%) calc(100vw - 126px) 72vh / 86px 44px no-repeat;
+      opacity: 0.72;
+    }
+
+    main,
+    .auth-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    main::before {
+      content: "";
+      position: absolute;
+      left: -40px;
+      right: -40px;
+      top: 124px;
+      height: 1px;
+      background:
+        linear-gradient(90deg, transparent, rgba(0, 111, 188, 0.42) 8%, rgba(0, 111, 188, 0.42) 92%, transparent);
+      pointer-events: none;
+    }
+
+    main::after {
+      content: "";
+      position: absolute;
+      right: -26px;
+      top: 0;
+      bottom: 18px;
+      width: 1px;
+      background: linear-gradient(rgba(0, 111, 188, 0.28), rgba(0, 111, 188, 0.04));
+      pointer-events: none;
+    }
+
+    .auth-wrap {
+      background:
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 36px 36px,
+        linear-gradient(180deg, rgba(65, 120, 190, 0.055) 1px, transparent 1px) 0 0 / 36px 36px,
+        linear-gradient(135deg, #fbfdff 0%, #edf6ff 52%, #f8fbff 100%);
+    }
+
+    .topbar {
+      border-color: rgba(112, 164, 217, 0.50);
+      background:
+        linear-gradient(90deg, rgba(0, 111, 188, 0.055), transparent 48%),
+        rgba(255, 255, 255, 0.72);
+      box-shadow: none;
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    .topbar::before {
+      content: "";
+      position: absolute;
+      left: 104px;
+      right: 280px;
+      top: -24px;
+      height: 44px;
+      border-top: 1px dashed rgba(0, 111, 188, 0.28);
+      border-left: 1px dashed rgba(0, 111, 188, 0.28);
+      border-right: 1px dashed rgba(0, 111, 188, 0.16);
+      pointer-events: none;
+    }
+
+    .brand-mark {
+      width: 72px;
+      height: 72px;
+      border: 1px dashed rgba(0, 111, 188, 0.45);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 10px 26px rgba(11, 35, 65, 0.07);
+    }
+
+    .brand-kicker,
+    .section-kicker {
+      letter-spacing: 0.08em;
+    }
+
+    .topbar .brand-copy h1 {
+      color: var(--text);
+      font-size: clamp(34px, 4vw, 48px);
+      font-weight: 920;
+      line-height: 0.98;
+    }
+
+    .topbar .brand-copy .muted {
+      margin-top: 6px;
+      color: #3f5877;
+      font-size: 16px;
+    }
+
+    .location-banner,
+    .panel,
+    .auth-hero,
+    .auth-card {
+      border-color: rgba(159, 194, 232, 0.72);
+      border-radius: 12px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.86)),
+        linear-gradient(90deg, rgba(22, 115, 209, 0.024) 1px, transparent 1px) 0 0 / 24px 24px;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 18px 42px rgba(11, 35, 65, 0.065);
+    }
+
+    .panel-head::before {
+      width: 5px;
+      background: linear-gradient(180deg, var(--blue), #2e8bda);
+      box-shadow: 0 0 0 1px rgba(0, 111, 188, 0.08);
+    }
+
+    .clean-head {
+      background:
+        linear-gradient(90deg, rgba(0, 111, 188, 0.075), transparent 70%),
+        rgba(255, 255, 255, 0.72);
+    }
+
+    .today-hero {
+      position: relative;
+      grid-template-columns: minmax(0, 1.05fr) minmax(390px, 0.95fr) minmax(150px, auto);
+      min-height: 204px;
+      padding: 30px 32px;
+      background:
+        radial-gradient(circle at 88% 14%, rgba(22, 115, 209, 0.08), transparent 24%),
+        linear-gradient(135deg, rgba(22, 115, 209, 0.10), transparent 48%),
+        linear-gradient(90deg, rgba(22, 115, 209, 0.028) 1px, transparent 1px) 0 0 / 28px 28px,
+        rgba(255, 255, 255, 0.90);
+      overflow: hidden;
+    }
+
+    .today-hero::before {
+      content: "";
+      position: absolute;
+      right: 210px;
+      top: 34px;
+      width: 84px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(22, 115, 209, 0.40), transparent);
+      pointer-events: none;
+    }
+
+    .today-hero::after {
+      content: "";
+      position: absolute;
+      right: 24px;
+      top: 24px;
+      width: 42px;
+      height: 42px;
+      background:
+        linear-gradient(rgba(0, 111, 188, 0.52), rgba(0, 111, 188, 0.52)) 50% 0 / 1px 10px no-repeat,
+        linear-gradient(rgba(0, 111, 188, 0.52), rgba(0, 111, 188, 0.52)) 50% 100% / 1px 10px no-repeat,
+        linear-gradient(90deg, rgba(0, 111, 188, 0.52), rgba(0, 111, 188, 0.52)) 0 50% / 10px 1px no-repeat,
+        linear-gradient(90deg, rgba(0, 111, 188, 0.52), rgba(0, 111, 188, 0.52)) 100% 50% / 10px 1px no-repeat;
+      transform: rotate(18deg);
+      pointer-events: none;
+    }
+
+    .today-hero h2 {
+      color: var(--text);
+      font-size: clamp(40px, 6vw, 62px);
+      letter-spacing: 0;
+      text-shadow: 0 1px 0 #fff;
+    }
+
+    .today-hero h2::after {
+      content: "";
+      display: block;
+      width: 48px;
+      height: 7px;
+      margin-top: 6px;
+      background:
+        radial-gradient(circle at 4px 50%, rgba(0, 111, 188, 0.85) 0 2px, transparent 2.5px) 0 0 / 12px 7px repeat-x;
+      opacity: 0.7;
+    }
+
+    .hero-metrics {
+      border: 1px solid rgba(215, 230, 245, 0.86);
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.88) inset;
+    }
+
+    .hero-metric {
+      border-color: rgba(156, 195, 232, 0.62);
+      border-radius: 10px;
+      background: rgba(246, 250, 255, 0.78);
+      box-shadow: none;
+      position: relative;
+      color: var(--text);
+      min-height: 132px;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .hero-metric::before,
+    .room-card-meta span::before {
+      content: "";
+      display: block;
+      width: 26px;
+      height: 26px;
+      background: currentColor;
+      opacity: 0.56;
+      -webkit-mask: var(--metric-icon, var(--icon-chair)) center / contain no-repeat;
+      mask: var(--metric-icon, var(--icon-chair)) center / contain no-repeat;
+    }
+
+    .hero-metric:nth-child(1),
+    .room-card-meta span:nth-child(1) {
+      --metric-icon: var(--icon-chair);
+    }
+
+    .hero-metric:nth-child(2) {
+      --metric-icon: var(--icon-door);
+    }
+
+    .hero-metric:nth-child(3) {
+      --metric-icon: var(--icon-clock);
+    }
+
+    .room-card-meta span:nth-child(2) {
+      --metric-icon: var(--icon-users);
+    }
+
+    .room-card-meta span:nth-child(3) {
+      --metric-icon: var(--icon-check);
+    }
+
+    .hero-metric.success {
+      border-color: rgba(22, 163, 74, 0.42);
+      background: rgba(240, 255, 246, 0.80);
+    }
+
+    .location-banner {
+      position: relative;
+      padding-left: 42px;
+      min-height: 56px;
+      align-items: center;
+      background:
+        linear-gradient(90deg, rgba(22, 115, 209, 0.055), rgba(255, 255, 255, 0.80) 58%),
+        rgba(255, 255, 255, 0.92);
+    }
+
+    .location-banner::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      border: 3px solid var(--blue-deep);
+      border-radius: 50% 50% 50% 0;
+      transform: translateY(-62%) rotate(-45deg);
+      opacity: 0.82;
+    }
+
+    .room-card-clean {
+      border-color: rgba(156, 195, 232, 0.62);
+      border-left-color: var(--blue);
+      border-left-width: 6px;
+      border-radius: 11px;
+      padding: 20px;
+      background:
+        linear-gradient(90deg, rgba(22, 115, 209, 0.070), transparent 30%),
+        rgba(255, 255, 255, 0.92);
+      position: relative;
+      transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    .room-card-clean:hover {
+      border-color: rgba(112, 164, 217, 0.86);
+      box-shadow: 0 16px 32px rgba(11, 35, 65, 0.07);
+    }
+
+    .room-card-clean::after {
+      content: "";
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 12px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(0, 111, 188, 0.18), transparent);
+      pointer-events: none;
+    }
+
+    .room-card-meta span,
+    .auth-step {
+      border-color: rgba(156, 195, 232, 0.70);
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(246, 250, 255, 0.82));
+    }
+
+    .room-card-meta span {
+      grid-template-columns: 28px minmax(0, 1fr);
+      align-items: center;
+      gap: 4px 10px;
+      min-height: 70px;
+    }
+
+    .room-card-meta span::before {
+      grid-row: 1 / span 2;
+      align-self: center;
+      color: var(--primary-dark);
+    }
+
+    .room-card-main > div:first-child > strong {
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 850;
+      line-height: 1.2;
+    }
+
+    .captain-line {
+      margin-top: 7px;
+    }
+
+    .room-list-head-clean {
+      position: relative;
+      background:
+        linear-gradient(90deg, rgba(22, 115, 209, 0.10), transparent 72%),
+        rgba(255, 255, 255, 0.78);
+    }
+
+    #roomPlansPanel .clean-head h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+    }
+
+    #roomPlansPanel .clean-head h2::before {
+      content: "";
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      -webkit-mask: var(--icon-calendar) center / contain no-repeat;
+      mask: var(--icon-calendar) center / contain no-repeat;
+      opacity: 0.92;
+    }
+
+    #roomPlansPanel .clean-head::after {
+      content: "ROOM LIST";
+      position: absolute;
+      right: 24px;
+      top: 18px;
+      color: rgba(22, 115, 209, 0.68);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .room-hint {
+      border-color: rgba(242, 166, 90, 0.42);
+      background: linear-gradient(90deg, rgba(242, 166, 90, 0.13), rgba(255, 255, 255, 0.72));
+      color: #945019;
+      font-weight: 650;
+    }
+
+    .danger-text {
+      border-color: rgba(228, 109, 109, 0.40);
+      background: linear-gradient(90deg, rgba(228, 109, 109, 0.12), rgba(255, 255, 255, 0.76));
+      color: #b42323;
+    }
+
+    button.primary {
+      border-color: var(--primary-dark);
+      background:
+        linear-gradient(180deg, var(--primary), var(--primary-dark));
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.34) inset,
+        0 10px 22px rgba(11, 86, 168, 0.24);
+    }
+
+    button.primary:hover {
+      border-color: #073f82;
+      background:
+        linear-gradient(180deg, #1a7cdf, #0a58ad);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.38) inset,
+        0 14px 26px rgba(11, 86, 168, 0.28);
+    }
+
+    .status-chip,
+    .pill {
+      border-color: rgba(156, 195, 232, 0.70);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    }
+
+    .tap-sticker {
+      display: none !important;
+    }
+
+    /* Closer alignment to the supplied blueprint mockup. */
+    main {
+      width: min(1680px, calc(100vw - clamp(32px, 17vw, 360px)));
+      padding: 34px 0 72px;
+    }
+
+    body::after {
+      background:
+        linear-gradient(rgba(22, 115, 209, 0.30), rgba(22, 115, 209, 0.30)) 8.7vw 17.5vh / 1px 24vh no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.30), rgba(22, 115, 209, 0.30)) 3vw 26.8vh / 8.6vw 1px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.18), rgba(22, 115, 209, 0.18)) 5.6vw 31vh / 1px 11vh no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.18), rgba(22, 115, 209, 0.18)) 3.7vw 34vh / 6.2vw 1px no-repeat,
+        repeating-linear-gradient(90deg, transparent 0 12px, rgba(22, 115, 209, 0.22) 12px 13px, transparent 13px 24px) 3.6vw 38.6vh / 94px 1px no-repeat,
+        radial-gradient(circle, transparent 0 42px, rgba(22, 115, 209, 0.24) 43px 44px, transparent 45px) 2.9vw 70vh / 134px 134px no-repeat,
+        radial-gradient(circle, transparent 0 16px, rgba(22, 115, 209, 0.28) 17px 18px, transparent 19px) 5vw 75vh / 62px 62px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.30), rgba(22, 115, 209, 0.30)) calc(100vw - 64px) 16vh / 1px 82vh no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.30), rgba(22, 115, 209, 0.30)) 8.6vw 16.8vh / calc(91.4vw - 64px) 1px no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.24), rgba(22, 115, 209, 0.24)) 8.6vw calc(100vh - 54px) / calc(91.4vw - 64px) 1px no-repeat,
+        radial-gradient(ellipse at center, transparent 0 42px, rgba(22, 115, 209, 0.24) 43px 45px, transparent 46px) calc(100vw - 148px) calc(100vh - 104px) / 150px 76px no-repeat,
+        radial-gradient(ellipse at center, transparent 0 22px, rgba(22, 115, 209, 0.20) 23px 24px, transparent 25px) calc(100vw - 122px) calc(100vh - 114px) / 78px 46px no-repeat,
+        linear-gradient(135deg, transparent 0 42%, rgba(22, 115, 209, 0.20) 42% 44%, transparent 44%) calc(100vw - 128px) 72vh / 88px 44px no-repeat;
+      opacity: 0.82;
+    }
+
+    main::before {
+      left: -68px;
+      right: -68px;
+      top: 156px;
+      background:
+        linear-gradient(90deg, transparent, rgba(22, 115, 209, 0.40) 4%, rgba(22, 115, 209, 0.40) 96%, transparent);
+    }
+
+    main::after {
+      right: -50px;
+      top: 140px;
+      bottom: 24px;
+      background: linear-gradient(rgba(22, 115, 209, 0.26), rgba(22, 115, 209, 0.06));
+    }
+
+    .topbar {
+      margin-bottom: 24px;
+      padding: 0 8px 22px;
+      border-color: transparent;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .topbar::before {
+      left: 46%;
+      right: 39%;
+      top: 0;
+      height: 96px;
+      border-color: rgba(22, 115, 209, 0.24);
+    }
+
+    .brand-lockup {
+      gap: 26px;
+    }
+
+    .brand-mark {
+      width: clamp(78px, 5.4vw, 108px);
+      height: clamp(78px, 5.4vw, 108px);
+      padding: 7px;
+      border-radius: 13px;
+      border-color: rgba(22, 115, 209, 0.42);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    }
+
+    .topbar .brand-copy h1 {
+      font-size: clamp(42px, 3.3vw, 64px);
+      letter-spacing: 0;
+    }
+
+    .brand-kicker {
+      color: var(--text);
+      font-size: 13px;
+      letter-spacing: 0.09em;
+    }
+
+    .user-controls {
+      gap: 14px;
+    }
+
+    .user-badge,
+    .user-badge.admin,
+    #refreshButton,
+    #logoutButton {
+      min-height: 58px;
+      border-radius: 14px;
+      border: 1px solid rgba(159, 194, 232, 0.76);
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--text);
+      box-shadow: 0 12px 28px rgba(11, 35, 65, 0.045);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .user-badge {
+      padding: 8px 22px 8px 12px;
+    }
+
+    #refreshButton,
+    #logoutButton {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 22px;
+    }
+
+    #refreshButton::before,
+    #logoutButton::before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      background: currentColor;
+      opacity: 0.78;
+      -webkit-mask: var(--control-icon) center / contain no-repeat;
+      mask: var(--control-icon) center / contain no-repeat;
+    }
+
+    #refreshButton { --control-icon: var(--icon-refresh); }
+    #logoutButton { --control-icon: var(--icon-logout); }
+
+    .avatar {
+      background: var(--text);
+      box-shadow: 0 0 0 3px rgba(22, 115, 209, 0.16);
+    }
+
+    .location-banner {
+      min-height: 68px;
+      margin-bottom: 28px;
+      padding: 14px 22px 14px 64px;
+      border-left-width: 1px;
+      border-radius: 14px;
+      box-shadow: 0 14px 34px rgba(11, 35, 65, 0.050);
+    }
+
+    .location-banner::before {
+      left: 26px;
+      width: 26px;
+      height: 26px;
+      border: 0;
+      border-radius: 0;
+      background: var(--text);
+      transform: translateY(-50%);
+      -webkit-mask: var(--icon-pin) center / contain no-repeat;
+      mask: var(--icon-pin) center / contain no-repeat;
+      opacity: 0.90;
+    }
+
+    .location-banner strong {
+      font-size: 22px;
+      margin-right: 14px;
+    }
+
+    .location-banner a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+
+    .location-banner a::after {
+      content: "›";
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .panel,
+    .auth-hero,
+    .auth-card,
+    .location-banner {
+      border-color: rgba(183, 210, 239, 0.88);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.90)),
+        linear-gradient(90deg, rgba(22, 115, 209, 0.018) 1px, transparent 1px) 0 0 / 28px 28px;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.92) inset,
+        0 18px 46px rgba(11, 35, 65, 0.060);
+    }
+
+    .today-hero {
+      grid-template-columns: minmax(410px, 1fr) minmax(430px, 0.84fr) auto;
+      min-height: 262px;
+      margin-bottom: 28px;
+      padding: 42px 48px;
+      gap: 36px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 93% 16%, rgba(22, 115, 209, 0.08), transparent 20%),
+        linear-gradient(135deg, rgba(22, 115, 209, 0.070), transparent 42%),
+        rgba(255, 255, 255, 0.92);
+    }
+
+    .today-hero-copy {
+      min-width: 0;
+    }
+
+    .today-hero h2 {
+      font-size: clamp(50px, 4.2vw, 76px);
+      white-space: nowrap;
+    }
+
+    .today-hero p {
+      margin-top: 18px;
+      color: #526d91;
+      font-size: clamp(20px, 1.4vw, 28px);
+    }
+
+    .section-kicker {
+      color: #294f85;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+
+    .today-hero h2::after {
+      width: 62px;
+      height: 8px;
+      margin-top: 12px;
+      background:
+        radial-gradient(circle at 4px 50%, rgba(22, 115, 209, 0.86) 0 2px, transparent 2.5px) 0 0 / 13px 8px repeat-x;
+    }
+
+    .hero-metrics {
+      grid-template-columns: repeat(3, minmax(132px, 1fr));
+      gap: 0;
+      align-self: center;
+      min-height: 158px;
+      padding: 0;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.62);
+      overflow: hidden;
+    }
+
+    .hero-metric {
+      min-height: 158px;
+      padding: 24px 26px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      align-content: center;
+    }
+
+    .hero-metric + .hero-metric {
+      border-left: 1px solid rgba(207, 224, 243, 0.92);
+    }
+
+    .hero-metric::before {
+      width: 34px;
+      height: 34px;
+      margin-bottom: 6px;
+      opacity: 0.64;
+    }
+
+    .hero-metric strong {
+      font-size: clamp(42px, 3.2vw, 58px);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .hero-metric span {
+      font-size: 16px;
+      color: #647d9e;
+    }
+
+    .hero-actions button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      position: relative;
+      min-width: 252px;
+      min-height: 76px;
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: 850;
+    }
+
+    .hero-actions button::before {
+      content: "";
+      width: 32px;
+      height: 32px;
+      background: currentColor;
+      opacity: 0.92;
+      -webkit-mask: var(--icon-door) center / contain no-repeat;
+      mask: var(--icon-door) center / contain no-repeat;
+    }
+
+    .hero-actions button::after {
+      content: "";
+      position: absolute;
+      right: -26px;
+      bottom: -30px;
+      width: 54px;
+      height: 54px;
+      border-right: 2px solid rgba(22, 115, 209, 0.56);
+      border-bottom: 2px solid rgba(22, 115, 209, 0.56);
+      transform: rotate(25deg);
+      pointer-events: none;
+    }
+
+    #roomPlansPanel {
+      border-radius: 16px;
+    }
+
+    #roomPlansPanel .panel-head {
+      min-height: 86px;
+      padding: 24px 32px 20px 34px;
+    }
+
+    #roomPlansPanel .panel-head::before {
+      width: 7px;
+      border-radius: 999px;
+    }
+
+    #roomPlansPanel .clean-head h2 {
+      gap: 16px;
+      font-size: clamp(24px, 1.8vw, 30px);
+      font-weight: 900;
+    }
+
+    #roomPlansPanel .clean-head h2::before {
+      width: 32px;
+      height: 32px;
+    }
+
+    #roomPlansPanel .clean-head::after {
+      right: 34px;
+      top: 32px;
+      padding-right: 74px;
+      background:
+        linear-gradient(90deg, rgba(22, 115, 209, 0.35), rgba(22, 115, 209, 0.35)) right 50% / 64px 1px no-repeat;
+    }
+
+    #roomPlansPanel .panel-body {
+      padding: 0 18px 18px;
+    }
+
+    #roomPlans {
+      gap: 14px;
+    }
+
+    .room-card-clean {
+      padding: 28px 30px 22px;
+      border-left-width: 8px;
+      border-radius: 16px;
+      background:
+        linear-gradient(90deg, rgba(22, 115, 209, 0.052), transparent 26%),
+        rgba(255, 255, 255, 0.96);
+    }
+
+    .room-card-main > div:first-child > strong {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: clamp(25px, 1.8vw, 32px);
+    }
+
+    .room-card-main > div:first-child > strong::before {
+      content: "";
+      width: 32px;
+      height: 32px;
+      flex: 0 0 auto;
+      background: var(--primary-dark);
+      -webkit-mask: var(--icon-clock) center / contain no-repeat;
+      mask: var(--icon-clock) center / contain no-repeat;
+      opacity: 0.76;
+    }
+
+    .captain-line {
+      margin-top: 12px;
+      margin-left: 46px;
+      font-size: 16px;
+    }
+
+    .status-chip {
+      min-height: 34px;
+      padding: 5px 14px;
+      border: 1px solid rgba(159, 194, 232, 0.72);
+      font-size: 16px;
+      font-weight: 850;
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .status-chip.open,
+    .status-chip.active {
+      border-color: rgba(89, 185, 124, 0.38);
+      background: rgba(89, 185, 124, 0.12);
+      color: #16834a;
+    }
+
+    .status-chip.planned {
+      border-color: rgba(22, 115, 209, 0.24);
+      background: rgba(22, 115, 209, 0.075);
+      color: var(--primary-dark);
+    }
+
+    .room-card-meta {
+      gap: 18px;
+    }
+
+    .room-card-meta span {
+      min-height: 92px;
+      grid-template-columns: 46px minmax(0, 1fr);
+      padding: 18px 22px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .room-card-meta span::before {
+      width: 36px;
+      height: 36px;
+      color: #40699e;
+      opacity: 0.78;
+    }
+
+    .room-card-meta strong {
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .room-card-meta small {
+      font-size: 16px;
+      color: #617a9b;
+    }
+
+    .room-hint {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 54px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 18px;
+    }
+
+    .room-hint::before {
+      content: "";
+      width: 28px;
+      height: 28px;
+      flex: 0 0 auto;
+      background: currentColor;
+      -webkit-mask: var(--icon-anchor) center / contain no-repeat;
+      mask: var(--icon-anchor) center / contain no-repeat;
+      opacity: 0.82;
+    }
+
+    .room-extra summary {
+      color: var(--primary-dark);
+      font-size: 17px;
+      font-weight: 850;
+    }
+
+    .room-actions {
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    button.small {
+      min-height: 40px;
+      border-radius: 8px;
+      padding: 0 16px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1280px) and (min-width: 981px) {
+      .today-hero {
+        grid-template-columns: minmax(360px, 1fr) minmax(384px, 0.86fr) auto;
+        gap: 24px;
+        padding: 34px;
+      }
+
+      .today-hero h2 {
+        font-size: clamp(44px, 4.4vw, 58px);
+      }
+
+      .hero-actions button {
+        min-width: 206px;
+      }
+
+      .hero-metrics {
+        grid-template-columns: repeat(3, minmax(112px, 1fr));
+      }
+    }
+
+    @media (max-width: 1500px) and (min-width: 981px) {
+      .today-hero {
+        grid-template-columns: minmax(340px, 1fr) minmax(372px, 0.78fr) minmax(198px, auto);
+        gap: 22px;
+        padding: 34px;
+      }
+
+      .today-hero h2 {
+        font-size: clamp(44px, 3.8vw, 54px);
+      }
+
+      .today-hero p {
+        font-size: 20px;
+      }
+
+      .hero-metrics {
+        grid-template-columns: repeat(3, minmax(118px, 1fr));
+      }
+
+      .hero-metric {
+        padding: 20px 16px;
+      }
+
+      .hero-metric strong {
+        font-size: clamp(36px, 3vw, 46px);
+      }
+
+      .hero-metric span {
+        font-size: 14px;
+      }
+
+      .hero-actions button {
+        min-width: 198px;
+        min-height: 68px;
+        padding: 0 18px;
+        font-size: 17px;
+      }
+    }
+
+    /* Mechanical assembly drafting details with light nautical cues. */
+    :root {
+      --icon-compass: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.7'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Ccircle%20cx='12'%20cy='12'%20r='8.5'/%3E%3Cpath%20d='M12%202v3M12%2019v3M2%2012h3M19%2012h3M15.5%208.5l-2.2%204.8-4.8%202.2%202.2-4.8%204.8-2.2Z'/%3E%3C/svg%3E");
+      --icon-hat: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.7'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%2014c2.4-1.7%205-2.5%208-2.5s5.6.8%208%202.5M5%2014l1.3%204c3.6%201.4%207.8%201.4%2011.4%200L19%2014M7%2012V7.8C8.4%206.6%2010.1%206%2012%206s3.6.6%205%201.8V12M10%209h4'/%3E%3C/svg%3E");
+      --draft-assembly-left: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='260'%20height='560'%20viewBox='0%200%20260%20560'%20fill='none'%3E%3Cg%20stroke='%231673D1'%20stroke-width='1.25'%20opacity='.42'%3E%3Cpath%20d='M72%2022v504M24%2090h168M24%20498h168M42%2090v408M162%2090v408'/%3E%3Crect%20x='56'%20y='112'%20width='78'%20height='100'%20rx='3'/%3E%3Cpath%20d='M56%20128h78M56%20148h78M56%20168h78M56%20188h78M42%20242h116M42%20242l-18%2018M158%20242l18%2018'/%3E%3Ccircle%20cx='96'%20cy='330'%20r='66'/%3E%3Ccircle%20cx='96'%20cy='330'%20r='34'/%3E%3Ccircle%20cx='96'%20cy='330'%20r='10'/%3E%3Cpath%20d='M96%20248v164M14%20330h164M54%20288l84%2084M138%20288l-84%2084M178%20306h34M178%20354h34M204%20306v48M198%20312l6-6%206%206M198%20348l6%206%206-6M42%20454h112M54%20436l88%2036M54%20472l88-36'/%3E%3C/g%3E%3Cg%20fill='%231673D1'%20opacity='.54'%20font-family='Arial'%20font-size='12'%20font-weight='700'%3E%3Ctext%20x='20'%20y='80'%3EDATUM%20A%3C/text%3E%3Ctext%20x='176'%20y='337'%3EØ48%3C/text%3E%3Ctext%20x='40'%20y='520'%3ESECTION%20B-B%3C/text%3E%3C/g%3E%3C/svg%3E");
+      --draft-assembly-right: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='340'%20height='300'%20viewBox='0%200%20340%20300'%20fill='none'%3E%3Cg%20stroke='%231673D1'%20stroke-width='1.25'%20opacity='.40'%3E%3Cpath%20d='M44%2064h92v56H44zM196%2044h92v56h-92zM152%20158h92v56h-92zM136%2092h60M106%20120l46%2038M242%20100l-44%2058'/%3E%3Ccircle%20cx='62'%20cy='82'%20r='5'/%3E%3Ccircle%20cx='118'%20cy='82'%20r='5'/%3E%3Ccircle%20cx='62'%20cy='102'%20r='5'/%3E%3Ccircle%20cx='118'%20cy='102'%20r='5'/%3E%3Cpath%20d='M196%2058h92M196%2072h92M196%2086h92M152%20172h92M152%20186h92M152%20200h92M28%20250h270M52%20230v40M286%20230v40M58%20236l-6-6-6%206M280%20236l6-6%206%206M116%20244h108'/%3E%3Ccircle%20cx='280'%20cy='218'%20r='28'/%3E%3Ccircle%20cx='280'%20cy='218'%20r='12'/%3E%3Cpath%20d='M280%20178v80M240%20218h80'/%3E%3C/g%3E%3Cg%20fill='%231673D1'%20opacity='.52'%20font-family='Arial'%20font-size='11'%20font-weight='700'%3E%3Ctext%20x='42'%20y='52'%3EEXPLODED%20ROOM%20SET%3C/text%3E%3Ctext%20x='116'%20y='236'%3E324.0%20mm%3C/text%3E%3Ctext%20x='246'%20y='176'%3EM6%3C/text%3E%3C/g%3E%3C/svg%3E");
+      --draft-nautical: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='320'%20height='210'%20viewBox='0%200%20320%20210'%20fill='none'%3E%3Cg%20stroke='%231673D1'%20stroke-width='1.35'%20opacity='.38'%3E%3Cellipse%20cx='188'%20cy='138'%20rx='88'%20ry='30'/%3E%3Cellipse%20cx='188'%20cy='138'%20rx='48'%20ry='14'/%3E%3Cpath%20d='M112%20126c22-26%2058-40%20108-40s76%2014%2098%2040M90%20142h196M150%20108c20%2014%2054%2014%2076%200M188%2032v94M164%2054h48M138%20112c18-14%2034-20%2050-20s32%206%2050%2020M126%20162l-34%2030M250%20162l34%2030'/%3E%3Ccircle%20cx='54'%20cy='64'%20r='38'/%3E%3Ccircle%20cx='54'%20cy='64'%20r='14'/%3E%3Cpath%20d='M54%2016v96M6%2064h96M28%2038l52%2052M80%2038L28%2090'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    body::before {
+      content: "MAKE SPACE.\A FOCUS BETTER.\A TOGETHER.\A\A DATUM A\A SCALE 1:1\A SH-ROOM-SET";
+    }
+
+    body::after {
+      background:
+        var(--draft-assembly-left) 1.2vw 23vh / 210px 452px no-repeat,
+        var(--draft-assembly-right) calc(100vw - 372px) 6.2vh / 310px 274px no-repeat,
+        var(--draft-nautical) calc(100vw - 342px) calc(100vh - 228px) / 310px 204px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.30), rgba(22, 115, 209, 0.30)) 8.7vw 17.5vh / 1px 24vh no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.30), rgba(22, 115, 209, 0.30)) 3vw 26.8vh / 8.6vw 1px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.18), rgba(22, 115, 209, 0.18)) 5.6vw 31vh / 1px 11vh no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.18), rgba(22, 115, 209, 0.18)) 3.7vw 34vh / 6.2vw 1px no-repeat,
+        repeating-linear-gradient(135deg, transparent 0 9px, rgba(22, 115, 209, 0.16) 9px 10px, transparent 10px 18px) 3.7vw 34.8vh / 92px 86px no-repeat,
+        radial-gradient(circle, transparent 0 42px, rgba(22, 115, 209, 0.24) 43px 44px, transparent 45px) 2.9vw 70vh / 134px 134px no-repeat,
+        radial-gradient(circle, transparent 0 16px, rgba(22, 115, 209, 0.28) 17px 18px, transparent 19px) 5vw 75vh / 62px 62px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.30), rgba(22, 115, 209, 0.30)) calc(100vw - 64px) 16vh / 1px 82vh no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.30), rgba(22, 115, 209, 0.30)) 8.6vw 16.8vh / calc(91.4vw - 64px) 1px no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.24), rgba(22, 115, 209, 0.24)) 8.6vw calc(100vh - 54px) / calc(91.4vw - 64px) 1px no-repeat,
+        linear-gradient(135deg, transparent 0 42%, rgba(22, 115, 209, 0.20) 42% 44%, transparent 44%) calc(100vw - 128px) 72vh / 88px 44px no-repeat;
+      opacity: 0.86;
+    }
+
+    main::before {
+      height: 196px;
+      top: 112px;
+      background:
+        linear-gradient(90deg, transparent, rgba(22, 115, 209, 0.34) 4%, rgba(22, 115, 209, 0.34) 96%, transparent) 0 44px / 100% 1px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.25), rgba(22, 115, 209, 0.25)) 52% 0 / 1px 104px no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.22), rgba(22, 115, 209, 0.22)) 47% 52px / 12% 1px no-repeat,
+        radial-gradient(circle, rgba(22, 115, 209, 0.38) 0 3px, transparent 4px) 48% 47px / 18px 18px no-repeat,
+        radial-gradient(circle, rgba(22, 115, 209, 0.38) 0 3px, transparent 4px) 58% 47px / 18px 18px no-repeat,
+        repeating-linear-gradient(90deg, transparent 0 12px, rgba(22, 115, 209, 0.16) 12px 13px, transparent 13px 24px) 47% 68px / 190px 1px no-repeat,
+        linear-gradient(135deg, transparent 0 48%, rgba(22, 115, 209, 0.18) 48% 50%, transparent 50%) 0 116px / 180px 60px no-repeat;
+      opacity: 0.92;
+    }
+
+    main::after {
+      width: 158px;
+      background:
+        linear-gradient(rgba(22, 115, 209, 0.26), rgba(22, 115, 209, 0.06)) left top / 1px 100% no-repeat,
+        radial-gradient(circle, transparent 0 42px, rgba(22, 115, 209, 0.24) 43px 44px, transparent 45px) 42px 68% / 112px 112px no-repeat,
+        linear-gradient(135deg, transparent 0 47%, rgba(22, 115, 209, 0.22) 47% 49%, transparent 49%) 52px 52% / 88px 56px no-repeat,
+        repeating-linear-gradient(90deg, transparent 0 11px, rgba(22, 115, 209, 0.18) 11px 12px, transparent 12px 22px) 18px 82% / 118px 1px no-repeat;
+    }
+
+    .topbar::after {
+      content: "";
+      position: absolute;
+      left: 41%;
+      top: 18px;
+      width: 276px;
+      height: 82px;
+      background:
+        linear-gradient(rgba(22, 115, 209, 0.23), rgba(22, 115, 209, 0.23)) 44px 0 / 1px 82px no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.22), rgba(22, 115, 209, 0.22)) 18px 36px / 190px 1px no-repeat,
+        radial-gradient(circle, rgba(22, 115, 209, 0.32) 0 3px, transparent 4px) 10px 28px / 18px 18px no-repeat,
+        radial-gradient(circle, rgba(22, 115, 209, 0.32) 0 3px, transparent 4px) 202px 28px / 18px 18px no-repeat,
+        linear-gradient(135deg, transparent 0 44%, rgba(22, 115, 209, 0.20) 44% 46%, transparent 46%) 0 58px / 116px 24px no-repeat;
+      pointer-events: none;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      width: 18px;
+      height: 18px;
+      background: var(--primary-dark);
+      opacity: 0.38;
+      -webkit-mask: var(--icon-compass) center / contain no-repeat;
+      mask: var(--icon-compass) center / contain no-repeat;
+      pointer-events: none;
+    }
+
+    .brand-mark::after {
+      display: none;
+    }
+
+    .location-banner::after {
+      content: "";
+      position: absolute;
+      right: 68px;
+      top: 50%;
+      width: 118px;
+      height: 32px;
+      transform: translateY(-50%);
+      background:
+        linear-gradient(90deg, rgba(22, 115, 209, 0.22), rgba(22, 115, 209, 0.22)) 0 50% / 118px 1px no-repeat,
+        radial-gradient(circle, transparent 0 9px, rgba(22, 115, 209, 0.22) 10px 11px, transparent 12px) 18px 4px / 24px 24px no-repeat,
+        radial-gradient(circle, rgba(22, 115, 209, 0.28) 0 3px, transparent 4px) 98px 12px / 10px 10px no-repeat;
+      pointer-events: none;
+    }
+
+    .today-hero::after {
+      right: 28px;
+      top: 34px;
+      width: 104px;
+      height: 108px;
+      background:
+        linear-gradient(rgba(22, 115, 209, 0.52), rgba(22, 115, 209, 0.52)) 50% 0 / 1px 14px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.52), rgba(22, 115, 209, 0.52)) 50% 100% / 1px 14px no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.52), rgba(22, 115, 209, 0.52)) 0 50% / 14px 1px no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.52), rgba(22, 115, 209, 0.52)) 100% 50% / 14px 1px no-repeat,
+        radial-gradient(circle, transparent 0 30px, rgba(22, 115, 209, 0.18) 31px 32px, transparent 33px) 24px 24px / 64px 64px no-repeat,
+        linear-gradient(135deg, transparent 0 44%, rgba(22, 115, 209, 0.36) 44% 46%, transparent 46%) 42px 72px / 62px 34px no-repeat;
+      transform: rotate(18deg);
+    }
+
+    #roomPlansPanel,
+    .captain-create-panel,
+    #futureDaysPanel,
+    #captainBoardPanel,
+    #helpFeedbackPanel,
+    #releaseHistoryPanel {
+      position: relative;
+    }
+
+    #roomPlansPanel::after {
+      content: "";
+      position: absolute;
+      right: 28px;
+      top: 20px;
+      width: 148px;
+      height: 58px;
+      background:
+        linear-gradient(90deg, rgba(22, 115, 209, 0.18), rgba(22, 115, 209, 0.18)) 0 18px / 142px 1px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.18), rgba(22, 115, 209, 0.18)) 118px 0 / 1px 52px no-repeat,
+        repeating-linear-gradient(90deg, transparent 0 11px, rgba(22, 115, 209, 0.20) 11px 12px, transparent 12px 22px) 0 40px / 100px 1px no-repeat,
+        radial-gradient(circle, rgba(22, 115, 209, 0.28) 0 3px, transparent 4px) 126px 10px / 12px 12px no-repeat;
+      pointer-events: none;
+    }
+
+    .captain-create-panel .panel-head::after,
+    #captainBoardPanel .panel-head::after,
+    #futureDaysPanel .panel-head::after {
+      content: "";
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      background: var(--primary-dark);
+      opacity: 0.16;
+      -webkit-mask: var(--panel-icon, var(--icon-compass)) center / contain no-repeat;
+      mask: var(--panel-icon, var(--icon-compass)) center / contain no-repeat;
+    }
+
+    .captain-create-panel .panel-head::after {
+      --panel-icon: var(--icon-hat);
+    }
+
+    #futureDaysPanel .panel-head::after,
+    #captainBoardPanel .panel-head::after {
+      --panel-icon: var(--icon-compass);
+    }
+
+    .status-chip {
+      gap: 7px;
+    }
+
+    .status-chip::before {
+      content: "";
+      width: 15px;
+      height: 15px;
+      flex: 0 0 auto;
+      background: currentColor;
+      opacity: 0.72;
+      -webkit-mask: var(--status-icon, var(--icon-compass)) center / contain no-repeat;
+      mask: var(--status-icon, var(--icon-compass)) center / contain no-repeat;
+    }
+
+    .status-chip.open,
+    .status-chip.active {
+      --status-icon: var(--icon-anchor);
+    }
+
+    .status-chip.planned {
+      --status-icon: var(--icon-clock);
+    }
+
+    .status-chip.full,
+    .status-chip.cancelled {
+      --status-icon: var(--icon-anchor);
+    }
+
+    #toggleCaptainFormButton,
+    #toggleCaptainBoardButton,
+    #toggleFutureDaysButton {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #toggleCaptainFormButton::before,
+    #toggleCaptainBoardButton::before,
+    #toggleFutureDaysButton::before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      background: currentColor;
+      opacity: 0.78;
+      -webkit-mask: var(--button-icon, var(--icon-compass)) center / contain no-repeat;
+      mask: var(--button-icon, var(--icon-compass)) center / contain no-repeat;
+    }
+
+    #toggleCaptainFormButton {
+      --button-icon: var(--icon-hat);
+    }
+
+    #toggleCaptainBoardButton,
+    #toggleFutureDaysButton {
+      --button-icon: var(--icon-compass);
+    }
+
     @media (max-width: 980px) {
-      main { width: min(100vw - 18px, 780px); }
-      .layout, .auth, .grid-2, .grid-3, .metric-row { grid-template-columns: 1fr; }
+      .topbar::after,
+      .brand-mark::after,
+      .location-banner::after,
+      #roomPlansPanel::after,
+      .captain-create-panel .panel-head::after,
+      #futureDaysPanel .panel-head::after,
+      #captainBoardPanel .panel-head::after {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .tap-sticker {
+        display: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      main { width: min(100vw - 18px, 780px); padding-top: 12px; }
+      .layout, .auth, .auth-flow, .grid-2, .grid-3, .metric-row, .room-summary, .join-controls, .today-hero, .hero-metrics, .room-card-meta { grid-template-columns: 1fr; }
+      .auth-hero, .auth-card { min-height: auto; }
+      .auth-hero h1 { font-size: 32px; }
+      .auth-step { min-height: auto; }
+      .location-banner { align-items: flex-start; flex-direction: column; }
       .topbar { align-items: flex-start; flex-direction: column; }
+      .brand-lockup { align-items: flex-start; }
+      .split, .room-card-main, .captain-plan-summary { align-items: flex-start; flex-direction: column; }
+      .today-hero { padding: 18px; gap: 16px; }
+      .hero-actions, .user-controls { justify-content: flex-start; width: 100%; }
+      .hero-actions button, .user-controls button { flex: 1; }
+      .panel-body, .clean-head { padding: 14px; }
+      .captain-plan-stats { justify-content: flex-start; }
+      body::before,
+      body::after,
+      main::before,
+      main::after,
+      .topbar::before,
+      .today-hero::after {
+        display: none;
+      }
+      #roomPlansPanel .clean-head::after {
+        display: none;
+      }
+      .brand-mark {
+        width: 58px;
+        height: 58px;
+      }
+      .today-hero {
+        grid-template-columns: 1fr;
+        padding: 20px;
+      }
+      .today-hero h2 {
+        font-size: clamp(34px, 10vw, 46px);
+        white-space: normal;
+      }
+      .room-card-clean {
+        padding: 16px;
+      }
+      .hero-actions button::after {
+        display: none;
+      }
+      .captain-line {
+        margin-left: 0;
+      }
+      .room-card-meta span {
+        min-height: 78px;
+        grid-template-columns: 34px minmax(0, 1fr);
+        padding: 13px;
+      }
+      .room-card-meta span::before {
+        width: 28px;
+        height: 28px;
+      }
+      .room-card-meta small {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
 <body>
   <div id="authView" class="auth-wrap">
     <div class="auth">
-      <section class="panel">
+      <section class="auth-hero">
+        <div class="auth-hero-content">
+          <div class="brand-mark" aria-hidden="true">
+            <img class="brand-logo" src="assets/seat-happens-logo.png" alt="">
+          </div>
+          <div class="brand-kicker">StudiTUM room sharing</div>
+          <div class="auth-intro">
+            <h1>Seat Happens</h1>
+            <p>Captain 先到场，大家直接入座。先看今天有没有座位，再选择合适的自习时段。</p>
+          </div>
+        </div>
+        <div class="auth-flow" aria-label="使用流程">
+          <div class="auth-step">
+            <span class="auth-step-icon" aria-hidden="true">1</span>
+            <strong>看今天</strong>
+            <span>先确认主校区 StudiTUM 是否有可加入座位。</span>
+          </div>
+          <div class="auth-step">
+            <span class="auth-step-icon" aria-hidden="true">2</span>
+            <strong>选时段</strong>
+            <span>选择你计划学习的开始和离开时间。</span>
+          </div>
+          <div class="auth-step">
+            <span class="auth-step-icon" aria-hidden="true">3</span>
+            <strong>到场入座</strong>
+            <span>Captain 到场确认房间号后，大家按信息加入。</span>
+          </div>
+        </div>
+        <div class="auth-location">
+          <strong>主校区 StudiTUM</strong>
+          <span>Gabelsbergerstr. 43, 80333 München</span>
+          <a href="https://nav.tum.de/en/building/studitum-innenstadt" target="_blank" rel="noopener">查看位置</a>
+        </div>
+      </section>
+
+      <section id="loginPanel" class="panel auth-card">
         <div class="panel-head">
           <div>
+            <div class="section-kicker">Welcome back</div>
             <h2>登录</h2>
+            <div class="muted">进入后先看到今天是否还有可加入座位。</div>
           </div>
         </div>
         <div class="panel-body stack">
@@ -573,13 +3129,17 @@
           </label>
           <button id="loginButton" class="primary" type="button">登录</button>
           <div id="loginError" class="error"></div>
+          <div id="loginNotice" class="muted"></div>
+          <div class="auth-switch">还没有账号？<button id="showSignupButton" class="auth-link" type="button">创建一个</button></div>
         </div>
       </section>
 
-      <section class="panel">
+      <section id="signupPanel" class="panel auth-card hidden">
         <div class="panel-head">
           <div>
+            <div class="section-kicker">New account</div>
             <h2>注册</h2>
+            <div class="muted">创建账号后会回到登录页面，再用密码登录。</div>
           </div>
         </div>
         <div class="panel-body stack">
@@ -595,12 +3155,9 @@
             <span>密码</span>
             <input id="signupPassword" type="password" autocomplete="new-password">
           </label>
-          <label class="field">
-            <span>管理员邀请码</span>
-            <input id="adminSetupCode" autocomplete="off" placeholder="普通用户留空">
-          </label>
           <button id="signupButton" class="primary" type="button">创建账号</button>
           <div id="signupError" class="error"></div>
+          <div class="auth-switch">已经有账号？<button id="showLoginButton" class="auth-link" type="button">返回登录</button></div>
         </div>
       </section>
     </div>
@@ -608,46 +3165,78 @@
 
   <main id="appView" class="hidden">
     <div class="topbar">
-      <div>
-        <h1>Seat Happens</h1>
-        <div class="muted">先把房间共享和座位加入流程跑顺，再补别的功能。</div>
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true">
+          <img class="brand-logo" src="assets/seat-happens-logo.png" alt="">
+        </div>
+        <div class="brand-copy">
+          <div class="brand-kicker">StudiTUM room sharing</div>
+          <h1>Seat Happens</h1>
+          <div class="muted">Captain 先到场，大家直接入座。</div>
+        </div>
       </div>
-      <div class="row">
+      <div class="row user-controls">
         <span id="userBadge" class="pill"></span>
         <button id="refreshButton" type="button">刷新</button>
         <button id="logoutButton" type="button">退出</button>
       </div>
     </div>
+    <div class="location-banner">
+      <div>
+        <strong>主校区 StudiTUM</strong>
+        <span class="muted">Gabelsbergerstr. 43, 80333 München</span>
+      </div>
+      <a href="https://nav.tum.de/en/building/studitum-innenstadt" target="_blank" rel="noopener">查看位置</a>
+    </div>
+
+    <section id="todayStatusHero" class="panel today-hero" aria-labelledby="todayHeroTitle"></section>
 
     <div class="layout">
-      <section class="stack">
-        <div class="panel">
-          <div class="panel-head">
+      <section class="stack main-flow">
+        <section id="roomPlansPanel" class="panel">
+          <div class="panel-head clean-head">
             <div>
-              <h2>房间共享</h2>
-              <div class="muted">看未来 7 天谁会去 StudiTUM；Captain 到场后直接填写房间号和可共享座位。</div>
+              <h2 id="roomPlansTitle">今天的可加入房间</h2>
+              <div class="muted">优先显示还能加入或即将可加入的房间。</div>
             </div>
           </div>
           <div class="panel-body stack">
-            <div id="roomCalendar" class="calendar-grid"></div>
+            <div id="roomPlans" class="list"></div>
+          </div>
+        </section>
+
+        <section id="becomeCaptainPanel" class="panel captain-create-panel" aria-labelledby="captainPublishTitle">
+          <div class="panel-head clean-head">
+            <div>
+              <h2 id="captainPublishTitle">成为 Seat Captain</h2>
+              <div class="muted">如果你已经在 StudiTUM 抢到房间，可以开放剩余座位给其他同学。</div>
+            </div>
+            <button id="toggleCaptainFormButton" class="primary" type="button">开放我的房间</button>
+          </div>
+          <div id="captainFormBody" class="panel-body stack hidden">
+            <div class="captain-guide compact" aria-label="发布流程">
+              <span>1 填计划</span>
+              <span>2 到场补房间号</span>
+              <span>3 同学选时段加入</span>
+            </div>
             <div class="grid-3">
               <label class="field">
                 <span>日期</span>
                 <input id="roomPlanDate" type="date">
               </label>
               <label class="field">
-                <span>开始</span>
-                <input id="roomStartTime" type="time" value="09:00">
+                <span>Seat Captain 到达时间</span>
+                <input id="captainArrival" type="time" value="07:30">
               </label>
               <label class="field">
-                <span>结束</span>
-                <input id="roomEndTime" type="time" value="18:00">
+                <span>开始时间</span>
+                <input id="roomStartTime" type="time" value="09:00">
               </label>
             </div>
             <div class="grid-3">
               <label class="field">
-                <span>Captain 到达</span>
-                <input id="captainArrival" type="time" value="07:30">
+                <span>结束时间</span>
+                <input id="roomEndTime" type="time" value="18:00">
               </label>
               <label class="field">
                 <span>房间类型</span>
@@ -658,134 +3247,169 @@
                 </select>
               </label>
               <label class="field">
-                <span>预计可共享座位</span>
+                <span>可开放座位数</span>
                 <input id="roomCapacity" type="number" min="1" max="40" value="4">
               </label>
             </div>
-            <div class="grid-2">
+            <div class="fold-row">
+              <button id="toggleCaptainMoreButton" class="small" type="button">更多设置</button>
+            </div>
+            <div id="captainMoreSettings" class="stack hidden">
+              <div class="grid-2">
+                <label class="field">
+                  <span>主题</span>
+                  <input id="roomTopic" placeholder="无主题 / RD / i2dl / 安静自习">
+                </label>
+                <label class="field">
+                  <span>讨论模式</span>
+                  <select id="discussionMode">
+                    <option value="quiet">安静自习</option>
+                    <option value="flexible">可小声讨论</option>
+                    <option value="discussion">讨论型</option>
+                  </select>
+                </label>
+              </div>
               <label class="field">
-                <span>主题</span>
-                <input id="roomTopic" placeholder="无主题 / RD / i2dl / 安静自习">
-              </label>
-              <label class="field">
-                <span>讨论模式</span>
-                <select id="discussionMode">
-                  <option value="quiet">安静自习</option>
-                  <option value="flexible">可小声讨论</option>
-                  <option value="discussion">讨论型</option>
-                </select>
+                <span>备注</span>
+                <input id="roomNote" placeholder="例如：先抢中房间，抢不到就小房间">
               </label>
             </div>
-            <label class="field">
-              <span>备注</span>
-              <input id="roomNote" placeholder="例如：先抢中房间，抢不到就小房间">
-            </label>
-            <button id="createRoomPlanButton" class="primary" type="button">作为 Captain 发布计划</button>
+            <button id="createRoomPlanButton" class="primary" type="button">发布房间</button>
             <div id="roomCreateStatus" class="captain-editor-status"></div>
-            <div id="myCaptainActions" class="list"></div>
-            <div id="roomPlans" class="list"></div>
           </div>
-        </div>
+        </section>
 
-        <div class="panel">
-          <div class="panel-head">
+        <section id="myCaptainPlansPanel" class="panel hidden">
+          <div class="panel-head clean-head">
             <div>
-              <h2>Seat Captain Board</h2>
+              <h2>我的 Captain 计划</h2>
+              <div class="muted">计划默认收起；展开后可以修改计划或到场后填写房间号。</div>
             </div>
           </div>
           <div class="panel-body">
+            <div id="myCaptainActions" class="list"></div>
+          </div>
+        </section>
+
+        <section id="futureDaysPanel" class="panel">
+          <div class="panel-head clean-head">
+            <div>
+              <h2>未来几天</h2>
+              <div id="futureDaysSummary" class="muted">未来 7 天共有 0 个座位可能开放。</div>
+            </div>
+            <button id="toggleFutureDaysButton" type="button">查看未来几天</button>
+          </div>
+          <div id="futureDaysBody" class="panel-body stack hidden">
+            <div id="roomCalendar" class="calendar-grid"></div>
+          </div>
+        </section>
+
+        <section id="captainBoardPanel" class="panel secondary-panel">
+          <div class="panel-head clean-head">
+            <div>
+              <h2>Seat Captain Board</h2>
+              <div class="muted">最近发布过房间的 Captain 和可靠性参考。</div>
+            </div>
+            <button id="toggleCaptainBoardButton" type="button">查看</button>
+          </div>
+          <div id="captainBoardBody" class="panel-body hidden">
             <div id="captainBoard" class="list"></div>
           </div>
-        </div>
+        </section>
 
-        <div class="panel">
-          <div class="panel-head">
+        <section id="helpFeedbackPanel" class="panel secondary-panel">
+          <div class="panel-head clean-head">
             <div>
-              <h2>广场聊天</h2>
+              <h2>测试反馈</h2>
+              <div class="muted">聊天、站内消息和问题反馈都放在这里。</div>
             </div>
+            <button id="toggleFeedbackPanelButton" type="button">打开</button>
           </div>
-          <div class="panel-body stack">
-            <div id="chatList" class="list chat"></div>
-            <div class="row">
-              <input id="chatInput" placeholder="写一条消息">
-              <button id="sendChatButton" type="button">发送</button>
-            </div>
-          </div>
-        </div>
+          <div id="helpFeedbackBody" class="panel-body stack hidden">
+            <section class="support-block">
+              <div class="support-head">
+                <h3>站内消息</h3>
+                <span class="muted">管理员私信和系统测试消息。</span>
+              </div>
+              <div id="adminMessageComposer" class="captain-editor-section hidden">
+                <div class="captain-editor-title">
+                  <strong>发送私信</strong>
+                  <span class="muted">管理员可以向任意用户发送站内消息。</span>
+                </div>
+                <div class="captain-editor-grid">
+                  <label class="field">
+                    <span>收件人</span>
+                    <select id="directMessageRecipient"></select>
+                  </label>
+                  <label class="field">
+                    <span>内容</span>
+                    <textarea id="directMessageBody" placeholder="写给用户的私信"></textarea>
+                  </label>
+                </div>
+                <div class="captain-editor-actions">
+                  <button id="sendDirectMessageButton" class="primary" type="button">发送私信</button>
+                  <span id="directMessageStatus" class="muted"></span>
+                </div>
+              </div>
+              <div id="directMessages" class="list"></div>
+            </section>
 
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <h2>反馈</h2>
-            </div>
-          </div>
-          <div class="panel-body stack">
-            <label class="field">
-              <span>分类</span>
-              <select id="feedbackCategory">
-                <option value="general">general</option>
-                <option value="bug">bug</option>
-                <option value="suggestion">suggestion</option>
-                <option value="emergency">emergency</option>
-                <option value="privacy">privacy</option>
-              </select>
-            </label>
-            <textarea id="feedbackMessage" placeholder="写下 bug、建议或问题"></textarea>
-            <button id="sendFeedbackButton" type="button">提交反馈</button>
-            <div id="feedbackStatus" class="muted"></div>
-            <div id="adminFeedbackPanel" class="hidden stack">
-              <div class="split">
-                <h3>管理员反馈箱</h3>
-                <button id="reloadFeedbackButton" class="small" type="button">刷新</button>
+            <section class="support-block">
+              <div class="support-head">
+                <h3>广场聊天</h3>
+                <span class="muted">轻量测试聊天。</span>
               </div>
-              <div id="feedbackList" class="list"></div>
-            </div>
-          </div>
-        </div>
+              <div id="chatList" class="list chat"></div>
+              <div class="row">
+                <input id="chatInput" placeholder="写一条消息">
+                <button id="sendChatButton" type="button">发送</button>
+              </div>
+            </section>
 
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <h2>站内消息</h2>
-            </div>
+            <section class="support-block">
+              <div class="support-head">
+                <h3>反馈</h3>
+                <span class="muted">提交 bug、建议或紧急问题。</span>
+              </div>
+              <label class="field">
+                <span>分类</span>
+                <select id="feedbackCategory">
+                  <option value="general">general</option>
+                  <option value="bug">bug</option>
+                  <option value="suggestion">suggestion</option>
+                  <option value="emergency">emergency</option>
+                  <option value="privacy">privacy</option>
+                </select>
+              </label>
+              <textarea id="feedbackMessage" placeholder="写下 bug、建议或问题"></textarea>
+              <button id="sendFeedbackButton" type="button">提交反馈</button>
+              <div id="feedbackStatus" class="muted"></div>
+              <div id="adminFeedbackPanel" class="hidden stack">
+                <div class="split">
+                  <h3>管理员反馈箱</h3>
+                  <button id="reloadFeedbackButton" class="small" type="button">刷新</button>
+                </div>
+                <div id="feedbackList" class="list"></div>
+              </div>
+            </section>
           </div>
-          <div class="panel-body stack">
-            <div id="adminMessageComposer" class="captain-editor-section hidden">
-              <div class="captain-editor-title">
-                <strong>发送私信</strong>
-                <span class="muted">管理员可以向任意用户发送站内消息。</span>
-              </div>
-              <div class="captain-editor-grid">
-                <label class="field">
-                  <span>收件人</span>
-                  <select id="directMessageRecipient"></select>
-                </label>
-                <label class="field">
-                  <span>内容</span>
-                  <textarea id="directMessageBody" placeholder="写给用户的私信"></textarea>
-                </label>
-              </div>
-              <div class="captain-editor-actions">
-                <button id="sendDirectMessageButton" class="primary" type="button">发送私信</button>
-                <span id="directMessageStatus" class="muted"></span>
-              </div>
-            </div>
-            <div id="directMessages" class="list"></div>
-          </div>
-        </div>
+        </section>
 
-        <div class="panel">
-          <div class="panel-head">
+        <section id="releasePanel" class="panel secondary-panel">
+          <div class="panel-head clean-head">
             <div>
               <h2>版本更新</h2>
               <div class="muted">每次发布后，这里会简要记录当前版本和最近改动。</div>
             </div>
-            <span id="releaseVersionBadge" class="pill"></span>
+            <div class="row">
+              <span id="releaseVersionBadge" class="pill"></span>
+              <button id="toggleReleaseHistoryButton" type="button">查看</button>
+            </div>
           </div>
-          <div class="panel-body">
+          <div id="releaseHistoryBody" class="panel-body hidden">
             <div id="releaseHistory" class="list"></div>
           </div>
-        </div>
+        </section>
       </section>
     </div>
   </main>
@@ -807,10 +3431,154 @@
       feedback: [],
       directMessages: [],
       directMessagesError: "",
-      adminEmergencyPhone: ""
+      adminEmergencyPhone: "",
+      roomViewMode: "today",
+      captainFormOpen: false,
+      captainMoreOpen: false,
+      futureDaysOpen: false,
+      closedRoomsOpen: false,
+      helpFeedbackOpen: false,
+      releaseHistoryOpen: false,
+      captainBoardOpen: false,
+      expandedCaptainPlans: new Set()
     };
 
     const RELEASE_HISTORY = [
+      {
+        version: "v0.2.24",
+        date: "2026-04-26",
+        changes: [
+          "按指定截图裁剪现有 Seat Happens 原图，替换为只显示船长、笔记本和座椅的 logo。",
+          "保留原始完整 logo 备份，不重新生成图片；同步裁剪版到 public 和 versions 资产目录。",
+          "去掉 logo 右上角额外罗盘装饰，避免覆盖指定图片。"
+        ]
+      },
+      {
+        version: "v0.2.23",
+        date: "2026-04-26",
+        changes: [
+          "增强背景装饰为更复杂的机械制图感：加入装配图、剖面线、同心圆、尺寸线和基准标注。",
+          "在 Header、地点条、今日状态和房间模块加入更细的制图辅助线，同时保持内容可读性。",
+          "轻量加入航海元素：罗盘、船长帽和锚点图标分布到 Captain、状态和提示区域。"
+        ]
+      },
+      {
+        version: "v0.2.22",
+        date: "2026-04-26",
+        changes: [
+          "继续按参考图贴合 blueprint mockup：桌面端画布更宽，Header 去掉整块外框，按钮和用户身份改为独立白色胶囊。",
+          "今日状态 Hero 改成更接近参考图的横向大标题、整体统计仪表盘和带门图标的强 CTA。",
+          "房间列表和房间卡片放大间距、标题、指标组和提示条，边缘工程制图装饰更接近目标视觉。"
+        ]
+      },
+      {
+        version: "v0.2.21",
+        date: "2026-04-26",
+        changes: [
+          "把首页视觉进一步调整为更精细的 blueprint editorial 风格：浅蓝网格、边缘制图线、白色卡片和深蓝文字层级更统一。",
+          "重做今日状态、房间列表标题和房间卡片质感，加入真实线性图标和更清晰的指标分组。",
+          "禁用漂浮贴纸动画，保留轻量 hover 与 reduced-motion 支持，不改变现有业务逻辑。"
+        ]
+      },
+      {
+        version: "v0.2.20",
+        date: "2026-04-26",
+        changes: [
+          "按机械制图/蓝图参考图做纯视觉调整：加入淡网格、工程标注线、定位圆和蓝图边框质感。",
+          "强化 Header、今日状态卡、房间卡和按钮的线性制图风格，不改变任何现有业务逻辑。",
+          "移动端隐藏装饰性制图元素，保持页面可读性和无横向滚动。"
+        ]
+      },
+      {
+        version: "v0.2.19",
+        date: "2026-04-26",
+        changes: [
+          "优化注册登录页，改为清爽入口页：左侧说明 Seat Happens 使用流程，右侧保留登录/注册操作。",
+          "登录页文案聚焦今天是否有座位；注册页去掉管理员邀请码，只保留普通用户注册字段。",
+          "登录页视觉统一为浅蓝蓝图背景、白色卡片和深蓝文字。"
+        ]
+      },
+      {
+        version: "v0.2.18",
+        date: "2026-04-26",
+        changes: [
+          "重构首页信息架构：Header、地点、今日状态、今日房间、Seat Captain 发布、未来几天和测试反馈分层展示。",
+          "新增 Today Status Hero，优先回答今天是否有座位、能否加入、最早可加入时间。",
+          "房间列表和 Captain 计划改为渐进展开，聊天、反馈、版本记录等次要模块默认折叠。"
+        ]
+      },
+      {
+        version: "v0.2.17",
+        date: "2026-04-26",
+        changes: [
+          "改用用户提供的 Seat Happens PNG 原图裁剪版，替换登录页和应用顶部的 SH 方块标识。",
+          "logo 以等比例图片方式显示，只裁剪白边，不再使用会变形的 SVG 复刻。"
+        ]
+      },
+      {
+        version: "v0.2.16",
+        date: "2026-04-26",
+        changes: [
+          "房间共享区去掉说明文案，优先展示可预约房间和座位时段。",
+          "主校区 StudiTUM 地点提示压缩为地址和位置链接。",
+          "Seat Captain 发布表单下移，并与用户预约区域做明显区分。",
+          "贴纸动画回到轻量上浮效果，文案改为按点击功能显示。"
+        ]
+      },
+      {
+        version: "v0.2.15",
+        date: "2026-04-26",
+        changes: [
+          "登录页改为单入口：默认只显示登录，注册通过页内链接进入，注册完成后返回登录。",
+          "页面显著标注当前服务地点为 TUM 主校区 StudiTUM Innenstadt，并提供 NavigaTUM 位置链接。",
+          "点击反馈贴纸统一为 TUM 蓝色 EXCELLENT!，并改为自然下落动画。"
+        ]
+      },
+      {
+        version: "v0.2.14",
+        date: "2026-04-26",
+        changes: [
+          "房间卡片改为按时间段显示可预约座位数，用户能看到稍后释放出来的位置。",
+          "加入房间时改为拖动选择开始和离开时间，并按所选时段校验座位。",
+          "提前离开释放座位后，该时段之后的座位会立刻重新计入可预约。"
+        ]
+      },
+      {
+        version: "v0.2.13",
+        date: "2026-04-26",
+        changes: [
+          "称号按 C/B/A/S/SS 稀有度增加不同质感动画，SS 称号加入金色流光效果。",
+          "房间区默认进入周概览，让用户先看到未来 7 天可加入计划和今日可用座位状态。",
+          "周卡按状态着色：有可加入座位显示绿色，没有房间显示淡灰色。"
+        ]
+      },
+      {
+        version: "v0.2.12",
+        date: "2026-04-26",
+        changes: [
+          "完成第一轮 TUM 蓝白视觉更新：头部、面板、房间卡和周概览更有层级。",
+          "新增用户头像占位和昵称色，房间成员、Captain Board 更容易扫读。",
+          "升级称号稀有度质感，并加入轻量点击贴纸反馈。"
+        ]
+      },
+      {
+        version: "v0.2.11",
+        date: "2026-04-26",
+        changes: [
+          "房间区新增“今天优先”和“周概览”切换，今天可加入房间会排在最前面，已满房间保留为参考。",
+          "周概览可以快速查看未来 7 天每天的开放房间数量，并点击日期查看当天详情。",
+          "加入房间改为页内选择预计到达和自习时长；已到达用户可以提前离开并释放座位。"
+        ]
+      },
+      {
+        version: "v0.2.10",
+        date: "2026-04-26",
+        changes: [
+          "重写成就称号系统：新增中文称号、稀有度和可扩展定义表。",
+          "房间卡和 Seat Captain Board 现在会展示用户最有代表性的称号。",
+          "称号先基于现有房间计划和签到数据计算，不新增数据库表，后续可平滑迁移到成就表。"
+        ]
+      },
       {
         version: "v0.2.9",
         date: "2026-04-26",
@@ -950,16 +3718,118 @@
 
     function dayLabel(dateString) {
       const date = new Date(`${dateString}T12:00:00`);
-      return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+      return date.toLocaleDateString("zh-CN", { weekday: "short", month: "numeric", day: "numeric" });
     }
 
     function timeShort(value) {
       return value ? String(value).slice(0, 5) : "";
     }
 
+    const TIME_STEP_MINUTES = 15;
+
+    function minutesFromTime(value) {
+      const short = timeShort(value);
+      if (!/^\d{2}:\d{2}$/.test(short)) return null;
+      const [hours, minutes] = short.split(":").map(Number);
+      if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return null;
+      return hours * 60 + minutes;
+    }
+
+    function timeFromMinutes(value) {
+      const minutes = Math.max(0, Math.min(1439, Math.round(Number(value) || 0)));
+      const hours = Math.floor(minutes / 60);
+      const rest = minutes % 60;
+      return `${String(hours).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
+    }
+
+    function currentLocalMinutes() {
+      const now = new Date();
+      return now.getHours() * 60 + now.getMinutes();
+    }
+
+    function roundUpToStep(minutes, step = TIME_STEP_MINUTES) {
+      return Math.ceil(minutes / step) * step;
+    }
+
+    function clampMinutes(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
     function profileName(id) {
       const profile = state.profiles.find((item) => item.id === id);
       return profile?.nickname || profile?.username || "未知用户";
+    }
+
+    const USER_ACCENT_COLORS = ["#0065bd", "#187048", "#9a6500", "#6548b8", "#0f7c96", "#b83232", "#315f8f", "#7c5b00"];
+
+    function hashText(value) {
+      return String(value || "").split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    }
+
+    function userAccentColor(userId) {
+      return USER_ACCENT_COLORS[hashText(userId) % USER_ACCENT_COLORS.length];
+    }
+
+    function userInitials(userId) {
+      const name = profileName(userId).trim();
+      const chars = Array.from(name || "?");
+      return chars.slice(0, Math.min(chars.length, 2)).join("").toUpperCase();
+    }
+
+    function avatarHtml(userId, size = "") {
+      const sizeClass = size ? ` ${size}` : "";
+      return `<span class="avatar${sizeClass}" style="--avatar-bg:${userAccentColor(userId)}" aria-hidden="true">${escapeHtml(userInitials(userId))}</span>`;
+    }
+
+    function memberNameHtml(userId, extraClass = "") {
+      const className = extraClass ? ` ${extraClass}` : "";
+      return `<span class="member-name${className}" style="--member-color:${userAccentColor(userId)}">${escapeHtml(profileName(userId))}</span>`;
+    }
+
+    const CLICK_STICKERS = {
+      complete: ["EXCELLENT!", "收工漂亮", "今日闭环"],
+      join: ["已锁定时段", "座位雷达命中", "StudiTUM +1"],
+      checkin: ["到场确认", "人已落座", "准点上线"],
+      release: ["留给下一位", "丝滑交接", "座位回到池子"],
+      cancel: ["计划有变", "下次再卷", "撤退成功"],
+      captain: ["Captain online", "房间情报更新", "坐标已同步"],
+      publish: ["Captain 启航", "开房间了", "主校区集合"],
+      refresh: ["数据刷新", "同步一下", "看眼最新"],
+      feedback: ["收到反馈", "问题入库", "感谢投递"],
+      chat: ["消息已飞", "广场发言", "已送达"],
+      auth: ["Welcome", "身份确认", "进场"],
+      default: ["TUM BLUE", "Nice click", "StudiTUM mode"]
+    };
+
+    function stickerPoolForTarget(target) {
+      if (target.matches("[data-room-status][data-status='completed']")) return CLICK_STICKERS.complete;
+      if (target.matches("[data-room-join]")) return CLICK_STICKERS.join;
+      if (target.matches("[data-room-checkin]")) return CLICK_STICKERS.checkin;
+      if (target.matches("[data-room-release-member]")) return CLICK_STICKERS.release;
+      if (target.matches("[data-room-cancel-member], [data-room-status][data-status='cancelled']")) return CLICK_STICKERS.cancel;
+      if (target.matches("[data-room-arrival], [data-captain-save], [data-captain-plan-save]")) return CLICK_STICKERS.captain;
+      if (target.id === "createRoomPlanButton") return CLICK_STICKERS.publish;
+      if (target.id === "refreshButton") return CLICK_STICKERS.refresh;
+      if (target.id === "sendFeedbackButton") return CLICK_STICKERS.feedback;
+      if (target.id === "sendChatButton") return CLICK_STICKERS.chat;
+      if (target.id === "loginButton" || target.id === "signupButton") return CLICK_STICKERS.auth;
+      return CLICK_STICKERS.default;
+    }
+
+    function showClickSticker(event) {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!(event.target instanceof Element)) return;
+      const target = event.target.closest("button, .tag, .day-card");
+      if (!target || target.disabled) return;
+      const pool = stickerPoolForTarget(target);
+      const sticker = document.createElement("span");
+      sticker.className = "tap-sticker";
+      sticker.textContent = pool[Math.floor(Math.random() * pool.length)];
+      sticker.style.left = `${event.clientX}px`;
+      sticker.style.top = `${event.clientY}px`;
+      sticker.style.setProperty("--sticker-tilt", `${Math.round(Math.random() * 14 - 7)}deg`);
+      document.body.appendChild(sticker);
+      window.setTimeout(() => sticker.remove(), 760);
     }
 
     function isAdmin() {
@@ -1040,6 +3910,36 @@
         .filter(isVisiblePlan);
     }
 
+    function plansForDate(dateString) {
+      const plans = isAdmin()
+        ? state.roomPlans.filter((plan) => plan.plan_date === dateString)
+        : visiblePlansForDate(dateString);
+      return sortRoomPlans(plans);
+    }
+
+    function isJoinablePlan(plan) {
+      return !["cancelled", "completed"].includes(plan.status) && Boolean(earliestAvailableSlot(plan));
+    }
+
+    function isFullReferencePlan(plan) {
+      return !["cancelled", "completed"].includes(plan.status) && !earliestAvailableSlot(plan);
+    }
+
+    function roomPlanPriority(plan) {
+      if (isJoinablePlan(plan)) return 0;
+      if (isFullReferencePlan(plan)) return 1;
+      if (plan.status === "completed") return 2;
+      if (plan.status === "cancelled") return 3;
+      return 4;
+    }
+
+    function sortRoomPlans(plans) {
+      return [...plans].sort((a, b) =>
+        roomPlanPriority(a) - roomPlanPriority(b)
+        || `${a.start_time}`.localeCompare(`${b.start_time}`)
+      );
+    }
+
     function planStatusLabel(plan) {
       if (plan.status === "cancelled") return "已取消";
       if (plan.status === "active") return "已到达";
@@ -1072,8 +3972,135 @@
       return activeMembersForPlan(plan.id).filter((member) => member.user_id !== plan.captain_id);
     }
 
+    function planStartMinute(plan) {
+      return minutesFromTime(plan.start_time) ?? 0;
+    }
+
+    function planEndMinute(plan) {
+      const start = planStartMinute(plan);
+      const end = minutesFromTime(plan.end_time);
+      return end && end > start ? end : start;
+    }
+
+    function availabilityReferenceMinute(plan) {
+      const start = planStartMinute(plan);
+      const end = planEndMinute(plan);
+      if (plan.plan_date === today()) {
+        const current = roundUpToStep(currentLocalMinutes());
+        if (current >= end) return end;
+        if (current > start) return clampMinutes(current, start, end);
+      }
+      return start;
+    }
+
+    function memberWindow(plan, member) {
+      if (!["requested", "expected", "confirmed"].includes(member.status)) return null;
+      if (member.user_id === plan.captain_id) return null;
+      const planStart = planStartMinute(plan);
+      const planEnd = planEndMinute(plan);
+      const start = clampMinutes(minutesFromTime(member.eta) ?? planStart, planStart, planEnd);
+      const end = clampMinutes(minutesFromTime(member.planned_leave_at) ?? planEnd, planStart, planEnd);
+      if (end <= start) return null;
+      return { start, end };
+    }
+
+    function memberOverlapsWindow(plan, member, windowStart, windowEnd) {
+      const window = memberWindow(plan, member);
+      return Boolean(window && window.start < windowEnd && window.end > windowStart);
+    }
+
+    function seatsLeftForWindowMinutes(plan, windowStart, windowEnd) {
+      if (["cancelled", "completed"].includes(plan.status)) return 0;
+      const planStart = planStartMinute(plan);
+      const planEnd = planEndMinute(plan);
+      const start = clampMinutes(Number(windowStart), planStart, planEnd);
+      const end = clampMinutes(Number(windowEnd), planStart, planEnd);
+      if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) return 0;
+      const occupied = activeGuestsForPlan(plan).filter((member) => memberOverlapsWindow(plan, member, start, end)).length;
+      return Math.max(0, shareableSeatLimit(plan) - occupied);
+    }
+
+    function seatsLeftForWindow(plan, startTime, endTime) {
+      const start = minutesFromTime(startTime);
+      const end = minutesFromTime(endTime);
+      if (start === null || end === null) return 0;
+      return seatsLeftForWindowMinutes(plan, start, end);
+    }
+
+    function availabilitySegments(plan) {
+      if (["cancelled", "completed"].includes(plan.status)) return [];
+      const start = availabilityReferenceMinute(plan);
+      const end = planEndMinute(plan);
+      if (end <= start) return [];
+      const points = new Set([start, end]);
+      activeGuestsForPlan(plan).forEach((member) => {
+        const window = memberWindow(plan, member);
+        if (!window || window.end <= start || window.start >= end) return;
+        points.add(clampMinutes(window.start, start, end));
+        points.add(clampMinutes(window.end, start, end));
+      });
+      const sorted = [...points].sort((a, b) => a - b);
+      return sorted.slice(0, -1).map((point, index) => {
+        const next = sorted[index + 1];
+        return {
+          start: point,
+          end: next,
+          seats: seatsLeftForWindowMinutes(plan, point, next)
+        };
+      }).filter((segment) => segment.end > segment.start);
+    }
+
+    function availableSeatSegments(plan) {
+      return availabilitySegments(plan).reduce((slots, segment) => {
+        if (segment.seats <= 0) return slots;
+        const previous = slots.at(-1);
+        if (previous && previous.end === segment.start && previous.seats === segment.seats) {
+          previous.end = segment.end;
+        } else {
+          slots.push({ ...segment });
+        }
+        return slots;
+      }, []);
+    }
+
+    function earliestAvailableSlot(plan) {
+      return availableSeatSegments(plan)[0] || null;
+    }
+
     function seatsLeft(plan) {
-      return Math.max(0, plan.max_capacity - activeMembersForPlan(plan.id).length - guestSeatsHeld(plan));
+      return earliestAvailableSlot(plan)?.seats || 0;
+    }
+
+    function availabilityStatusText(plan) {
+      const slot = earliestAvailableSlot(plan);
+      if (!slot) return "已满 · 保留参考";
+      const prefix = slot.start > availabilityReferenceMinute(plan) ? `${timeFromMinutes(slot.start)} 后 ` : "";
+      return `${prefix}${slot.seats} 可预约`;
+    }
+
+    function availabilityTimelineHtml(plan) {
+      const slots = availableSeatSegments(plan);
+      if (!slots.length) return `<div class="seat-timeline empty">剩余时段暂无可预约座位</div>`;
+      return `<div class="seat-timeline">${slots.slice(0, 4).map((slot) => `
+        <span class="seat-slot">${escapeHtml(timeFromMinutes(slot.start))}-${escapeHtml(timeFromMinutes(slot.end))} · ${slot.seats} 座</span>
+      `).join("")}${slots.length > 4 ? `<span class="muted">还有 ${slots.length - 4} 段</span>` : ""}</div>`;
+    }
+
+    function defaultJoinWindow(plan) {
+      const planStart = planStartMinute(plan);
+      const planEnd = planEndMinute(plan);
+      const slot = earliestAvailableSlot(plan);
+      if (!slot) {
+        const start = clampMinutes(availabilityReferenceMinute(plan), planStart, planEnd);
+        return { start, end: Math.min(planEnd, start + TIME_STEP_MINUTES) };
+      }
+      const slotLength = Math.max(1, slot.end - slot.start);
+      const minStep = Math.min(TIME_STEP_MINUTES, slotLength);
+      const preferredEnd = Math.min(slot.end, slot.start + 180);
+      return {
+        start: slot.start,
+        end: Math.min(slot.end, Math.max(slot.start + minStep, preferredEnd))
+      };
     }
 
     function hasJoined(planId) {
@@ -1084,15 +4111,498 @@
       return membersForPlan(planId).find((member) => member.user_id === state.profile.id);
     }
 
+    function memberStatusLabel(status) {
+      return {
+        requested: "计划加入",
+        expected: "预计到达",
+        confirmed: "已到达",
+        cancelled: "已取消",
+        released: "已离开"
+      }[status] || status;
+    }
+
+    function memberTimeSummary(member) {
+      const parts = [];
+      if (member.eta) parts.push(`到 ${timeShort(member.eta)}`);
+      if (member.planned_leave_at) parts.push(`离 ${timeShort(member.planned_leave_at)}`);
+      if (member.released_at) parts.push("已释放座位");
+      return parts.length ? ` · ${parts.join(" · ")}` : "";
+    }
+
+    const ACHIEVEMENT_RARITY_SCORE = { C: 1, B: 2, A: 3, S: 4, SS: 5 };
+    const ACHIEVEMENT_CATEGORY_PRIORITY = {
+      admin: 7,
+      duration: 6,
+      captain: 5,
+      reliability: 4,
+      time: 3,
+      mode: 2,
+      starter: 1
+    };
+
+    // First implementation: achievements are computed from existing room plans and check-ins.
+    // Later we can persist the same definition ids in achievements/user_achievements tables.
+    const ACHIEVEMENT_DEFINITIONS = [
+      {
+        id: "mcflurry_supplier",
+        label: "麦旋风供应商",
+        rarity: "SS",
+        category: "admin",
+        description: "管理员专属称号",
+        isEarned: (ctx) => ctx.profile?.role === "admin"
+      },
+      {
+        id: "new_user",
+        label: "新人",
+        rarity: "C",
+        category: "starter",
+        description: "完成注册",
+        isEarned: (ctx) => Boolean(ctx.profile)
+      },
+      {
+        id: "first_seat",
+        label: "入座",
+        rarity: "C",
+        category: "starter",
+        description: "第一次加入房间计划",
+        isEarned: (ctx) => ctx.memberships.length >= 1
+      },
+      {
+        id: "first_checkin",
+        label: "首签",
+        rarity: "C",
+        category: "starter",
+        description: "第一次完成到场签到",
+        isEarned: (ctx) => ctx.confirmedEntries.length >= 1
+      },
+      {
+        id: "new_captain",
+        label: "新船长",
+        rarity: "B",
+        category: "starter",
+        description: "注册后 24 小时内创建第一个房间计划",
+        isEarned: (ctx) => ctx.firstCaptainPlanWithinHours <= 24
+      },
+      {
+        id: "first_voyage",
+        label: "首航",
+        rarity: "B",
+        category: "starter",
+        description: "第一次作为 Seat Captain 完成房间计划",
+        isEarned: (ctx) => ctx.completedCaptainPlans.length >= 1
+      },
+      {
+        id: "promise_keeper",
+        label: "守约",
+        rarity: "B",
+        category: "reliability",
+        description: "第一次按计划到场并完成自习",
+        isEarned: (ctx) => ctx.completedEntries.length >= 1
+      },
+      {
+        id: "early_bird",
+        label: "早鸟",
+        rarity: "C",
+        category: "time",
+        description: "9:00 前到场一次",
+        isEarned: (ctx) => ctx.before0900Entries.length >= 1
+      },
+      {
+        id: "morning_person",
+        label: "晨型人",
+        rarity: "B",
+        category: "time",
+        description: "近 30 天上午到场 5 次",
+        isEarned: (ctx) => ctx.morningEntries30.length >= 5
+      },
+      {
+        id: "dawn",
+        label: "破晓",
+        rarity: "A",
+        category: "time",
+        description: "8:00 前完成 5 次自习",
+        isEarned: (ctx) => ctx.before0800Entries.length >= 5
+      },
+      {
+        id: "seven_thirty",
+        label: "七点半",
+        rarity: "S",
+        category: "time",
+        description: "7:30 前完成 8 次自习，跨度至少 14 天",
+        isEarned: (ctx) => ctx.before0730Entries.length >= 8 && spanDays(ctx.before0730Entries) >= 14
+      },
+      {
+        id: "night_owl",
+        label: "夜猫",
+        rarity: "C",
+        category: "time",
+        description: "18:00 后到场一次",
+        isEarned: (ctx) => ctx.after1800Entries.length >= 1
+      },
+      {
+        id: "night_sail",
+        label: "夜航",
+        rarity: "B",
+        category: "time",
+        description: "近 30 天晚间到场 5 次",
+        isEarned: (ctx) => ctx.after1800Entries30.length >= 5
+      },
+      {
+        id: "lamp_keeper",
+        label: "守灯人",
+        rarity: "A",
+        category: "time",
+        description: "20:00 后完成 8 次自习",
+        isEarned: (ctx) => ctx.after2000Entries.length >= 8
+      },
+      {
+        id: "moonlight",
+        label: "月下",
+        rarity: "S",
+        category: "time",
+        description: "20:00 后完成 15 次自习，跨度至少 30 天",
+        isEarned: (ctx) => ctx.after2000Entries.length >= 15 && spanDays(ctx.after2000Entries) >= 30
+      },
+      {
+        id: "regular",
+        label: "常客",
+        rarity: "C",
+        category: "duration",
+        description: "一周累计 8 小时以上",
+        isEarned: (ctx) => ctx.studyHours7 >= 8
+      },
+      {
+        id: "resident",
+        label: "驻场",
+        rarity: "B",
+        category: "duration",
+        description: "一周累计 16 小时以上",
+        isEarned: (ctx) => ctx.studyHours7 >= 16
+      },
+      {
+        id: "commando",
+        label: "特种兵",
+        rarity: "A",
+        category: "duration",
+        description: "一周累计 28 小时以上",
+        isEarned: (ctx) => ctx.studyHours7 >= 28
+      },
+      {
+        id: "grind_king",
+        label: "卷王",
+        rarity: "S",
+        category: "duration",
+        description: "一周累计 40 小时以上",
+        isEarned: (ctx) => ctx.studyHours7 >= 40
+      },
+      {
+        id: "studitum_anchor",
+        label: "地缚灵",
+        rarity: "SS",
+        category: "duration",
+        description: "连续 4 周每周 35 小时以上，且至少 20 次签到",
+        isEarned: (ctx) => ctx.confirmedEntries28.length >= 20 && ctx.weeklyHours28.every((hours) => hours >= 35)
+      },
+      {
+        id: "captain",
+        label: "Captain",
+        rarity: "C",
+        category: "captain",
+        description: "创建过 1 个房间计划",
+        isEarned: (ctx) => ctx.captainPlans.length >= 1
+      },
+      {
+        id: "leader",
+        label: "带队",
+        rarity: "B",
+        category: "captain",
+        description: "完成 3 次 Seat Captain 计划",
+        isEarned: (ctx) => ctx.completedCaptainPlans.length >= 3
+      },
+      {
+        id: "anchor_captain",
+        label: "定海针",
+        rarity: "A",
+        category: "captain",
+        description: "完成 8 次 Captain 计划，可靠率 85% 以上",
+        isEarned: (ctx) => ctx.completedCaptainPlans.length >= 8 && ctx.captainReliability >= 85
+      },
+      {
+        id: "old_captain",
+        label: "老船长",
+        rarity: "S",
+        category: "captain",
+        description: "完成 20 次 Captain 计划，可靠率 90% 以上，跨度至少 30 天",
+        isEarned: (ctx) => ctx.completedCaptainPlans.length >= 20 && ctx.captainReliability >= 90 && spanDays(ctx.completedCaptainPlans) >= 30
+      },
+      {
+        id: "sits_in_command",
+        label: "坐镇",
+        rarity: "SS",
+        category: "captain",
+        description: "完成 50 次 Captain 计划，可靠率 92% 以上，跨度至少 90 天",
+        isEarned: (ctx) => ctx.completedCaptainPlans.length >= 50 && ctx.captainReliability >= 92 && spanDays(ctx.completedCaptainPlans) >= 90
+      },
+      {
+        id: "no_flake",
+        label: "不鸽",
+        rarity: "B",
+        category: "reliability",
+        description: "最近 3 次加入后都完成签到",
+        isEarned: (ctx) => hasRecentConfirmedStreak(ctx, 3)
+      },
+      {
+        id: "steady",
+        label: "稳定",
+        rarity: "A",
+        category: "reliability",
+        description: "最近 10 次加入后都完成签到",
+        isEarned: (ctx) => hasRecentConfirmedStreak(ctx, 10)
+      },
+      {
+        id: "seat_releaser",
+        label: "让座",
+        rarity: "B",
+        category: "reliability",
+        description: "提前离开并释放座位 3 次",
+        isEarned: (ctx) => ctx.releasedMemberships.length >= 3
+      },
+      {
+        id: "good_teammate",
+        label: "好队友",
+        rarity: "A",
+        category: "reliability",
+        description: "释放座位或提前取消合计 10 次",
+        isEarned: (ctx) => ctx.releasedOrCancelledMemberships.length >= 10
+      },
+      {
+        id: "reliable",
+        label: "靠谱人",
+        rarity: "S",
+        category: "reliability",
+        description: "近 60 天加入/创建计划 20 次，履约率 90% 以上",
+        isEarned: (ctx) => ctx.resolvedMemberships60.length >= 20 && ctx.memberReliability >= 90
+      },
+      {
+        id: "quiet_start",
+        label: "静音",
+        rarity: "C",
+        category: "mode",
+        description: "参加安静自习 1 次",
+        isEarned: (ctx) => ctx.quietEntries.length >= 1
+      },
+      {
+        id: "quiet_person",
+        label: "安静派",
+        rarity: "B",
+        category: "mode",
+        description: "参加安静自习 5 次",
+        isEarned: (ctx) => ctx.quietEntries.length >= 5
+      },
+      {
+        id: "whisperer",
+        label: "低语者",
+        rarity: "A",
+        category: "mode",
+        description: "参加安静自习 15 次",
+        isEarned: (ctx) => ctx.quietEntries.length >= 15
+      },
+      {
+        id: "mic_on",
+        label: "开麦",
+        rarity: "C",
+        category: "mode",
+        description: "参加讨论型自习 1 次",
+        isEarned: (ctx) => ctx.discussionEntries.length >= 1
+      },
+      {
+        id: "team_up",
+        label: "组队",
+        rarity: "B",
+        category: "mode",
+        description: "参加讨论型自习 5 次",
+        isEarned: (ctx) => ctx.discussionEntries.length >= 5
+      },
+      {
+        id: "organizer",
+        label: "召集人",
+        rarity: "A",
+        category: "mode",
+        description: "作为 Captain 组织讨论型自习 8 次",
+        isEarned: (ctx) => ctx.completedDiscussionCaptainPlans.length >= 8
+      }
+    ];
+
+    function planEndsAt(plan) {
+      return new Date(`${plan.plan_date}T${timeShort(plan.end_time) || "00:00"}:00`);
+    }
+
+    function planDurationHours(plan) {
+      const diff = (planEndsAt(plan).getTime() - roomPlanStartsAt(plan).getTime()) / 36e5;
+      return Number.isFinite(diff) ? Math.max(0, diff) : 0;
+    }
+
+    function memberStudyHours(entry) {
+      const startTime = timeShort(entry.member.eta) || timeShort(entry.plan.start_time) || "00:00";
+      const plannedEndTime = timeShort(entry.member.planned_leave_at) || timeShort(entry.plan.end_time) || "00:00";
+      const startAt = new Date(`${entry.plan.plan_date}T${startTime}:00`);
+      const plannedEndAt = new Date(`${entry.plan.plan_date}T${plannedEndTime}:00`);
+      const releasedAt = entry.member.released_at ? new Date(entry.member.released_at) : null;
+      const endAt = releasedAt && Number.isFinite(releasedAt.getTime())
+        ? releasedAt
+        : plannedEndAt;
+      const diff = (endAt.getTime() - startAt.getTime()) / 36e5;
+      return Number.isFinite(diff) ? Math.max(0, Math.min(diff, planDurationHours(entry.plan))) : 0;
+    }
+
+    function planDateValue(plan) {
+      return new Date(`${plan.plan_date}T12:00:00`).getTime();
+    }
+
+    function isPlanWithinDays(plan, days) {
+      return plan.plan_date >= addDays(today(), -days) && plan.plan_date <= today();
+    }
+
+    function achievementTime(entry) {
+      const plan = entry.plan || entry;
+      return timeShort(entry.member?.eta) || timeShort(plan.planned_arrival) || timeShort(plan.start_time) || "00:00";
+    }
+
+    function achievementDateValue(entry) {
+      const plan = entry.plan || entry;
+      return planDateValue(plan);
+    }
+
+    function spanDays(entries) {
+      if (!entries.length) return 0;
+      const values = entries.map(achievementDateValue).sort((a, b) => a - b);
+      return Math.round((values[values.length - 1] - values[0]) / 86400000) + 1;
+    }
+
+    function memberPlanEntries(userId) {
+      return state.roomMembers
+        .filter((member) => member.user_id === userId)
+        .map((member) => ({ member, plan: state.roomPlans.find((plan) => plan.id === member.room_plan_id) }))
+        .filter((entry) => entry.plan);
+    }
+
+    function studyEntriesForAchievements(entries) {
+      return entries.filter((entry) =>
+        ["confirmed", "released"].includes(entry.member.status)
+        && ["active", "completed"].includes(entry.plan.status)
+      );
+    }
+
+    function studyHours(entries) {
+      return entries.reduce((total, entry) => total + memberStudyHours(entry), 0);
+    }
+
+    function weeklyHours(entries, weeks) {
+      return Array.from({ length: weeks }, (_, index) => {
+        const start = addDays(today(), -7 * (index + 1) + 1);
+        const end = addDays(today(), -7 * index);
+        return studyHours(entries.filter((entry) => entry.plan.plan_date >= start && entry.plan.plan_date <= end));
+      });
+    }
+
+    function reliabilityPercent(good, bad) {
+      const total = good + bad;
+      return total ? Math.round((good / total) * 100) : 0;
+    }
+
+    function firstCaptainPlanWithinHours(profile, captainPlans) {
+      if (!profile?.created_at || captainPlans.length === 0) return Infinity;
+      const firstPlan = [...captainPlans].sort((a, b) => new Date(a.created_at) - new Date(b.created_at))[0];
+      return (new Date(firstPlan.created_at).getTime() - new Date(profile.created_at).getTime()) / 36e5;
+    }
+
+    function hasRecentConfirmedStreak(ctx, length) {
+      const resolved = ctx.resolvedMemberships
+        .filter((member) => member.status !== "released")
+        .sort((a, b) => new Date(b.created_at || b.updated_at) - new Date(a.created_at || a.updated_at));
+      return resolved.length >= length && resolved.slice(0, length).every((member) => member.status === "confirmed");
+    }
+
+    function achievementContext(userId) {
+      const profile = state.profiles.find((item) => item.id === userId);
+      const captainPlans = state.roomPlans.filter((plan) => plan.captain_id === userId);
+      const completedCaptainPlans = captainPlans.filter((plan) => plan.status === "completed");
+      const cancelledCaptainPlans = captainPlans.filter((plan) => plan.status === "cancelled");
+      const entries = memberPlanEntries(userId);
+      const memberships = entries.map((entry) => entry.member);
+      const confirmedEntries = studyEntriesForAchievements(entries);
+      const completedEntries = confirmedEntries.filter((entry) => entry.plan.status === "completed");
+      const recent30Entries = confirmedEntries.filter((entry) => isPlanWithinDays(entry.plan, 30));
+      const recent60Entries = confirmedEntries.filter((entry) => isPlanWithinDays(entry.plan, 60));
+      const recent28Entries = confirmedEntries.filter((entry) => isPlanWithinDays(entry.plan, 28));
+      const resolvedMemberships = memberships.filter((member) => ["confirmed", "cancelled", "released"].includes(member.status));
+      const resolvedMemberships60 = entries
+        .filter((entry) => isPlanWithinDays(entry.plan, 60) && ["confirmed", "cancelled", "released"].includes(entry.member.status))
+        .map((entry) => entry.member);
+      const releasedMemberships = memberships.filter((member) => member.status === "released");
+      const cancelledMemberships = memberships.filter((member) => member.status === "cancelled");
+      const captainReliability = reliabilityPercent(completedCaptainPlans.length, cancelledCaptainPlans.length);
+      const memberReliability = reliabilityPercent(
+        memberships.filter((member) => member.status === "confirmed").length,
+        cancelledMemberships.length
+      );
+
+      return {
+        profile,
+        memberships,
+        captainPlans,
+        completedCaptainPlans,
+        completedDiscussionCaptainPlans: completedCaptainPlans.filter((plan) => plan.discussion_mode === "discussion"),
+        confirmedEntries,
+        confirmedEntries28: recent28Entries,
+        completedEntries,
+        resolvedMemberships,
+        resolvedMemberships60,
+        releasedMemberships,
+        releasedOrCancelledMemberships: [...releasedMemberships, ...cancelledMemberships],
+        firstCaptainPlanWithinHours: firstCaptainPlanWithinHours(profile, captainPlans),
+        captainReliability,
+        memberReliability,
+        before0900Entries: completedEntries.filter((entry) => achievementTime(entry) < "09:00"),
+        before0800Entries: completedEntries.filter((entry) => achievementTime(entry) < "08:00"),
+        before0730Entries: completedEntries.filter((entry) => achievementTime(entry) <= "07:30"),
+        morningEntries30: recent30Entries.filter((entry) => achievementTime(entry) < "12:00"),
+        after1800Entries: completedEntries.filter((entry) => achievementTime(entry) >= "18:00"),
+        after1800Entries30: recent30Entries.filter((entry) => achievementTime(entry) >= "18:00"),
+        after2000Entries: completedEntries.filter((entry) => achievementTime(entry) >= "20:00"),
+        studyHours7: studyHours(confirmedEntries.filter((entry) => isPlanWithinDays(entry.plan, 7))),
+        weeklyHours28: weeklyHours(recent28Entries, 4),
+        quietEntries: completedEntries.filter((entry) => entry.plan.discussion_mode === "quiet"),
+        discussionEntries: completedEntries.filter((entry) => entry.plan.discussion_mode === "discussion")
+      };
+    }
+
+    function achievementsForUser(userId) {
+      const ctx = achievementContext(userId);
+      return ACHIEVEMENT_DEFINITIONS
+        .filter((definition) => definition.isEarned(ctx))
+        .sort((a, b) =>
+          ACHIEVEMENT_RARITY_SCORE[b.rarity] - ACHIEVEMENT_RARITY_SCORE[a.rarity]
+          || ACHIEVEMENT_CATEGORY_PRIORITY[b.category] - ACHIEVEMENT_CATEGORY_PRIORITY[a.category]
+          || a.label.localeCompare(b.label, "zh-CN")
+        );
+    }
+
+    function primaryAchievementsForUser(userId, limit = 2) {
+      const achievements = achievementsForUser(userId);
+      const meaningful = achievements.filter((item) => item.id !== "new_user");
+      return (meaningful.length ? meaningful : achievements).slice(0, limit);
+    }
+
+    function renderAchievementChips(achievements) {
+      if (!achievements.length) return "";
+      return `<span class="achievement-list">${achievements.map((achievement) => `
+        <span class="achievement-chip rarity-${achievement.rarity.toLowerCase()}" data-rarity="${escapeHtml(achievement.rarity)}" title="${escapeHtml(achievement.description)}">${escapeHtml(achievement.label)}</span>
+      `).join("")}</span>`;
+    }
+
     function captainTitle(userId) {
-      const plans = state.roomPlans.filter((plan) => plan.captain_id === userId);
-      const completed = plans.filter((plan) => plan.status === "completed");
-      const early = completed.filter((plan) => plan.planned_arrival && timeShort(plan.planned_arrival) <= "07:45");
-      if (completed.length >= 5) return "Room Ranger";
-      if (early.length >= 1) return "7:30 Hero";
-      if (completed.length >= 1) return "Promise Keeper";
-      if (plans.length >= 1) return "Seat Captain";
-      return "";
+      return primaryAchievementsForUser(userId, 1)[0]?.label || "";
     }
 
     function captainReliability(userId) {
@@ -1118,6 +4628,8 @@
     }
 
     function focusCaptainEditor(planId, focus = "room") {
+      state.expandedCaptainPlans.add(planId);
+      renderMyCaptainActions();
       const card = document.querySelector(`[data-captain-card="${planId}"]`);
       if (!card) return;
       card.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1148,12 +4660,32 @@
       return result.data;
     }
 
+    function isMissingColumnResult(result, columnName) {
+      if (!result.error) return false;
+      const text = `${result.error.code || ""} ${result.error.message || ""} ${result.error.details || ""}`;
+      return text.includes("PGRST204") && text.includes(columnName);
+    }
+
+    function showAuthMode(mode, notice = "") {
+      const isSignup = mode === "signup";
+      $("loginPanel").classList.toggle("hidden", isSignup);
+      $("signupPanel").classList.toggle("hidden", !isSignup);
+      $("loginError").textContent = "";
+      $("signupError").textContent = "";
+      $("loginNotice").textContent = notice;
+      if (isSignup) {
+        $("signupUsername").focus();
+      } else {
+        $("loginUsername").focus();
+      }
+    }
+
     async function signUp() {
       $("signupError").textContent = "";
+      $("loginNotice").textContent = "";
       const username = normalizeUsername($("signupUsername").value);
       const nickname = $("signupNickname").value.trim() || username;
       const password = $("signupPassword").value;
-      const adminSetupCode = $("adminSetupCode").value.trim();
       if (!username || password.length < 6) {
         $("signupError").textContent = "用户名不能为空，密码至少 6 位。";
         return;
@@ -1162,7 +4694,7 @@
       const result = await supabase.auth.signUp({
         email: fakeEmail(username),
         password,
-        options: { data: { username, nickname, admin_setup_code: adminSetupCode } }
+        options: { data: { username, nickname } }
       });
 
       if (result.error) {
@@ -1170,12 +4702,19 @@
         return;
       }
 
-      $("signupError").textContent = "账号已创建。如果没有自动进入，请尝试登录。";
-      await boot();
+      await supabase.auth.signOut();
+      state.session = null;
+      $("loginUsername").value = username;
+      $("loginPassword").value = "";
+      $("signupUsername").value = "";
+      $("signupNickname").value = "";
+      $("signupPassword").value = "";
+      showAuthMode("login", "账号已创建，请用刚才设置的密码登录。");
     }
 
     async function login() {
       $("loginError").textContent = "";
+      $("loginNotice").textContent = "";
       const username = normalizeUsername($("loginUsername").value);
       const password = $("loginPassword").value;
       if (!username || !password) {
@@ -1228,7 +4767,7 @@
       );
 
       state.roomPlans = await requireOk(
-        await supabase.from("room_plans").select("*").gte("plan_date", addDays(today(), -30)).order("plan_date").order("start_time").limit(500),
+        await supabase.from("room_plans").select("*").gte("plan_date", addDays(today(), -120)).order("plan_date").order("start_time").limit(1000),
         "Cannot load room plans. Please run supabase_room_mvp_migration.sql first."
       );
 
@@ -1271,14 +4810,13 @@
     function renderAuth() {
       $("authView").classList.remove("hidden");
       $("appView").classList.add("hidden");
+      showAuthMode("login");
     }
 
     function syncSeatCaptainLabels() {
-      $("createRoomPlanButton").textContent = "作为 Seat Captain 发布计划";
-      const roomPanelSubtitle = document.querySelector("#appView section.stack > .panel .panel-head .muted");
-      if (roomPanelSubtitle) roomPanelSubtitle.textContent = "看未来 7 天谁会去 StudiTUM；Seat Captain 到场后直接填写房间号和可共享座位。";
+      $("createRoomPlanButton").textContent = "发布房间";
       const arrivalLabel = document.querySelector('input#captainArrival')?.previousElementSibling;
-      if (arrivalLabel) arrivalLabel.textContent = "Seat Captain 到达";
+      if (arrivalLabel) arrivalLabel.textContent = "Seat Captain 到达时间";
       const boardTitle = document.querySelector("#captainBoard")?.closest(".panel")?.querySelector("h2");
       if (boardTitle) boardTitle.textContent = "Seat Captain Board";
     }
@@ -1289,6 +4827,9 @@
       $("roomPlanDate").value ||= today();
       syncSeatCaptainLabels();
       renderUserBadge();
+      renderCaptainFormState();
+      renderFoldStates();
+      renderTodayStatusHero();
       renderRoomCalendar();
       renderMyCaptainActions();
       renderRoomPlans();
@@ -1301,46 +4842,179 @@
 
     function renderUserBadge() {
       const badge = $("userBadge");
-      badge.className = `pill ${isAdmin() ? "admin" : ""}`;
-      badge.textContent = `${state.profile.nickname} · ${state.profile.role}`;
+      badge.className = `pill user-badge ${isAdmin() ? "admin" : ""}`;
+      badge.innerHTML = `${avatarHtml(state.profile.id, "small")} <span>${escapeHtml(state.profile.nickname)} · ${escapeHtml(state.profile.role)}</span>`;
+    }
+
+    function openCaptainForm() {
+      state.captainFormOpen = true;
+      renderCaptainFormState();
+      $("becomeCaptainPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      $("roomPlanDate")?.focus();
+    }
+
+    function renderCaptainFormState() {
+      $("captainFormBody")?.classList.toggle("hidden", !state.captainFormOpen);
+      $("captainMoreSettings")?.classList.toggle("hidden", !state.captainMoreOpen);
+      const formButton = $("toggleCaptainFormButton");
+      if (formButton) formButton.textContent = state.captainFormOpen ? "收起" : "开放我的房间";
+      const moreButton = $("toggleCaptainMoreButton");
+      if (moreButton) moreButton.textContent = state.captainMoreOpen ? "收起更多设置" : "更多设置";
+    }
+
+    function renderFoldStates() {
+      $("captainBoardBody")?.classList.toggle("hidden", !state.captainBoardOpen);
+      $("helpFeedbackBody")?.classList.toggle("hidden", !state.helpFeedbackOpen);
+      $("releaseHistoryBody")?.classList.toggle("hidden", !state.releaseHistoryOpen);
+      const boardButton = $("toggleCaptainBoardButton");
+      if (boardButton) boardButton.textContent = state.captainBoardOpen ? "收起" : "查看";
+      const feedbackButton = $("toggleFeedbackPanelButton");
+      if (feedbackButton) feedbackButton.textContent = state.helpFeedbackOpen ? "收起" : "打开";
+      const releaseButton = $("toggleReleaseHistoryButton");
+      if (releaseButton) releaseButton.textContent = state.releaseHistoryOpen ? "收起" : "查看";
+    }
+
+    function todayRoomStats() {
+      const plans = plansForDate(today());
+      const joinablePlans = plans.filter(isJoinablePlan);
+      const openSeats = joinablePlans.reduce((sum, plan) => sum + seatsLeft(plan), 0);
+      const earliestSlot = joinablePlans
+        .map((plan) => earliestAvailableSlot(plan))
+        .filter(Boolean)
+        .sort((a, b) => a.start - b.start)[0] || null;
+      return {
+        plans,
+        joinablePlans,
+        openRooms: joinablePlans.length,
+        openSeats,
+        earliestTime: earliestSlot ? timeFromMinutes(earliestSlot.start) : "暂无"
+      };
+    }
+
+    function weekRoomStats() {
+      const weekDates = Array.from({ length: 7 }, (_, index) => addDays(today(), index));
+      const plans = weekDates.flatMap((date) => plansForDate(date));
+      return {
+        dates: weekDates,
+        plans,
+        openSeats: plans.reduce((sum, plan) => sum + seatsLeft(plan), 0)
+      };
+    }
+
+    function renderTodayStatusHero() {
+      const box = $("todayStatusHero");
+      if (!box) return;
+      const stats = todayRoomStats();
+      const hasSeats = stats.openSeats > 0;
+      box.innerHTML = `
+        <div class="today-hero-copy">
+          <div class="section-kicker">今日状态</div>
+          <h2 id="todayHeroTitle">今天还能加入吗？</h2>
+          <p>${hasSeats ? `今天有 ${stats.openSeats} 个座位可以加入。` : "今天还没有 Captain 开放房间。"}</p>
+        </div>
+        <div class="hero-metrics" aria-label="今日房间状态">
+          <div class="hero-metric ${hasSeats ? "success" : "muted"}">
+            <strong>${stats.openSeats}</strong>
+            <span>可加入座位</span>
+          </div>
+          <div class="hero-metric">
+            <strong>${stats.openRooms}</strong>
+            <span>开放房间</span>
+          </div>
+          <div class="hero-metric">
+            <strong>${escapeHtml(stats.earliestTime)}</strong>
+            <span>最早可加入</span>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <button id="todayHeroPrimaryButton" class="primary" type="button">${hasSeats ? "查看可加入房间" : "我来开放房间"}</button>
+        </div>
+      `;
+      $("todayHeroPrimaryButton").addEventListener("click", () => {
+        if (hasSeats) {
+          state.roomViewMode = "today";
+          $("roomPlanDate").value = today();
+          renderRoomCalendar();
+          renderRoomPlans();
+          $("roomPlansPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          openCaptainForm();
+        }
+      });
+    }
+
+    function renderRoomSummary() {
+      const stats = weekRoomStats();
+      const summary = $("futureDaysSummary");
+      if (summary) summary.textContent = `未来 7 天共有 ${stats.openSeats} 个座位可能开放。`;
+      return stats;
     }
 
     function renderRoomCalendar() {
-      const selected = $("roomPlanDate").value || today();
+      const selected = state.roomViewMode === "today" ? today() : ($("roomPlanDate").value || today());
       const box = $("roomCalendar");
+      const toggle = $("toggleFutureDaysButton");
+      const body = $("futureDaysBody");
+      const stats = renderRoomSummary();
+      if (toggle) toggle.textContent = state.futureDaysOpen ? "收起未来几天" : "查看未来几天";
+      if (body) body.classList.toggle("hidden", !state.futureDaysOpen);
       box.replaceChildren();
+      if (!state.futureDaysOpen) return;
 
-      for (let i = 0; i < 7; i += 1) {
-        const date = addDays(today(), i);
-        const plans = visiblePlansForDate(date);
-        const openPlans = plans.filter((plan) => plan.status !== "cancelled" && seatsLeft(plan) > 0).length;
+      stats.dates.forEach((date) => {
+        const plans = plansForDate(date);
+        const openSeats = plans.reduce((sum, plan) => sum + seatsLeft(plan), 0);
+        const firstSlot = plans
+          .map((plan) => earliestAvailableSlot(plan))
+          .filter(Boolean)
+          .sort((a, b) => a.start - b.start)[0] || null;
+        const dayState = openSeats > 0 ? "has-open" : plans.length === 0 ? "no-room" : "no-open";
         const card = document.createElement("button");
         card.type = "button";
-        card.className = `day-card ${date === selected ? "active" : ""}`;
+        card.className = `day-card ${dayState} ${date === selected ? "active" : ""}`;
         card.innerHTML = `
           <strong>${escapeHtml(dayLabel(date))}</strong>
-          <span class="day-count">${plans.length} plans · ${openPlans} open</span>
+          <span class="day-status ${openSeats > 0 ? "open" : "closed"}">${openSeats} 可加入座位</span>
+          <span class="day-count">${plans.length} 个房间</span>
+          <span class="day-count">${firstSlot ? `${escapeHtml(timeFromMinutes(firstSlot.start))} 最早` : "暂无时间"}</span>
         `;
         card.addEventListener("click", () => {
           $("roomPlanDate").value = date;
+          state.roomViewMode = date === today() ? "today" : "week";
           renderRoomCalendar();
           renderRoomPlans();
+          $("roomPlansPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
         });
         box.appendChild(card);
-      }
+      });
     }
 
-    function renderRoomPlans() {
+    function renderRoomPlansLegacy() {
       const selected = $("roomPlanDate").value || today();
       const box = $("roomPlans");
       box.replaceChildren();
-      const plans = (isAdmin()
-        ? state.roomPlans.filter((plan) => plan.plan_date === selected)
-        : visiblePlansForDate(selected)
-      ).sort((a, b) => `${a.start_time}`.localeCompare(`${b.start_time}`));
+      const plans = plansForDate(selected);
+      const openCount = plans.filter(isJoinablePlan).length;
+      const fullCount = plans.filter(isFullReferencePlan).length;
+      const openSeats = plans.reduce((sum, plan) => sum + seatsLeft(plan), 0);
+
+      const heading = document.createElement("div");
+      heading.className = "room-list-head";
+      heading.innerHTML = `
+        <div class="room-list-title">
+          <strong>${selected === today() ? "今天的房间" : escapeHtml(dayLabel(selected))}</strong>
+          <span class="muted">可加入房间优先显示；已满、已完成或近期取消的房间保留在后面。</span>
+        </div>
+        <div class="compact-list">
+          <span class="status-chip open">${openSeats} 可预约座位</span>
+          <span class="status-chip planned">${openCount} 个房间可加入</span>
+          <span class="status-chip full">${fullCount} 已满</span>
+        </div>
+      `;
+      box.appendChild(heading);
 
       if (plans.length === 0) {
-        box.innerHTML = `<div class="empty">这一天还没有房间计划。</div>`;
+        box.insertAdjacentHTML("beforeend", `<div class="empty">这一天还没有房间计划。</div>`);
         return;
       }
 
@@ -1348,7 +5022,8 @@
         const members = membersForPlan(plan.id);
         const activeGuests = activeGuestsForPlan(plan);
         const confirmed = confirmedMembersForPlan(plan.id);
-        const left = seatsLeft(plan);
+        const slot = earliestAvailableSlot(plan);
+        const left = slot?.seats || 0;
         const cancelledLate = wasCancelledLate(plan);
         const joined = hasJoined(plan.id);
         const mine = myMembership(plan.id);
@@ -1357,40 +5032,70 @@
         const canEdit = canEditRoomPlan(plan);
         const canManageArrival = canManageArrivalInfo(plan);
         const checkInReady = canCheckInNow(plan);
-        const fullnessClass = plan.status === "cancelled" ? "cancelled" : left <= 0 ? "full" : left <= 1 ? "soon" : "";
+        const canReleaseSeat = mine?.status === "confirmed" && !isCaptain && !["cancelled", "completed"].includes(plan.status);
+        const planStart = planStartMinute(plan);
+        const planEnd = planEndMinute(plan);
+        const joinWindow = defaultJoinWindow(plan);
+        const windowSeats = seatsLeftForWindowMinutes(plan, joinWindow.start, joinWindow.end);
+        const fullnessClass = plan.status === "cancelled" ? "cancelled" : plan.status === "completed" ? "completed" : left <= 0 ? "full" : left <= 1 ? "soon" : "";
         const seatClass = left <= 0 ? "full" : left <= 1 ? "tight" : "open";
         const planStatusClass = plan.status === "cancelled" ? "cancelled" : plan.status === "active" ? "active" : "planned";
-        const captainTitleText = captainTitle(plan.captain_id);
+        const captainAchievements = primaryAchievementsForUser(plan.captain_id, 2);
         const item = document.createElement("div");
         item.className = `item room-card ${fullnessClass}`;
         item.innerHTML = `
           <div class="split">
             <div>
               <strong>${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))} · ${escapeHtml(roomTypeLabel(plan.room_type))}</strong>
-              <div class="muted">Seat Captain: ${escapeHtml(profileName(plan.captain_id))} ${captainTitleText ? `<span class="captain-badge">${escapeHtml(captainTitleText)}</span>` : ""}</div>
+              <div class="muted captain-line">Seat Captain: ${avatarHtml(plan.captain_id, "small")} ${memberNameHtml(plan.captain_id, "captain-name")} ${renderAchievementChips(captainAchievements)}</div>
             </div>
             <div class="compact-list">
               <span class="status-chip ${plan.status === "completed" ? "completed" : planStatusClass}">${planStatusLabel(plan)}</span>
-              <span class="status-chip ${seatClass}">${left} 可加入</span>
+              <span class="status-chip ${seatClass}">${escapeHtml(availabilityStatusText(plan))}</span>
             </div>
           </div>
           <div class="compact-list">
             <span class="pill">${escapeHtml(discussionLabel(plan.discussion_mode))}</span>
             <span class="pill">${confirmed.length} checked in</span>
-            <span class="pill">${activeGuests.length}/${shareableSeatLimit(plan)} 已加入</span>
+            <span class="pill">${activeGuests.length}/${shareableSeatLimit(plan)} 已登记</span>
           </div>
           <div><strong>${escapeHtml(plan.actual_room_label ? "房间 " + plan.actual_room_label : "房间号待 Seat Captain 到场后补充")}</strong></div>
           <div class="muted">${escapeHtml(plan.topic || "无主题")} · Seat Captain ETA ${escapeHtml(timeShort(plan.planned_arrival) || "未设置")}</div>
           ${cancelledLate ? `<div class="muted" style="color:#bd2c2c;">Seat Captain 在开始前 12 小时内取消了计划，该房间当前不可用。</div>` : ""}
           ${plan.note ? `<div class="muted">${escapeHtml(plan.note)}</div>` : ""}
+          ${availabilityTimelineHtml(plan)}
           <div class="compact-list">
-            ${members.length ? members.map((member) => `<span class="pill">${escapeHtml(profileName(member.user_id))} · ${escapeHtml(member.status)}${member.eta ? " · " + escapeHtml(timeShort(member.eta)) : ""}</span>`).join("") : `<span class="muted">还没有人加入。</span>`}
+            ${members.length ? members.map((member) => {
+              const memberAchievements = primaryAchievementsForUser(member.user_id, 1);
+              return `<span class="pill member-line">${avatarHtml(member.user_id, "small")} ${memberNameHtml(member.user_id)}${renderAchievementChips(memberAchievements)} · ${escapeHtml(memberStatusLabel(member.status))}${escapeHtml(memberTimeSummary(member))}</span>`;
+            }).join("") : `<span class="muted">还没有人加入。</span>`}
           </div>
+          ${!joined && left > 0 && planEnd > planStart && !["cancelled", "completed"].includes(plan.status) ? `
+            <div class="join-controls">
+              <div class="join-window-picker">
+                <div class="join-window-meta">
+                  <strong data-room-join-window="${plan.id}">${escapeHtml(timeFromMinutes(joinWindow.start))}-${escapeHtml(timeFromMinutes(joinWindow.end))}</strong>
+                  <span class="join-window-availability ${windowSeats > 0 ? "" : "closed"}" data-room-join-available="${plan.id}">${windowSeats > 0 ? `该时段 ${windowSeats} 个座位可预约` : "该时段已满，请拖到有空位的时间段"}</span>
+                </div>
+                <div class="join-slider-grid">
+                  <label class="field">
+                    <span>开始</span>
+                    <input data-room-join-start="${plan.id}" type="range" min="${planStart}" max="${planEnd}" step="${TIME_STEP_MINUTES}" value="${joinWindow.start}">
+                  </label>
+                  <label class="field">
+                    <span>离开</span>
+                    <input data-room-join-end="${plan.id}" type="range" min="${planStart}" max="${planEnd}" step="${TIME_STEP_MINUTES}" value="${joinWindow.end}">
+                  </label>
+                </div>
+              </div>
+              <button class="small primary" data-room-join="${plan.id}" type="button" ${windowSeats > 0 ? "" : "disabled"}>申请加入</button>
+            </div>
+          ` : ""}
           <div class="row">
-            ${!joined && left > 0 && plan.status !== "cancelled" ? `<button class="small primary" data-room-join="${plan.id}" type="button">申请加入</button>` : ""}
             ${joined && mine?.status !== "confirmed" && checkInReady ? `<button class="small" data-room-checkin="${mine.id}" type="button">我已到达</button>` : ""}
             ${joined && mine?.status !== "confirmed" && !checkInReady ? `<span class="muted">未到可签到时间</span>` : ""}
-            ${joined ? `<button class="small danger" data-room-cancel-member="${mine.id}" type="button">取消加入</button>` : ""}
+            ${canReleaseSeat ? `<button class="small primary" data-room-release-member="${mine.id}" type="button">提前离开并释放座位</button>` : ""}
+            ${joined && mine?.status !== "confirmed" ? `<button class="small danger" data-room-cancel-member="${mine.id}" type="button">取消加入</button>` : ""}
             ${canEdit && plan.status !== "completed" ? `<button class="small" data-room-edit="${plan.id}" type="button">修改计划</button>` : ""}
             ${canManageArrival && plan.status !== "completed" ? `<button class="small primary" data-room-arrival="${plan.id}" type="button">${plan.actual_room_label ? "更新房间信息" : "填写房间号"}</button>` : ""}
             ${isCaptain && !canEdit ? `<span class="muted">开始前 12 小时内锁定核心信息</span>` : ""}
@@ -1402,11 +5107,63 @@
         box.appendChild(item);
       });
 
+      const refreshJoinWindow = (planId, changed = "") => {
+        const plan = state.roomPlans.find((item) => item.id === planId);
+        const startInput = box.querySelector(`[data-room-join-start="${planId}"]`);
+        const endInput = box.querySelector(`[data-room-join-end="${planId}"]`);
+        const windowLabel = box.querySelector(`[data-room-join-window="${planId}"]`);
+        const availableLabel = box.querySelector(`[data-room-join-available="${planId}"]`);
+        const joinButton = box.querySelector(`[data-room-join="${planId}"]`);
+        if (!plan || !startInput || !endInput || !windowLabel || !availableLabel || !joinButton) return;
+
+        const planStart = planStartMinute(plan);
+        const planEnd = planEndMinute(plan);
+        let start = Number(startInput.value);
+        let end = Number(endInput.value);
+        if (changed === "start" && start >= end) end = Math.min(planEnd, start + TIME_STEP_MINUTES);
+        if (changed === "end" && end <= start) start = Math.max(planStart, end - TIME_STEP_MINUTES);
+        if (end <= start) {
+          start = planStart;
+          end = Math.min(planEnd, planStart + TIME_STEP_MINUTES);
+        }
+        start = clampMinutes(start, planStart, planEnd);
+        end = clampMinutes(end, planStart, planEnd);
+        startInput.value = String(start);
+        endInput.value = String(end);
+
+        const seats = seatsLeftForWindowMinutes(plan, start, end);
+        windowLabel.textContent = `${timeFromMinutes(start)}-${timeFromMinutes(end)}`;
+        availableLabel.textContent = seats > 0
+          ? `该时段 ${seats} 个座位可预约`
+          : "该时段已满，请拖到有空位的时间段";
+        availableLabel.classList.toggle("closed", seats <= 0);
+        joinButton.disabled = seats <= 0;
+      };
+
+      box.querySelectorAll("[data-room-join-start], [data-room-join-end]").forEach((input) => {
+        const planId = input.dataset.roomJoinStart || input.dataset.roomJoinEnd;
+        const changed = input.dataset.roomJoinStart ? "start" : "end";
+        input.addEventListener("input", () => refreshJoinWindow(planId, changed));
+        input.addEventListener("change", () => refreshJoinWindow(planId, changed));
+      });
+
       box.querySelectorAll("[data-room-join]").forEach((button) => {
         button.addEventListener("click", async () => {
-          const eta = prompt("预计到达时间，例如 09:30", "09:30");
-          if (eta === null) return;
-          await joinRoomPlan(button.dataset.roomJoin, eta);
+          const planId = button.dataset.roomJoin;
+          const plan = state.roomPlans.find((item) => item.id === planId);
+          const startInput = box.querySelector(`[data-room-join-start="${planId}"]`);
+          const endInput = box.querySelector(`[data-room-join-end="${planId}"]`);
+          if (!plan || !startInput || !endInput) return;
+          const start = Number(startInput.value);
+          const end = Number(endInput.value);
+          if (seatsLeftForWindowMinutes(plan, start, end) <= 0) {
+            alert("这个时段暂时没有可预约座位。请拖动开始或离开时间，选择有空位的时段。");
+            refreshJoinWindow(planId);
+            return;
+          }
+          const eta = timeFromMinutes(start);
+          const plannedLeaveAt = timeFromMinutes(end);
+          await joinRoomPlan(planId, eta, plannedLeaveAt);
         });
       });
 
@@ -1423,6 +5180,13 @@
 
       box.querySelectorAll("[data-room-cancel-member]").forEach((button) => {
         button.addEventListener("click", async () => updateRoomMember(button.dataset.roomCancelMember, { status: "cancelled" }));
+      });
+
+      box.querySelectorAll("[data-room-release-member]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          if (!confirm("确认提前离开并释放座位吗？其他同学会看到这个位置重新变为可加入。")) return;
+          await releaseRoomSeat(button.dataset.roomReleaseMember);
+        });
       });
 
       box.querySelectorAll("[data-room-edit]").forEach((button) => {
@@ -1442,7 +5206,272 @@
       });
     }
 
-    function renderMyCaptainActions() {
+    function renderRoomPlans() {
+      const selected = state.roomViewMode === "today" ? today() : ($("roomPlanDate").value || today());
+      const box = $("roomPlans");
+      const title = $("roomPlansTitle");
+      box.replaceChildren();
+
+      const plans = plansForDate(selected);
+      const primaryPlans = plans.filter(isJoinablePlan);
+      const primaryIds = new Set(primaryPlans.map((plan) => plan.id));
+      const secondaryPlans = plans.filter((plan) => !primaryIds.has(plan.id));
+      const openSeats = primaryPlans.reduce((sum, plan) => sum + seatsLeft(plan), 0);
+      const selectedIsToday = selected === today();
+
+      if (title) title.textContent = selectedIsToday ? "今天的可加入房间" : `${dayLabel(selected)} 的房间`;
+
+      const heading = document.createElement("div");
+      heading.className = "room-list-head room-list-head-clean";
+      heading.innerHTML = `
+        <div class="room-list-title">
+          <strong>${selectedIsToday ? "今天房间" : escapeHtml(dayLabel(selected))}</strong>
+          <span class="muted">${selectedIsToday ? "只把还能加入或即将可加入的房间放在前面。" : "这是从未来几天日期卡片进入的房间列表。"}</span>
+        </div>
+        <div class="compact-list">
+          <span class="status-chip open">${openSeats} 可加入座位</span>
+          <span class="status-chip planned">${primaryPlans.length} 个可加入房间</span>
+        </div>
+      `;
+      box.appendChild(heading);
+
+      if (plans.length === 0) {
+        box.insertAdjacentHTML("beforeend", `
+          <div class="empty empty-action">
+            <strong>${selectedIsToday ? "今天还没有开放房间。" : "这一天还没有开放房间。"}</strong>
+            <span>${selectedIsToday ? "已经到 StudiTUM 了吗？你可以成为 Seat Captain。" : "如果你那天会先到场，可以提前发布房间计划。"}</span>
+            <button class="primary small" data-open-captain-inline type="button">开放我的房间</button>
+          </div>
+        `);
+      } else if (primaryPlans.length === 0) {
+        box.insertAdjacentHTML("beforeend", `
+          <div class="empty empty-action">
+            <strong>${selectedIsToday ? "今天还没有可加入座位。" : "这一天暂时没有可加入座位。"}</strong>
+            <span>已满、已结束或已取消的房间已折叠在下方。</span>
+            ${selectedIsToday ? `<button class="primary small" data-open-captain-inline type="button">开放我的房间</button>` : ""}
+          </div>
+        `);
+      }
+
+      const appendRoomCard = (plan, group = "primary") => {
+        const members = membersForPlan(plan.id);
+        const activeGuests = activeGuestsForPlan(plan);
+        const confirmed = confirmedMembersForPlan(plan.id);
+        const slot = earliestAvailableSlot(plan);
+        const left = slot?.seats || 0;
+        const cancelledLate = wasCancelledLate(plan);
+        const joined = hasJoined(plan.id);
+        const mine = myMembership(plan.id);
+        const isCaptain = plan.captain_id === state.profile.id;
+        const canManage = isCaptain || isAdmin();
+        const canEdit = canEditRoomPlan(plan);
+        const canManageArrival = canManageArrivalInfo(plan);
+        const checkInReady = canCheckInNow(plan);
+        const canReleaseSeat = mine?.status === "confirmed" && !isCaptain && !["cancelled", "completed"].includes(plan.status);
+        const planStart = planStartMinute(plan);
+        const planEnd = planEndMinute(plan);
+        const joinWindow = defaultJoinWindow(plan);
+        const windowSeats = seatsLeftForWindowMinutes(plan, joinWindow.start, joinWindow.end);
+        const fullnessClass = plan.status === "cancelled" ? "cancelled" : plan.status === "completed" ? "completed" : left <= 0 ? "full" : left <= 1 ? "soon" : "";
+        const seatClass = left <= 0 ? "full" : left <= 1 ? "tight" : "open";
+        const planStatusClass = plan.status === "cancelled" ? "cancelled" : plan.status === "active" ? "active" : "planned";
+        const captainAchievements = primaryAchievementsForUser(plan.captain_id, 1);
+        const roomLabel = plan.actual_room_label ? `房间 ${plan.actual_room_label}` : roomTypeLabel(plan.room_type);
+        const item = document.createElement("div");
+        item.className = `item room-card room-card-clean ${fullnessClass} ${group === "secondary" ? "secondary-room" : ""}`;
+        item.innerHTML = `
+          <div class="room-card-main">
+            <div>
+              <strong>${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))} · ${escapeHtml(roomLabel)}</strong>
+              <div class="muted captain-line">Seat Captain: ${avatarHtml(plan.captain_id, "small")} ${memberNameHtml(plan.captain_id, "captain-name")} ${renderAchievementChips(captainAchievements)}</div>
+            </div>
+            <div class="compact-list">
+              <span class="status-chip ${plan.status === "completed" ? "completed" : planStatusClass}">${planStatusLabel(plan)}</span>
+              <span class="status-chip ${seatClass}">${escapeHtml(availabilityStatusText(plan))}</span>
+            </div>
+          </div>
+          <div class="room-card-meta">
+            <span><strong>${left}</strong><small>可加入座位</small></span>
+            <span><strong>${activeGuests.length}/${shareableSeatLimit(plan)}</strong><small>已加入</small></span>
+            <span><strong>${confirmed.length}</strong><small>已到达</small></span>
+          </div>
+          ${plan.actual_room_label ? "" : `<div class="room-hint">等待 Seat Captain 到场确认房间号。</div>`}
+          ${cancelledLate ? `<div class="room-hint danger-text">Seat Captain 在开始前 12 小时内取消了计划，该房间当前不可用。</div>` : ""}
+          ${!joined && left > 0 && planEnd > planStart && !["cancelled", "completed"].includes(plan.status) ? `
+            <div class="join-controls">
+              <div class="join-window-picker">
+                <div class="join-window-meta">
+                  <strong data-room-join-window="${plan.id}">${escapeHtml(timeFromMinutes(joinWindow.start))}-${escapeHtml(timeFromMinutes(joinWindow.end))}</strong>
+                  <span class="join-window-availability ${windowSeats > 0 ? "" : "closed"}" data-room-join-available="${plan.id}">${windowSeats > 0 ? `该时段 ${windowSeats} 个座位可预约` : "该时段已满，请拖到有空位的时间段"}</span>
+                </div>
+                <div class="join-slider-grid">
+                  <label class="field">
+                    <span>开始</span>
+                    <input data-room-join-start="${plan.id}" type="range" min="${planStart}" max="${planEnd}" step="${TIME_STEP_MINUTES}" value="${joinWindow.start}">
+                  </label>
+                  <label class="field">
+                    <span>离开</span>
+                    <input data-room-join-end="${plan.id}" type="range" min="${planStart}" max="${planEnd}" step="${TIME_STEP_MINUTES}" value="${joinWindow.end}">
+                  </label>
+                </div>
+              </div>
+              <button class="small primary" data-room-join="${plan.id}" type="button" ${windowSeats > 0 ? "" : "disabled"}>申请加入</button>
+            </div>
+          ` : ""}
+          <details class="room-extra">
+            <summary>查看成员和座位时段</summary>
+            <div class="stack">
+              ${availabilityTimelineHtml(plan)}
+              <div class="compact-list">
+                <span class="pill">${escapeHtml(discussionLabel(plan.discussion_mode))}</span>
+                ${plan.topic ? `<span class="pill">${escapeHtml(plan.topic)}</span>` : ""}
+                ${plan.note ? `<span class="pill">${escapeHtml(plan.note)}</span>` : ""}
+              </div>
+              <div class="compact-list">
+                ${members.length ? members.map((member) => {
+                  const memberAchievements = primaryAchievementsForUser(member.user_id, 1);
+                  return `<span class="pill member-line">${avatarHtml(member.user_id, "small")} ${memberNameHtml(member.user_id)}${renderAchievementChips(memberAchievements)} · ${escapeHtml(memberStatusLabel(member.status))}${escapeHtml(memberTimeSummary(member))}</span>`;
+                }).join("") : `<span class="muted">还没有人加入。</span>`}
+              </div>
+            </div>
+          </details>
+          <div class="row room-actions">
+            ${joined && mine?.status !== "confirmed" && checkInReady ? `<button class="small" data-room-checkin="${mine.id}" type="button">我已到达</button>` : ""}
+            ${joined && mine?.status !== "confirmed" && !checkInReady ? `<span class="muted">未到可签到时间</span>` : ""}
+            ${canReleaseSeat ? `<button class="small primary" data-room-release-member="${mine.id}" type="button">提前离开并释放座位</button>` : ""}
+            ${joined && mine?.status !== "confirmed" ? `<button class="small danger" data-room-cancel-member="${mine.id}" type="button">取消加入</button>` : ""}
+            ${canEdit && plan.status !== "completed" ? `<button class="small" data-room-edit="${plan.id}" type="button">修改计划</button>` : ""}
+            ${canManageArrival && plan.status !== "completed" ? `<button class="small primary" data-room-arrival="${plan.id}" type="button">${plan.actual_room_label ? "更新房间信息" : "填写房间号"}</button>` : ""}
+            ${isCaptain && !canEdit ? `<span class="muted">开始前 12 小时内锁定核心信息</span>` : ""}
+            ${canManage && !["cancelled", "completed"].includes(plan.status) ? `<button class="small" data-room-status="${plan.id}" data-status="completed" type="button">完成承诺</button>` : ""}
+            ${canManage && !["cancelled", "completed"].includes(plan.status) ? `<button class="small danger" data-room-status="${plan.id}" data-status="cancelled" type="button">取消计划</button>` : ""}
+            ${isAdmin() ? `<button class="small danger" data-room-delete="${plan.id}" type="button">删除计划</button>` : ""}
+          </div>
+        `;
+        box.appendChild(item);
+      };
+
+      primaryPlans.forEach((plan) => appendRoomCard(plan, "primary"));
+
+      if (secondaryPlans.length > 0) {
+        const fold = document.createElement("div");
+        fold.className = "fold-row closed-room-toggle";
+        fold.innerHTML = `
+          <button id="toggleClosedRoomsButton" type="button">${state.closedRoomsOpen ? "收起已满或已结束房间" : "查看已满或已结束房间"}</button>
+          <span class="muted">${secondaryPlans.length} 个房间已折叠</span>
+        `;
+        box.appendChild(fold);
+        $("toggleClosedRoomsButton").addEventListener("click", () => {
+          state.closedRoomsOpen = !state.closedRoomsOpen;
+          renderRoomPlans();
+        });
+        if (state.closedRoomsOpen) {
+          secondaryPlans.forEach((plan) => appendRoomCard(plan, "secondary"));
+        }
+      }
+
+      box.querySelectorAll("[data-open-captain-inline]").forEach((button) => {
+        button.addEventListener("click", openCaptainForm);
+      });
+
+      const refreshJoinWindow = (planId, changed = "") => {
+        const plan = state.roomPlans.find((item) => item.id === planId);
+        const startInput = box.querySelector(`[data-room-join-start="${planId}"]`);
+        const endInput = box.querySelector(`[data-room-join-end="${planId}"]`);
+        const windowLabel = box.querySelector(`[data-room-join-window="${planId}"]`);
+        const availableLabel = box.querySelector(`[data-room-join-available="${planId}"]`);
+        const joinButton = box.querySelector(`[data-room-join="${planId}"]`);
+        if (!plan || !startInput || !endInput || !windowLabel || !availableLabel || !joinButton) return;
+
+        const planStart = planStartMinute(plan);
+        const planEnd = planEndMinute(plan);
+        let start = Number(startInput.value);
+        let end = Number(endInput.value);
+        if (changed === "start" && start >= end) end = Math.min(planEnd, start + TIME_STEP_MINUTES);
+        if (changed === "end" && end <= start) start = Math.max(planStart, end - TIME_STEP_MINUTES);
+        if (end <= start) {
+          start = planStart;
+          end = Math.min(planEnd, planStart + TIME_STEP_MINUTES);
+        }
+        start = clampMinutes(start, planStart, planEnd);
+        end = clampMinutes(end, planStart, planEnd);
+        startInput.value = String(start);
+        endInput.value = String(end);
+
+        const seats = seatsLeftForWindowMinutes(plan, start, end);
+        windowLabel.textContent = `${timeFromMinutes(start)}-${timeFromMinutes(end)}`;
+        availableLabel.textContent = seats > 0
+          ? `该时段 ${seats} 个座位可预约`
+          : "该时段已满，请拖到有空位的时间段";
+        availableLabel.classList.toggle("closed", seats <= 0);
+        joinButton.disabled = seats <= 0;
+      };
+
+      box.querySelectorAll("[data-room-join-start], [data-room-join-end]").forEach((input) => {
+        const planId = input.dataset.roomJoinStart || input.dataset.roomJoinEnd;
+        const changed = input.dataset.roomJoinStart ? "start" : "end";
+        input.addEventListener("input", () => refreshJoinWindow(planId, changed));
+        input.addEventListener("change", () => refreshJoinWindow(planId, changed));
+      });
+
+      box.querySelectorAll("[data-room-join]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const planId = button.dataset.roomJoin;
+          const plan = state.roomPlans.find((item) => item.id === planId);
+          const startInput = box.querySelector(`[data-room-join-start="${planId}"]`);
+          const endInput = box.querySelector(`[data-room-join-end="${planId}"]`);
+          if (!plan || !startInput || !endInput) return;
+          const start = Number(startInput.value);
+          const end = Number(endInput.value);
+          if (seatsLeftForWindowMinutes(plan, start, end) <= 0) {
+            alert("这个时段暂时没有可预约座位。请拖动开始或离开时间，选择有空位的时段。");
+            refreshJoinWindow(planId);
+            return;
+          }
+          await joinRoomPlan(planId, timeFromMinutes(start), timeFromMinutes(end));
+        });
+      });
+
+      box.querySelectorAll("[data-room-checkin]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const plan = state.roomPlans.find((item) => myMembership(item.id)?.id === button.dataset.roomCheckin);
+          if (plan && !canCheckInNow(plan)) {
+            alert("还没到可签到时间。请在 Seat Captain 到达时间之后再签到。");
+            return;
+          }
+          await updateRoomMember(button.dataset.roomCheckin, { status: "confirmed", checked_in_at: new Date().toISOString() });
+        });
+      });
+
+      box.querySelectorAll("[data-room-cancel-member]").forEach((button) => {
+        button.addEventListener("click", async () => updateRoomMember(button.dataset.roomCancelMember, { status: "cancelled" }));
+      });
+
+      box.querySelectorAll("[data-room-release-member]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          if (!confirm("确认提前离开并释放座位吗？其他同学会看到这个位置重新变为可加入。")) return;
+          await releaseRoomSeat(button.dataset.roomReleaseMember);
+        });
+      });
+
+      box.querySelectorAll("[data-room-edit]").forEach((button) => {
+        button.addEventListener("click", () => editRoomPlan(button.dataset.roomEdit));
+      });
+
+      box.querySelectorAll("[data-room-arrival]").forEach((button) => {
+        button.addEventListener("click", () => focusCaptainEditor(button.dataset.roomArrival, "room"));
+      });
+
+      box.querySelectorAll("[data-room-status]").forEach((button) => {
+        button.addEventListener("click", async () => updateRoomPlanStatus(button.dataset.roomStatus, button.dataset.status));
+      });
+
+      box.querySelectorAll("[data-room-delete]").forEach((button) => {
+        button.addEventListener("click", async () => deleteRoomPlan(button.dataset.roomDelete));
+      });
+    }
+
+    function renderMyCaptainActionsLegacy() {
       const box = $("myCaptainActions");
       box.replaceChildren();
       const plans = state.roomPlans
@@ -1541,6 +5570,126 @@
       });
     }
 
+    function renderMyCaptainActions() {
+      const panel = $("myCaptainPlansPanel");
+      const box = $("myCaptainActions");
+      box.replaceChildren();
+      const plans = state.roomPlans
+        .filter((plan) => plan.captain_id === state.profile.id && !["completed", "cancelled"].includes(plan.status))
+        .sort((a, b) => `${a.plan_date} ${a.start_time}`.localeCompare(`${b.plan_date} ${b.start_time}`));
+
+      if (panel) panel.classList.toggle("hidden", plans.length === 0);
+      if (plans.length === 0) return;
+
+      plans.forEach((plan) => {
+        const activeGuests = activeGuestsForPlan(plan);
+        const planEditable = canEditRoomPlan(plan);
+        const expanded = state.expandedCaptainPlans.has(plan.id);
+        const checkInReady = canCheckInNow(plan);
+        const item = document.createElement("div");
+        item.className = `item captain-plan-card ${expanded ? "expanded" : ""}`;
+        item.dataset.captainCard = plan.id;
+        item.innerHTML = `
+          <button class="captain-plan-summary" data-captain-toggle="${plan.id}" type="button" aria-expanded="${expanded}">
+            <span>
+              <strong>${escapeHtml(plan.plan_date)} · ${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))}</strong>
+              <small>${escapeHtml(roomTypeLabel(plan.room_type))}</small>
+            </span>
+            <span class="captain-plan-stats">
+              <span>${shareableSeatLimit(plan)} 可开放</span>
+              <span>${activeGuests.length} 已加入</span>
+              <span>${checkInReady ? "可确认到场" : "等待到达时间"}</span>
+            </span>
+          </button>
+          <div class="captain-plan-detail ${expanded ? "" : "hidden"}">
+            <div class="captain-editor-section">
+              <div class="captain-editor-title">
+                <strong>计划设置</strong>
+                <span class="muted">${planEditable ? "修改时间、房型、讨论模式和主题" : "开始前 12 小时内已锁定"}</span>
+              </div>
+              <div class="captain-editor-grid">
+                <label class="field">
+                  <span>开始</span>
+                  <input data-captain-start="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.start_time))}" ${planEditable ? "" : "disabled"}>
+                </label>
+                <label class="field">
+                  <span>结束</span>
+                  <input data-captain-end="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.end_time))}" ${planEditable ? "" : "disabled"}>
+                </label>
+                <label class="field">
+                  <span>Seat Captain 到达</span>
+                  <input data-captain-arrival="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.planned_arrival))}" ${planEditable ? "" : "disabled"}>
+                </label>
+                <label class="field">
+                  <span>房间类型</span>
+                  <select data-captain-room-type="${plan.id}" ${planEditable ? "" : "disabled"}>
+                    ${roomTypeOptions(plan.room_type)}
+                  </select>
+                </label>
+                <label class="field">
+                  <span>讨论模式</span>
+                  <select data-captain-discussion="${plan.id}" ${planEditable ? "" : "disabled"}>
+                    ${discussionModeOptions(plan.discussion_mode)}
+                  </select>
+                </label>
+                <label class="field">
+                  <span>主题</span>
+                  <input data-captain-topic="${plan.id}" value="${escapeHtml(plan.topic || "")}" placeholder="例如 RD / i2dl" ${planEditable ? "" : "disabled"}>
+                </label>
+              </div>
+              ${planEditable ? `<div class="captain-editor-actions"><button class="small" data-captain-plan-save="${plan.id}" type="button">保存计划设置</button></div>` : ``}
+            </div>
+            <div class="captain-editor-section">
+              <div class="captain-editor-title">
+                <strong>到场房间信息</strong>
+                <span class="muted">${checkInReady ? "填写实际房间号和可共享座位" : "到达时间后才能填写房间号并确认到场。"}</span>
+              </div>
+              <div class="captain-editor-grid">
+                <label class="field">
+                  <span>房间号</span>
+                  <input data-captain-room="${plan.id}" value="${escapeHtml(plan.actual_room_label || "")}" placeholder="例如 0.06" ${checkInReady ? "" : "disabled"}>
+                </label>
+                <label class="field">
+                  <span>可共享座位</span>
+                  <input data-captain-shareable="${plan.id}" type="number" min="0" max="40" value="${shareableSeatLimit(plan)}" ${checkInReady ? "" : "disabled"}>
+                </label>
+                <label class="field">
+                  <span>备注</span>
+                  <input data-captain-note="${plan.id}" value="${escapeHtml(plan.note || "")}" placeholder="告诉后来的人具体情况" ${checkInReady ? "" : "disabled"}>
+                </label>
+              </div>
+              <div class="captain-editor-actions">
+                <button class="small primary" data-captain-save="${plan.id}" type="button" ${checkInReady ? "" : "disabled"}>${plan.status === "active" ? "保存房间号和座位" : "保存房间号并标记到场"}</button>
+                ${!checkInReady ? `<span class="muted">到达时间后才能填写房间号并确认到场。</span>` : ``}
+              </div>
+            </div>
+            <div class="captain-editor-status" data-captain-status="${plan.id}"></div>
+          </div>
+        `;
+        box.appendChild(item);
+      });
+
+      box.querySelectorAll("[data-captain-toggle]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const planId = button.dataset.captainToggle;
+          if (state.expandedCaptainPlans.has(planId)) {
+            state.expandedCaptainPlans.delete(planId);
+          } else {
+            state.expandedCaptainPlans.add(planId);
+          }
+          renderMyCaptainActions();
+        });
+      });
+
+      box.querySelectorAll("[data-captain-plan-save]").forEach((button) => {
+        button.addEventListener("click", () => saveCaptainPlanSettings(button.dataset.captainPlanSave));
+      });
+
+      box.querySelectorAll("[data-captain-save]").forEach((button) => {
+        button.addEventListener("click", () => saveCaptainRoomInfo(button.dataset.captainSave));
+      });
+    }
+
     function renderCaptainBoard() {
       const box = $("captainBoard");
       box.replaceChildren();
@@ -1551,7 +5700,7 @@
             profile,
             plans,
             completed: plans.filter((plan) => plan.status === "completed").length,
-            title: captainTitle(profile.id),
+            achievements: primaryAchievementsForUser(profile.id, 4),
             reliability: captainReliability(profile.id)
           };
         })
@@ -1568,8 +5717,11 @@
         item.className = "item";
         item.innerHTML = `
           <div class="split">
-            <strong>${escapeHtml(entry.profile.nickname)}</strong>
-            <span class="captain-badge">${escapeHtml(entry.title || "Seat Captain")}</span>
+            <div class="captain-line">
+              ${avatarHtml(entry.profile.id)}
+              <strong>${memberNameHtml(entry.profile.id, "captain-name")}</strong>
+            </div>
+            ${renderAchievementChips(entry.achievements)}
           </div>
           <div class="muted">${entry.completed} completed · ${entry.plans.length} total · reliability ${escapeHtml(entry.reliability)}</div>
         `;
@@ -1784,16 +5936,38 @@
       }
     }
 
-    async function joinRoomPlan(planId, eta) {
-      await requireOk(
-        await supabase.from("room_plan_members").upsert({
-          room_plan_id: planId,
-          user_id: state.profile.id,
-          status: "requested",
-          eta: eta || null
-        }, { onConflict: "room_plan_id,user_id" }),
-        "Cannot join room plan"
-      );
+    async function joinRoomPlan(planId, eta, plannedLeaveAt) {
+      const plan = state.roomPlans.find((item) => item.id === planId);
+      if (!plan || ["cancelled", "completed"].includes(plan.status)) {
+        alert("这个房间计划当前不可加入。");
+        return;
+      }
+      if (seatsLeftForWindow(plan, eta, plannedLeaveAt) <= 0) {
+        alert("这个时段暂时没有可预约座位。请刷新后选择仍有空位的时段。");
+        await loadApp();
+        renderApp();
+        return;
+      }
+      const payload = {
+        room_plan_id: planId,
+        user_id: state.profile.id,
+        status: "requested",
+        eta: eta || null,
+        planned_leave_at: plannedLeaveAt || null,
+        released_at: null,
+        checked_in_at: null
+      };
+      let result = await supabase
+        .from("room_plan_members")
+        .upsert(payload, { onConflict: "room_plan_id,user_id" });
+      if (isMissingColumnResult(result, "planned_leave_at") || isMissingColumnResult(result, "released_at")) {
+        delete payload.planned_leave_at;
+        delete payload.released_at;
+        result = await supabase
+          .from("room_plan_members")
+          .upsert(payload, { onConflict: "room_plan_id,user_id" });
+      }
+      await requireOk(result, "Cannot join room plan");
       await loadApp();
       renderApp();
     }
@@ -1947,6 +6121,19 @@
       renderApp();
     }
 
+    async function releaseRoomSeat(memberId) {
+      let result = await supabase.from("room_plan_members").update({
+        status: "released",
+        released_at: new Date().toISOString()
+      }).eq("id", memberId);
+      if (isMissingColumnResult(result, "released_at")) {
+        result = await supabase.from("room_plan_members").update({ status: "released" }).eq("id", memberId);
+      }
+      await requireOk(result, "Cannot release room seat");
+      await loadApp();
+      renderApp();
+    }
+
     async function deleteRoomPlan(planId) {
       if (!isAdmin()) return;
       const plan = state.roomPlans.find((item) => item.id === planId);
@@ -2026,16 +6213,44 @@
     function bind() {
       $("signupButton").addEventListener("click", signUp);
       $("loginButton").addEventListener("click", login);
+      $("showSignupButton").addEventListener("click", () => showAuthMode("signup"));
+      $("showLoginButton").addEventListener("click", () => showAuthMode("login"));
       $("logoutButton").addEventListener("click", logout);
       $("refreshButton").addEventListener("click", async () => {
         await loadApp();
         renderApp();
       });
       $("createRoomPlanButton").addEventListener("click", createRoomPlan);
+      $("toggleCaptainFormButton").addEventListener("click", () => {
+        state.captainFormOpen = !state.captainFormOpen;
+        renderCaptainFormState();
+      });
+      $("toggleCaptainMoreButton").addEventListener("click", () => {
+        state.captainMoreOpen = !state.captainMoreOpen;
+        renderCaptainFormState();
+      });
+      $("toggleFutureDaysButton").addEventListener("click", () => {
+        state.futureDaysOpen = !state.futureDaysOpen;
+        if (state.futureDaysOpen && state.roomViewMode === "today") $("roomPlanDate").value = today();
+        renderRoomCalendar();
+      });
+      $("toggleCaptainBoardButton").addEventListener("click", () => {
+        state.captainBoardOpen = !state.captainBoardOpen;
+        renderFoldStates();
+      });
+      $("toggleFeedbackPanelButton").addEventListener("click", () => {
+        state.helpFeedbackOpen = !state.helpFeedbackOpen;
+        renderFoldStates();
+      });
+      $("toggleReleaseHistoryButton").addEventListener("click", () => {
+        state.releaseHistoryOpen = !state.releaseHistoryOpen;
+        renderFoldStates();
+      });
       $("roomType").addEventListener("change", () => {
         $("roomCapacity").value = String(defaultCapacity($("roomType").value));
       });
       $("roomPlanDate").addEventListener("change", () => {
+        state.roomViewMode = $("roomPlanDate").value === today() ? "today" : "week";
         renderRoomCalendar();
         renderRoomPlans();
       });
@@ -2049,6 +6264,7 @@
       $("chatInput").addEventListener("keydown", (event) => {
         if (event.key === "Enter") sendChat();
       });
+      document.addEventListener("click", showClickSticker, { passive: true });
     }
 
     supabase.auth.onAuthStateChange((_event, session) => {
