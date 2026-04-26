@@ -437,6 +437,23 @@
       line-height: 1.45;
     }
 
+    .captain-editor-section {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+      display: grid;
+      gap: 9px;
+    }
+
+    .captain-editor-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .captain-editor-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -450,6 +467,23 @@
       gap: 8px;
       align-items: center;
       margin-top: 8px;
+    }
+
+    .captain-editor-status {
+      min-height: 19px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .captain-editor-status.success {
+      color: var(--green);
+      font-weight: 650;
+    }
+
+    .captain-editor-status.error {
+      color: var(--red);
+      font-weight: 650;
     }
 
     .error {
@@ -742,6 +776,15 @@
 
     const RELEASE_HISTORY = [
       {
+        version: "v0.2.5",
+        date: "2026-04-26",
+        changes: [
+          "Seat Captain 编辑卡拆成“计划设置”和“到场房间信息”两块。",
+          "房间号和可共享座位必须通过“保存房间号和座位”保存，点错按钮时会给出明确提示。",
+          "保存计划和保存房间信息现在都会显示成功或失败反馈。"
+        ]
+      },
+      {
         version: "v0.2.4",
         date: "2026-04-26",
         changes: [
@@ -995,6 +1038,16 @@
         ? document.querySelector(`[data-captain-start="${planId}"]`)
         : document.querySelector(`[data-captain-room="${planId}"]`);
       target?.focus();
+      if (focus === "room") {
+        setCaptainEditorStatus(planId, "填写房间号后，请点击“保存房间号和座位”。", "");
+      }
+    }
+
+    function setCaptainEditorStatus(planId, message, type = "") {
+      const box = document.querySelector(`[data-captain-status="${planId}"]`);
+      if (!box) return;
+      box.className = `captain-editor-status ${type}`.trim();
+      box.textContent = message;
     }
 
     async function requireOk(result, fallbackMessage) {
@@ -1290,54 +1343,68 @@
               <div class="muted">${escapeHtml(plan.actual_room_label ? "房间 " + plan.actual_room_label : "房间号未填写")} · ${seatsLeft(plan)} 可加入 · ${activeGuests.length}/${shareableSeatLimit(plan)} 已加入</div>
             </div>
           </div>
-          <div class="captain-editor-grid">
-            <label class="field">
-              <span>开始</span>
-              <input data-captain-start="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.start_time))}" ${planEditable ? "" : "disabled"}>
-            </label>
-            <label class="field">
-              <span>结束</span>
-              <input data-captain-end="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.end_time))}" ${planEditable ? "" : "disabled"}>
-            </label>
-            <label class="field">
-              <span>Seat Captain 到达</span>
-              <input data-captain-arrival="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.planned_arrival))}" ${planEditable ? "" : "disabled"}>
-            </label>
-            <label class="field">
-              <span>房间类型</span>
-              <select data-captain-room-type="${plan.id}" ${planEditable ? "" : "disabled"}>
-                ${roomTypeOptions(plan.room_type)}
-              </select>
-            </label>
-            <label class="field">
-              <span>讨论模式</span>
-              <select data-captain-discussion="${plan.id}" ${planEditable ? "" : "disabled"}>
-                ${discussionModeOptions(plan.discussion_mode)}
-              </select>
-            </label>
-            <label class="field">
-              <span>主题</span>
-              <input data-captain-topic="${plan.id}" value="${escapeHtml(plan.topic || "")}" placeholder="例如 RD / i2dl" ${planEditable ? "" : "disabled"}>
-            </label>
+          <div class="captain-editor-section">
+            <div class="captain-editor-title">
+              <strong>计划设置</strong>
+              <span class="muted">${planEditable ? "修改时间、房型、讨论模式和主题" : "开始前 12 小时内已锁定"}</span>
+            </div>
+            <div class="captain-editor-grid">
+              <label class="field">
+                <span>开始</span>
+                <input data-captain-start="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.start_time))}" ${planEditable ? "" : "disabled"}>
+              </label>
+              <label class="field">
+                <span>结束</span>
+                <input data-captain-end="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.end_time))}" ${planEditable ? "" : "disabled"}>
+              </label>
+              <label class="field">
+                <span>Seat Captain 到达</span>
+                <input data-captain-arrival="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.planned_arrival))}" ${planEditable ? "" : "disabled"}>
+              </label>
+              <label class="field">
+                <span>房间类型</span>
+                <select data-captain-room-type="${plan.id}" ${planEditable ? "" : "disabled"}>
+                  ${roomTypeOptions(plan.room_type)}
+                </select>
+              </label>
+              <label class="field">
+                <span>讨论模式</span>
+                <select data-captain-discussion="${plan.id}" ${planEditable ? "" : "disabled"}>
+                  ${discussionModeOptions(plan.discussion_mode)}
+                </select>
+              </label>
+              <label class="field">
+                <span>主题</span>
+                <input data-captain-topic="${plan.id}" value="${escapeHtml(plan.topic || "")}" placeholder="例如 RD / i2dl" ${planEditable ? "" : "disabled"}>
+              </label>
+            </div>
+            ${planEditable ? `<div class="captain-editor-actions"><button class="small" data-captain-plan-save="${plan.id}" type="button">保存计划设置</button></div>` : ``}
           </div>
-          <div class="captain-editor-grid">
-            <label class="field">
-              <span>房间号</span>
-              <input data-captain-room="${plan.id}" value="${escapeHtml(plan.actual_room_label || "")}" placeholder="例如 0.06">
-            </label>
-            <label class="field">
-              <span>可共享座位</span>
-              <input data-captain-shareable="${plan.id}" type="number" min="0" max="40" value="${shareableSeatLimit(plan)}">
-            </label>
-            <label class="field">
-              <span>备注</span>
-              <input data-captain-note="${plan.id}" value="${escapeHtml(plan.note || "")}" placeholder="告诉后来的人具体情况">
-            </label>
+          <div class="captain-editor-section">
+            <div class="captain-editor-title">
+              <strong>到场房间信息</strong>
+              <span class="muted">${canCheckInNow(plan) ? "填写实际房间号和可共享座位" : "到达时间后才能标记到场"}</span>
+            </div>
+            <div class="captain-editor-grid">
+              <label class="field">
+                <span>房间号</span>
+                <input data-captain-room="${plan.id}" value="${escapeHtml(plan.actual_room_label || "")}" placeholder="例如 0.06">
+              </label>
+              <label class="field">
+                <span>可共享座位</span>
+                <input data-captain-shareable="${plan.id}" type="number" min="0" max="40" value="${shareableSeatLimit(plan)}">
+              </label>
+              <label class="field">
+                <span>备注</span>
+                <input data-captain-note="${plan.id}" value="${escapeHtml(plan.note || "")}" placeholder="告诉后来的人具体情况">
+              </label>
+            </div>
+            <div class="captain-editor-actions">
+              <button class="small primary" data-captain-save="${plan.id}" type="button">${plan.status === "active" ? "保存房间号和座位" : "保存房间号并标记到场"}</button>
+              ${!canCheckInNow(plan) ? `<span class="muted">未到 Seat Captain 到达时间，不能提前标记到场。</span>` : ``}
+            </div>
           </div>
-          <div class="captain-editor-actions">
-            ${planEditable ? `<button class="small" data-captain-plan-save="${plan.id}" type="button">保存计划设置</button>` : ``}
-            <button class="small primary" data-captain-save="${plan.id}" type="button">${plan.status === "active" ? "保存房间信息" : "保存并标记到场"}</button>
-          </div>
+          <div class="captain-editor-status" data-captain-status="${plan.id}"></div>
         `;
         box.appendChild(item);
       });
@@ -1548,7 +1615,7 @@
       const plan = state.roomPlans.find((item) => item.id === planId);
       if (!plan) return;
       if (!canEditRoomPlan(plan)) {
-        alert("开始前 12 小时内不能修改时间、主题、容量等核心信息。");
+        setCaptainEditorStatus(planId, "开始前 12 小时内不能修改时间、主题、容量等核心信息。", "error");
         return;
       }
 
@@ -1558,27 +1625,54 @@
       const roomTypeInput = document.querySelector(`[data-captain-room-type="${planId}"]`);
       const discussionInput = document.querySelector(`[data-captain-discussion="${planId}"]`);
       const topicInput = document.querySelector(`[data-captain-topic="${planId}"]`);
+      const roomInput = document.querySelector(`[data-captain-room="${planId}"]`);
+      const shareableInput = document.querySelector(`[data-captain-shareable="${planId}"]`);
+      const noteInput = document.querySelector(`[data-captain-note="${planId}"]`);
       if (!startInput || !endInput || !arrivalInput || !roomTypeInput || !discussionInput || !topicInput) return;
 
-      await requireOk(
-        await supabase.from("room_plans").update({
-          start_time: startInput.value || plan.start_time,
-          end_time: endInput.value || plan.end_time,
-          planned_arrival: arrivalInput.value || null,
-          room_type: roomTypeInput.value || plan.room_type,
-          discussion_mode: discussionInput.value || plan.discussion_mode,
-          topic: topicInput.value.trim() || null
-        }).eq("id", planId),
-        "Cannot save Seat Captain plan settings"
+      const roomInfoChanged = Boolean(
+        roomInput && roomInput.value.trim() !== (plan.actual_room_label || "")
+        || shareableInput && Math.max(0, Number(shareableInput.value) || 0) !== shareableSeatLimit(plan)
+        || noteInput && noteInput.value.trim() !== (plan.note || "")
       );
-      await loadApp();
-      renderApp();
+
+      setCaptainEditorStatus(planId, "正在保存计划设置...", "");
+      try {
+        await requireOk(
+          await supabase.from("room_plans").update({
+            start_time: startInput.value || plan.start_time,
+            end_time: endInput.value || plan.end_time,
+            planned_arrival: arrivalInput.value || null,
+            room_type: roomTypeInput.value || plan.room_type,
+            discussion_mode: discussionInput.value || plan.discussion_mode,
+            topic: topicInput.value.trim() || null
+          }).eq("id", planId),
+          "Cannot save Seat Captain plan settings"
+        );
+        await loadApp();
+        renderApp();
+        focusCaptainEditor(planId, roomInfoChanged ? "room" : "plan");
+        setCaptainEditorStatus(
+          planId,
+          roomInfoChanged
+            ? "计划设置已保存。房间号、可共享座位和备注还没有保存，请点击下方“保存房间号和座位”。"
+            : "计划设置已保存。",
+          roomInfoChanged ? "error" : "success"
+        );
+      }
+      catch (error) {
+        console.error(error);
+        setCaptainEditorStatus(planId, `保存失败：${error.message}`, "error");
+      }
     }
 
     async function saveCaptainRoomInfo(planId) {
       const plan = state.roomPlans.find((item) => item.id === planId);
       if (!plan) return;
-      if (!canManageArrivalInfo(plan)) return;
+      if (!canManageArrivalInfo(plan)) {
+        setCaptainEditorStatus(planId, "只有 Seat Captain 或管理员可以更新房间信息。", "error");
+        return;
+      }
       const roomInput = document.querySelector(`[data-captain-room="${planId}"]`);
       const shareableInput = document.querySelector(`[data-captain-shareable="${planId}"]`);
       const noteInput = document.querySelector(`[data-captain-note="${planId}"]`);
@@ -1587,34 +1681,43 @@
       const shareableSeats = Math.max(0, Number(shareableInput.value) || 0);
 
       if (!canCheckInNow(plan)) {
-        alert("\u8fd8\u6ca1\u5230\u53ef\u7b7e\u5230\u65f6\u95f4\u3002\u8bf7\u5728 Seat Captain \u5230\u8fbe\u65f6\u95f4\u4e4b\u540e\u518d\u6807\u8bb0\u5230\u573a\u3002");
+        setCaptainEditorStatus(planId, "还没到可签到时间。请在 Seat Captain 到达时间之后再填写实际房间并标记到场。", "error");
         return;
       }
 
-      await requireOk(
-        await supabase.from("room_plans").update({
-          actual_room_label: roomInput.value.trim() || null,
-          max_capacity: shareableSeats + 1,
-          guest_hold_count: 0,
-          note: noteInput.value.trim() || null,
-          status: plan.status === "cancelled" ? "cancelled" : "active"
-        }).eq("id", planId),
-        "Cannot save Seat Captain room info"
-      );
-
-      const captainMembership = membersForPlan(planId).find((member) => member.user_id === state.profile.id && member.status !== "cancelled");
-      if (captainMembership && captainMembership.status !== "confirmed") {
+      setCaptainEditorStatus(planId, "正在保存房间号和座位...", "");
+      try {
         await requireOk(
-          await supabase.from("room_plan_members").update({
-            status: "confirmed",
-            checked_in_at: new Date().toISOString()
-          }).eq("id", captainMembership.id),
-          "Cannot confirm Seat Captain arrival"
+          await supabase.from("room_plans").update({
+            actual_room_label: roomInput.value.trim() || null,
+            max_capacity: shareableSeats + 1,
+            guest_hold_count: 0,
+            note: noteInput.value.trim() || null,
+            status: plan.status === "cancelled" ? "cancelled" : "active"
+          }).eq("id", planId),
+          "Cannot save Seat Captain room info"
         );
-      }
 
-      await loadApp();
-      renderApp();
+        const captainMembership = membersForPlan(planId).find((member) => member.user_id === state.profile.id && member.status !== "cancelled");
+        if (captainMembership && captainMembership.status !== "confirmed") {
+          await requireOk(
+            await supabase.from("room_plan_members").update({
+              status: "confirmed",
+              checked_in_at: new Date().toISOString()
+            }).eq("id", captainMembership.id),
+            "Cannot confirm Seat Captain arrival"
+          );
+        }
+
+        await loadApp();
+        renderApp();
+        focusCaptainEditor(planId, "room");
+        setCaptainEditorStatus(planId, "房间号和可共享座位已保存。", "success");
+      }
+      catch (error) {
+        console.error(error);
+        setCaptainEditorStatus(planId, `保存失败：${error.message}`, "error");
+      }
     }
 
     async function updateRoomPlanStatus(planId, status) {
