@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.8 - 2026-04-26
+
+- 取消计划增加兼容兜底：如果 Supabase API 暂时还没有识别 `cancelled_at` 字段，页面仍会先把计划状态更新为 `cancelled`。
+- 完成远端 Supabase 场景测试：同一个 Seat Captain 同一天重复计划、过去开始时间、结束早于开始时间均已被数据库规则拦截。
+- 测试发现远端仍需要执行或刷新 `sql/supabase_room_cancel_timing_migration.sql`，否则精确取消时间字段不会被 API 返回。
+
 ## v0.2.7 - 2026-04-26
 
 - 新增前端时间校验：不能创建开始时间已经过去的房间计划，结束时间必须晚于开始时间。

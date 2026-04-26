@@ -777,6 +777,14 @@
 
     const RELEASE_HISTORY = [
       {
+        version: "v0.2.8",
+        date: "2026-04-26",
+        changes: [
+          "取消计划增加兼容处理：远端 API 尚未识别 cancelled_at 字段时，仍会先把计划标记为已取消。",
+          "补充远端场景测试：同一天重复计划、过去开始时间、结束早于开始时间都已由数据库拦截。"
+        ]
+      },
+      {
         version: "v0.2.7",
         date: "2026-04-26",
         changes: [
@@ -1808,10 +1816,15 @@
       const patch = { status };
       if (status === "cancelled") patch.cancelled_at = new Date().toISOString();
       if (status !== "cancelled") patch.cancelled_at = null;
-      await requireOk(
-        await supabase.from("room_plans").update(patch).eq("id", planId),
-        "Cannot update room plan status"
-      );
+      let result = await supabase.from("room_plans").update(patch).eq("id", planId);
+      if (
+        result.error
+        && result.error.code === "PGRST204"
+        && String(result.error.message || "").includes("cancelled_at")
+      ) {
+        result = await supabase.from("room_plans").update({ status }).eq("id", planId);
+      }
+      await requireOk(result, "Cannot update room plan status");
       await loadApp();
       renderApp();
     }
