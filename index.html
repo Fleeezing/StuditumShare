@@ -1,0 +1,1436 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Seat Happens</title>
+  <style>
+    :root {
+      --bg: #f5f7f6;
+      --panel: #fff;
+      --ink: #17211c;
+      --muted: #65716a;
+      --line: #d8e0dc;
+      --soft: #edf3ef;
+      --blue: #2368d8;
+      --green: #227a48;
+      --red: #bd2c2c;
+      --yellow: #9b6700;
+      --violet: #6d54c8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    button {
+      min-height: 34px;
+      border: 1px solid #b9c7bd;
+      border-radius: 7px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: #edf4f0;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    button.primary {
+      border-color: #8db6ff;
+      background: #e6f0ff;
+      color: #163f86;
+    }
+
+    button.danger {
+      border-color: #efc2c2;
+      background: #fff0f0;
+      color: var(--red);
+    }
+
+    button.small {
+      min-height: 28px;
+      padding: 0 9px;
+      font-size: 12px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 8px 10px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #91b7ff;
+      box-shadow: 0 0 0 3px rgba(35, 104, 216, 0.12);
+    }
+
+    main {
+      width: min(1400px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 18px 0 30px;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    h1 { font-size: 23px; }
+    h2 { font-size: 16px; }
+    h3 { font-size: 14px; }
+
+    .topbar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(390px, 0.92fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 15px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfb;
+    }
+
+    .panel-body {
+      padding: 14px 15px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .split {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+    }
+
+    .field span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .auth-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .auth {
+      width: min(760px, 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .hidden { display: none !important; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 9px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .pill.admin {
+      color: #fff;
+      background: var(--violet);
+    }
+
+    .tag-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fbfcfb;
+      display: grid;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .tag.active {
+      border-color: #8db6ff;
+      background: #f2f7ff;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(112px, 1fr));
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .day-card {
+      min-height: 96px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px;
+      background: #fbfcfb;
+      cursor: pointer;
+      display: grid;
+      gap: 7px;
+      align-content: start;
+    }
+
+    .day-card.active {
+      border-color: #8db6ff;
+      background: #f2f7ff;
+    }
+
+    .day-card strong {
+      font-size: 13px;
+    }
+
+    .day-count {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .room-card {
+      border-left: 4px solid var(--green);
+    }
+
+    .room-card.full {
+      border-left-color: var(--red);
+    }
+
+    .room-card.soon {
+      border-left-color: var(--yellow);
+    }
+
+    .captain-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: #fff3c4;
+      color: #6b4a00;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: #eef4f0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .status-chip.open { background: #edf8ef; color: var(--green); }
+    .status-chip.tight { background: #fff7dc; color: var(--yellow); }
+    .status-chip.full { background: #fff0f0; color: var(--red); }
+
+    .compact-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      background: var(--blue);
+      flex: 0 0 auto;
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fbfcfb;
+      display: grid;
+      gap: 7px;
+    }
+
+    .task {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 9px;
+      align-items: start;
+    }
+
+    .task input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+    }
+
+    .task.done .task-title {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .task-title {
+      font-size: 14px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfb;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 96px 1fr 44px;
+      gap: 9px;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .bar {
+      height: 11px;
+      border-radius: 999px;
+      background: #e7eeea;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: var(--green);
+    }
+
+    .chat {
+      max-height: 330px;
+      overflow: auto;
+      padding-right: 3px;
+    }
+
+    .message {
+      border-left: 3px solid #c8d7cf;
+      padding: 7px 9px;
+      background: #fbfcfb;
+      border-radius: 0 7px 7px 0;
+    }
+
+    .notice {
+      border: 1px solid #d5dce8;
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #f5f8ff;
+      color: #2a4068;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .error {
+      color: var(--red);
+      font-size: 13px;
+      min-height: 19px;
+    }
+
+    .empty {
+      border: 1px dashed #c8d3cd;
+      border-radius: 8px;
+      padding: 14px;
+      color: var(--muted);
+      background: #fbfcfb;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .mono {
+      font-family: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+    }
+
+    @media (max-width: 980px) {
+      main { width: min(100vw - 18px, 780px); }
+      .layout, .auth, .grid-2, .grid-3, .metric-row { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div id="authView" class="auth-wrap">
+    <div class="auth">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>登录</h2>
+            <div class="muted">使用小组用户名，不需要真实邮箱。</div>
+          </div>
+        </div>
+        <div class="panel-body stack">
+          <label class="field">
+            <span>用户名</span>
+            <input id="loginUsername" autocomplete="username" placeholder="例如 alice">
+          </label>
+          <label class="field">
+            <span>密码</span>
+            <input id="loginPassword" type="password" autocomplete="current-password">
+          </label>
+          <button id="loginButton" class="primary" type="button">登录</button>
+          <div id="loginError" class="error"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>注册</h2>
+            <div class="muted">用户名会映射为内部邮箱，界面不显示真实邮箱。</div>
+          </div>
+        </div>
+        <div class="panel-body stack">
+          <label class="field">
+            <span>用户名</span>
+            <input id="signupUsername" autocomplete="username" placeholder="小写字母/数字">
+          </label>
+          <label class="field">
+            <span>昵称</span>
+            <input id="signupNickname" placeholder="页面上显示的名字">
+          </label>
+          <label class="field">
+            <span>密码</span>
+            <input id="signupPassword" type="password" autocomplete="new-password">
+          </label>
+          <label class="field">
+            <span>管理员邀请码</span>
+            <input id="adminSetupCode" autocomplete="off" placeholder="普通用户留空">
+          </label>
+          <button id="signupButton" class="primary" type="button">创建账号</button>
+          <div class="notice">如果注册后不能立刻登录，需要在 Supabase Authentication 的 Email provider 里关闭 Confirm email。</div>
+          <div id="signupError" class="error"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <main id="appView" class="hidden">
+    <div class="topbar">
+      <div>
+        <h1>Seat Happens</h1>
+        <div class="muted">先把房间共享和座位加入流程跑顺，再补别的功能。</div>
+      </div>
+      <div class="row">
+        <span id="userBadge" class="pill"></span>
+        <button id="refreshButton" type="button">刷新</button>
+        <button id="logoutButton" type="button">退出</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <section class="stack">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>房间共享</h2>
+              <div class="muted">看未来 7 天谁会去 StudiTUM；Captain 到场后可以补房间号、调整开放座位，并给未注册朋友留位。</div>
+            </div>
+          </div>
+          <div class="panel-body stack">
+            <div id="roomCalendar" class="calendar-grid"></div>
+            <div class="notice">
+              Captain 是愿意早到并发布房间计划的人。这里是小组内部的 soft reservation：到达并 check-in 后才算确认座位。
+            </div>
+            <div class="grid-3">
+              <label class="field">
+                <span>日期</span>
+                <input id="roomPlanDate" type="date">
+              </label>
+              <label class="field">
+                <span>开始</span>
+                <input id="roomStartTime" type="time" value="09:00">
+              </label>
+              <label class="field">
+                <span>结束</span>
+                <input id="roomEndTime" type="time" value="18:00">
+              </label>
+            </div>
+            <div class="grid-3">
+              <label class="field">
+                <span>Captain 到达</span>
+                <input id="captainArrival" type="time" value="07:30">
+              </label>
+              <label class="field">
+                <span>房间类型</span>
+                <select id="roomType">
+                  <option value="small_room">小自习室 · 4 人</option>
+                  <option value="medium_room">中自习室 · 6 人</option>
+                  <option value="large_classroom">大教室</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>容量</span>
+                <input id="roomCapacity" type="number" min="1" max="40" value="4">
+              </label>
+              <label class="field">
+                <span>给朋友留位</span>
+                <input id="guestHoldCount" type="number" min="0" max="20" value="0">
+              </label>
+            </div>
+            <div class="grid-2">
+              <label class="field">
+                <span>主题</span>
+                <input id="roomTopic" placeholder="无主题 / RD / i2dl / 安静自习">
+              </label>
+              <label class="field">
+                <span>讨论模式</span>
+                <select id="discussionMode">
+                  <option value="quiet">安静自习</option>
+                  <option value="flexible">可小声讨论</option>
+                  <option value="discussion">讨论型</option>
+                </select>
+              </label>
+            </div>
+            <div class="grid-2">
+              <label class="field">
+                <span>实际房间号</span>
+                <input id="actualRoomLabel" placeholder="到场后可补，例如 2.05">
+              </label>
+              <label class="field">
+                <span>备注</span>
+                <input id="roomNote" placeholder="例如：先抢中房间，抢不到就小房间">
+              </label>
+            </div>
+            <button id="createRoomPlanButton" class="primary" type="button">作为 Captain 发布计划</button>
+            <div id="myCaptainActions" class="list"></div>
+            <div id="roomPlans" class="list"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Captain Board</h2>
+              <div class="muted">鼓励愿意早起并按承诺完成房间计划的人。</div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div id="captainBoard" class="list"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>广场聊天</h2>
+              <div class="muted">所有登录用户都可见。</div>
+            </div>
+          </div>
+          <div class="panel-body stack">
+            <div id="chatList" class="list chat"></div>
+            <div class="row">
+              <input id="chatInput" placeholder="写一条消息">
+              <button id="sendChatButton" type="button">发送</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="stack">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>新用户说明</h2>
+              <div class="muted">给第一次进入的成员看的简短流程。</div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="notice">
+              先注册一个用户名和昵称。愿意早到的人可以作为 Captain 发布今天的房间共享计划；其他人看到后申请加入。Captain 到场后补房间号、确认还开放多少座位，也可以先给未注册的朋友留几个位置。
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>私密反馈</h2>
+              <div class="muted">普通用户只能提交，只有管理员能阅读。</div>
+            </div>
+          </div>
+          <div class="panel-body stack">
+            <label class="field">
+              <span>分类</span>
+              <select id="feedbackCategory">
+                <option value="general">general</option>
+                <option value="bug">bug</option>
+                <option value="suggestion">suggestion</option>
+                <option value="privacy">privacy</option>
+              </select>
+            </label>
+            <textarea id="feedbackMessage" placeholder="写下反馈，其他普通用户看不到"></textarea>
+            <button id="sendFeedbackButton" type="button">提交反馈</button>
+            <div id="feedbackStatus" class="muted"></div>
+            <div id="adminFeedbackPanel" class="hidden stack">
+              <div class="split">
+                <h3>管理员反馈箱</h3>
+                <button id="reloadFeedbackButton" class="small" type="button">刷新</button>
+              </div>
+              <div id="feedbackList" class="list"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL = "https://egocecoudqerewvurumh.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_ENREznKaAif0g72RnSJxEg_7QJgk0WN";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const state = {
+      session: null,
+      profile: null,
+      profiles: [],
+      roomPlans: [],
+      roomMembers: [],
+      chat: [],
+      feedback: []
+    };
+
+    function $(id) {
+      return document.getElementById(id);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function normalizeUsername(value) {
+      return value.trim().toLowerCase().replace(/[^a-z0-9_.-]/g, "");
+    }
+
+    function fakeEmail(username) {
+      return `${normalizeUsername(username)}@study.local`;
+    }
+
+    function today() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function addDays(dateString, days) {
+      const date = new Date(`${dateString}T12:00:00`);
+      date.setDate(date.getDate() + days);
+      return date.toISOString().slice(0, 10);
+    }
+
+    function dayLabel(dateString) {
+      const date = new Date(`${dateString}T12:00:00`);
+      return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    }
+
+    function timeShort(value) {
+      return value ? String(value).slice(0, 5) : "";
+    }
+
+    function profileName(id) {
+      const profile = state.profiles.find((item) => item.id === id);
+      return profile?.nickname || profile?.username || "未知用户";
+    }
+
+    function isAdmin() {
+      return state.profile?.role === "admin";
+    }
+
+    function roomTypeLabel(type) {
+      return {
+        small_room: "小自习室",
+        medium_room: "中自习室",
+        large_classroom: "大教室"
+      }[type] || type;
+    }
+
+    function discussionLabel(mode) {
+      return {
+        quiet: "安静自习",
+        flexible: "可小声讨论",
+        discussion: "讨论型"
+      }[mode] || mode;
+    }
+
+    function defaultCapacity(type) {
+      return {
+        small_room: 4,
+        medium_room: 6,
+        large_classroom: 20
+      }[type] || 4;
+    }
+
+    function guestSeatsHeld(plan) {
+      return Math.max(0, Number(plan.guest_hold_count || 0));
+    }
+
+    function membersForPlan(planId) {
+      return state.roomMembers.filter((member) => member.room_plan_id === planId);
+    }
+
+    function activeMembersForPlan(planId) {
+      return membersForPlan(planId).filter((member) => ["requested", "expected", "confirmed"].includes(member.status));
+    }
+
+    function confirmedMembersForPlan(planId) {
+      return membersForPlan(planId).filter((member) => member.status === "confirmed");
+    }
+
+    function seatsLeft(plan) {
+      return Math.max(0, plan.max_capacity - activeMembersForPlan(plan.id).length - guestSeatsHeld(plan));
+    }
+
+    function hasJoined(planId) {
+      return membersForPlan(planId).some((member) => member.user_id === state.profile.id && !["cancelled", "released"].includes(member.status));
+    }
+
+    function myMembership(planId) {
+      return membersForPlan(planId).find((member) => member.user_id === state.profile.id);
+    }
+
+    function captainTitle(userId) {
+      const plans = state.roomPlans.filter((plan) => plan.captain_id === userId);
+      const completed = plans.filter((plan) => plan.status === "completed");
+      const early = completed.filter((plan) => plan.planned_arrival && timeShort(plan.planned_arrival) <= "07:45");
+      if (completed.length >= 5) return "Room Ranger";
+      if (early.length >= 1) return "7:30 Hero";
+      if (completed.length >= 1) return "Promise Keeper";
+      if (plans.length >= 1) return "Captain";
+      return "";
+    }
+
+    function captainReliability(userId) {
+      const plans = state.roomPlans.filter((plan) => plan.captain_id === userId);
+      const completed = plans.filter((plan) => plan.status === "completed").length;
+      const cancelled = plans.filter((plan) => plan.status === "cancelled").length;
+      const total = completed + cancelled;
+      if (total === 0) return "new";
+      return `${Math.round((completed / total) * 100)}%`;
+    }
+
+    function hoursUntilPlan(plan) {
+      const start = new Date(`${plan.plan_date}T${timeShort(plan.start_time) || "00:00"}:00`);
+      return (start.getTime() - Date.now()) / 36e5;
+    }
+
+    function canEditRoomPlan(plan) {
+      return isAdmin() || (plan.captain_id === state.profile.id && hoursUntilPlan(plan) > 12);
+    }
+
+    function canManageArrivalInfo(plan) {
+      return isAdmin() || plan.captain_id === state.profile.id;
+    }
+
+    async function requireOk(result, fallbackMessage) {
+      if (result.error) throw new Error(result.error.message || fallbackMessage);
+      return result.data;
+    }
+
+    async function signUp() {
+      $("signupError").textContent = "";
+      const username = normalizeUsername($("signupUsername").value);
+      const nickname = $("signupNickname").value.trim() || username;
+      const password = $("signupPassword").value;
+      const adminSetupCode = $("adminSetupCode").value.trim();
+      if (!username || password.length < 6) {
+        $("signupError").textContent = "用户名不能为空，密码至少 6 位。";
+        return;
+      }
+
+      const result = await supabase.auth.signUp({
+        email: fakeEmail(username),
+        password,
+        options: { data: { username, nickname, admin_setup_code: adminSetupCode } }
+      });
+
+      if (result.error) {
+        $("signupError").textContent = result.error.message;
+        return;
+      }
+
+      $("signupError").textContent = "账号已创建。如果没有自动进入，请尝试登录。";
+      await boot();
+    }
+
+    async function login() {
+      $("loginError").textContent = "";
+      const username = normalizeUsername($("loginUsername").value);
+      const password = $("loginPassword").value;
+      if (!username || !password) {
+        $("loginError").textContent = "请输入用户名和密码。";
+        return;
+      }
+
+      const result = await supabase.auth.signInWithPassword({
+        email: fakeEmail(username),
+        password
+      });
+
+      if (result.error) {
+        $("loginError").textContent = result.error.message;
+        return;
+      }
+
+      await boot();
+    }
+
+    async function logout() {
+      await supabase.auth.signOut();
+      state.session = null;
+      state.profile = null;
+      renderAuth();
+    }
+
+    async function boot() {
+      const result = await supabase.auth.getSession();
+      state.session = result.data.session;
+      if (!state.session) {
+        renderAuth();
+        return;
+      }
+      await loadApp();
+      renderApp();
+    }
+
+    async function loadApp() {
+      const userId = state.session.user.id;
+
+      state.profile = await requireOk(
+        await supabase.from("profiles").select("*").eq("id", userId).single(),
+        "Cannot load profile"
+      );
+
+      state.profiles = await requireOk(
+        await supabase.from("profiles").select("*").order("nickname"),
+        "Cannot load profiles"
+      );
+
+      state.roomPlans = await requireOk(
+        await supabase.from("room_plans").select("*").gte("plan_date", addDays(today(), -30)).order("plan_date").order("start_time").limit(500),
+        "Cannot load room plans. Please run supabase_room_mvp_migration.sql first."
+      );
+
+      const roomPlanIds = state.roomPlans.map((item) => item.id);
+      state.roomMembers = roomPlanIds.length
+        ? await requireOk(await supabase.from("room_plan_members").select("*").in("room_plan_id", roomPlanIds), "Cannot load room members")
+        : [];
+
+      state.chat = await requireOk(
+        await supabase.from("chat_messages").select("*").is("deleted_at", null).order("created_at", { ascending: false }).limit(50),
+        "Cannot load chat"
+      );
+
+      state.feedback = isAdmin()
+        ? await requireOk(await supabase.from("feedback").select("*").order("created_at", { ascending: false }).limit(100), "Cannot load feedback")
+        : [];
+    }
+
+    function renderAuth() {
+      $("authView").classList.remove("hidden");
+      $("appView").classList.add("hidden");
+    }
+
+    function renderApp() {
+      $("authView").classList.add("hidden");
+      $("appView").classList.remove("hidden");
+      $("roomPlanDate").value ||= today();
+      renderUserBadge();
+      renderRoomCalendar();
+      renderMyCaptainActions();
+      renderRoomPlans();
+      renderCaptainBoard();
+      renderChat();
+      renderFeedback();
+    }
+
+    function renderUserBadge() {
+      const badge = $("userBadge");
+      badge.className = `pill ${isAdmin() ? "admin" : ""}`;
+      badge.textContent = `${state.profile.nickname} · ${state.profile.role}`;
+    }
+
+    function renderRoomCalendar() {
+      const selected = $("roomPlanDate").value || today();
+      const box = $("roomCalendar");
+      box.replaceChildren();
+
+      for (let i = 0; i < 7; i += 1) {
+        const date = addDays(today(), i);
+        const plans = state.roomPlans.filter((plan) => plan.plan_date === date && !["cancelled"].includes(plan.status));
+        const openPlans = plans.filter((plan) => seatsLeft(plan) > 0).length;
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = `day-card ${date === selected ? "active" : ""}`;
+        card.innerHTML = `
+          <strong>${escapeHtml(dayLabel(date))}</strong>
+          <span class="day-count">${plans.length} plans · ${openPlans} open</span>
+        `;
+        card.addEventListener("click", () => {
+          $("roomPlanDate").value = date;
+          renderRoomCalendar();
+          renderRoomPlans();
+        });
+        box.appendChild(card);
+      }
+    }
+
+    function renderRoomPlans() {
+      const selected = $("roomPlanDate").value || today();
+      const box = $("roomPlans");
+      box.replaceChildren();
+      const plans = state.roomPlans.filter((plan) => plan.plan_date === selected).sort((a, b) => `${a.start_time}`.localeCompare(`${b.start_time}`));
+
+      if (plans.length === 0) {
+        box.innerHTML = `<div class="empty">这一天还没有房间计划。愿意早起的人可以先作为 Captain 发布一个。</div>`;
+        return;
+      }
+
+      plans.forEach((plan) => {
+        const members = membersForPlan(plan.id);
+        const active = activeMembersForPlan(plan.id);
+        const confirmed = confirmedMembersForPlan(plan.id);
+        const left = seatsLeft(plan);
+        const joined = hasJoined(plan.id);
+        const mine = myMembership(plan.id);
+        const isCaptain = plan.captain_id === state.profile.id;
+        const canManage = isCaptain || isAdmin();
+        const canEdit = canEditRoomPlan(plan);
+        const canManageArrival = canManageArrivalInfo(plan);
+        const held = guestSeatsHeld(plan);
+        const fullnessClass = left <= 0 ? "full" : left <= 1 ? "soon" : "";
+        const statusClass = left <= 0 ? "full" : left <= 1 ? "tight" : "open";
+        const captainTitleText = captainTitle(plan.captain_id);
+        const item = document.createElement("div");
+        item.className = `item room-card ${fullnessClass}`;
+        item.innerHTML = `
+          <div class="split">
+            <div>
+              <strong>${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))} · ${escapeHtml(roomTypeLabel(plan.room_type))}</strong>
+              <div class="muted">Captain: ${escapeHtml(profileName(plan.captain_id))} ${captainTitleText ? `<span class="captain-badge">${escapeHtml(captainTitleText)}</span>` : ""}</div>
+            </div>
+            <span class="status-chip ${statusClass}">${left} 可加入</span>
+          </div>
+          <div class="compact-list">
+            <span class="pill">${escapeHtml(plan.status)}</span>
+            <span class="pill">${escapeHtml(discussionLabel(plan.discussion_mode))}</span>
+            <span class="pill">${confirmed.length} checked in</span>
+            <span class="pill">${active.length}/${plan.max_capacity} 已占</span>
+            ${held > 0 ? `<span class="pill">${held} 位留给朋友</span>` : ""}
+          </div>
+          <div><strong>${escapeHtml(plan.actual_room_label ? "房间 " + plan.actual_room_label : "房间号待 Captain 到场后补充")}</strong></div>
+          <div class="muted">${escapeHtml(plan.topic || "无主题")} · Captain ETA ${escapeHtml(timeShort(plan.planned_arrival) || "未设置")}</div>
+          ${plan.note ? `<div class="muted">${escapeHtml(plan.note)}</div>` : ""}
+          <div class="compact-list">
+            ${members.length ? members.map((member) => `<span class="pill">${escapeHtml(profileName(member.user_id))} · ${escapeHtml(member.status)}${member.eta ? " · " + escapeHtml(timeShort(member.eta)) : ""}</span>`).join("") : `<span class="muted">还没有人加入。</span>`}
+          </div>
+          <div class="row">
+            ${!joined && left > 0 && plan.status !== "cancelled" ? `<button class="small primary" data-room-join="${plan.id}" type="button">申请加入</button>` : ""}
+            ${joined && mine?.status !== "confirmed" ? `<button class="small" data-room-checkin="${mine.id}" type="button">我已到达</button>` : ""}
+            ${joined ? `<button class="small danger" data-room-cancel-member="${mine.id}" type="button">取消加入</button>` : ""}
+            ${canEdit ? `<button class="small" data-room-edit="${plan.id}" type="button">修改计划</button>` : ""}
+            ${canManageArrival ? `<button class="small primary" data-room-arrival="${plan.id}" type="button">${plan.status === "active" ? "更新房间号/座位" : "填写房间号/座位"}</button>` : ""}
+            ${isCaptain && !canEdit ? `<span class="muted">开始前 12 小时内锁定核心信息</span>` : ""}
+            ${canManage ? `<button class="small" data-room-status="${plan.id}" data-status="completed" type="button">完成承诺</button>` : ""}
+            ${canManage ? `<button class="small danger" data-room-status="${plan.id}" data-status="cancelled" type="button">取消计划</button>` : ""}
+          </div>
+        `;
+        box.appendChild(item);
+      });
+
+      box.querySelectorAll("[data-room-join]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const eta = prompt("预计到达时间，例如 09:30", "09:30");
+          if (eta === null) return;
+          await joinRoomPlan(button.dataset.roomJoin, eta);
+        });
+      });
+
+      box.querySelectorAll("[data-room-checkin]").forEach((button) => {
+        button.addEventListener("click", async () => updateRoomMember(button.dataset.roomCheckin, { status: "confirmed", checked_in_at: new Date().toISOString() }));
+      });
+
+      box.querySelectorAll("[data-room-cancel-member]").forEach((button) => {
+        button.addEventListener("click", async () => updateRoomMember(button.dataset.roomCancelMember, { status: "cancelled" }));
+      });
+
+      box.querySelectorAll("[data-room-edit]").forEach((button) => {
+        button.addEventListener("click", () => editRoomPlan(button.dataset.roomEdit));
+      });
+
+      box.querySelectorAll("[data-room-arrival]").forEach((button) => {
+        button.addEventListener("click", () => updateArrivalInfo(button.dataset.roomArrival));
+      });
+
+      box.querySelectorAll("[data-room-status]").forEach((button) => {
+        button.addEventListener("click", async () => updateRoomPlanStatus(button.dataset.roomStatus, button.dataset.status));
+      });
+    }
+
+    function renderMyCaptainActions() {
+      const box = $("myCaptainActions");
+      box.replaceChildren();
+      const plans = state.roomPlans
+        .filter((plan) => plan.captain_id === state.profile.id && !["completed", "cancelled"].includes(plan.status))
+        .sort((a, b) => `${a.plan_date} ${a.start_time}`.localeCompare(`${b.plan_date} ${b.start_time}`));
+
+      if (plans.length === 0) {
+        box.innerHTML = `<div class="notice">你发布计划后，这里会出现 Captain 快捷操作，可直接填写房间号、开放座位和朋友留位。</div>`;
+        return;
+      }
+
+      const panel = document.createElement("div");
+      panel.className = "notice";
+      panel.innerHTML = `<strong>Captain 快捷操作</strong><div class="muted">这里可以直接更新你发起的计划，不用再到下面的卡片里找按钮。</div>`;
+      box.appendChild(panel);
+
+      plans.forEach((plan) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <div class="split">
+            <div>
+              <strong>${escapeHtml(plan.plan_date)} ${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))}</strong>
+              <div class="muted">${escapeHtml(plan.actual_room_label ? "房间 " + plan.actual_room_label : "房间号未填写")} · ${seatsLeft(plan)} 可加入 · ${guestSeatsHeld(plan)} 位留给朋友</div>
+            </div>
+            <button class="small primary" data-room-arrival="${plan.id}" type="button">${plan.status === "active" ? "更新房间号/座位" : "填写房间号/座位"}</button>
+          </div>
+        `;
+        box.appendChild(item);
+      });
+
+      box.querySelectorAll("[data-room-arrival]").forEach((button) => {
+        button.addEventListener("click", () => updateArrivalInfo(button.dataset.roomArrival));
+      });
+    }
+
+    function renderCaptainBoard() {
+      const box = $("captainBoard");
+      box.replaceChildren();
+      const captains = state.profiles
+        .map((profile) => {
+          const plans = state.roomPlans.filter((plan) => plan.captain_id === profile.id);
+          return {
+            profile,
+            plans,
+            completed: plans.filter((plan) => plan.status === "completed").length,
+            title: captainTitle(profile.id),
+            reliability: captainReliability(profile.id)
+          };
+        })
+        .filter((entry) => entry.plans.length > 0)
+        .sort((a, b) => b.completed - a.completed || b.plans.length - a.plans.length);
+
+      if (captains.length === 0) {
+        box.innerHTML = `<div class="empty">还没有 Captain。第一个发布房间计划的人会获得 Captain 标识。</div>`;
+        return;
+      }
+
+      captains.forEach((entry) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <div class="split">
+            <strong>${escapeHtml(entry.profile.nickname)}</strong>
+            <span class="captain-badge">${escapeHtml(entry.title || "Captain")}</span>
+          </div>
+          <div class="muted">${entry.completed} completed · ${entry.plans.length} total · reliability ${escapeHtml(entry.reliability)}</div>
+        `;
+        box.appendChild(item);
+      });
+    }
+
+    function renderChat() {
+      const box = $("chatList");
+      box.replaceChildren();
+      if (state.chat.length === 0) {
+        box.innerHTML = `<div class="empty">广场还没有消息。</div>`;
+        return;
+      }
+      [...state.chat].reverse().forEach((message) => {
+        const row = document.createElement("div");
+        row.className = "message";
+        row.innerHTML = `
+          <div class="muted">${escapeHtml(profileName(message.user_id))} · ${new Date(message.created_at).toLocaleString()}</div>
+          <div>${escapeHtml(message.body)}</div>
+        `;
+        box.appendChild(row);
+      });
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function renderFeedback() {
+      $("adminFeedbackPanel").classList.toggle("hidden", !isAdmin());
+      const box = $("feedbackList");
+      if (!isAdmin()) return;
+      box.replaceChildren();
+      if (state.feedback.length === 0) {
+        box.innerHTML = `<div class="empty">暂无反馈。</div>`;
+        return;
+      }
+      state.feedback.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "item";
+        row.innerHTML = `
+          <div class="split">
+            <strong>${escapeHtml(item.category)}</strong>
+            <span class="pill">${escapeHtml(item.status)}</span>
+          </div>
+          <div class="muted">${escapeHtml(profileName(item.user_id))} · ${new Date(item.created_at).toLocaleString()}</div>
+          <div>${escapeHtml(item.message)}</div>
+          <div class="row">
+            <button class="small" data-feedback-status="${item.id}" data-status="read">标记 read</button>
+            <button class="small" data-feedback-status="${item.id}" data-status="resolved">标记 resolved</button>
+          </div>
+        `;
+        box.appendChild(row);
+      });
+
+      box.querySelectorAll("[data-feedback-status]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          await requireOk(
+            await supabase.from("feedback").update({ status: button.dataset.status }).eq("id", button.dataset.feedbackStatus),
+            "Cannot update feedback"
+          );
+          await loadApp();
+          renderApp();
+        });
+      });
+    }
+
+    async function createRoomPlan() {
+      const roomType = $("roomType").value;
+      const capacity = Math.max(1, Number($("roomCapacity").value) || defaultCapacity(roomType));
+      const guestHoldCount = Math.max(0, Math.min(capacity, Number($("guestHoldCount").value) || 0));
+      const payload = {
+        captain_id: state.profile.id,
+        plan_date: $("roomPlanDate").value || today(),
+        start_time: $("roomStartTime").value,
+        end_time: $("roomEndTime").value,
+        planned_arrival: $("captainArrival").value || null,
+        campus: "StudiTUM Innenstadt",
+        room_type: roomType,
+        actual_room_label: $("actualRoomLabel").value.trim() || null,
+        topic: $("roomTopic").value.trim() || null,
+        discussion_mode: $("discussionMode").value,
+        max_capacity: capacity,
+        guest_hold_count: guestHoldCount,
+        note: $("roomNote").value.trim() || null
+      };
+
+      if (!payload.plan_date || !payload.start_time || !payload.end_time) {
+        alert("请填写日期、开始和结束时间。");
+        return;
+      }
+
+      const plan = await requireOk(
+        await supabase.from("room_plans").insert(payload).select().single(),
+        "Cannot create room plan"
+      );
+
+      await requireOk(
+        await supabase.from("room_plan_members").upsert({
+          room_plan_id: plan.id,
+          user_id: state.profile.id,
+          status: "expected",
+          eta: payload.planned_arrival
+        }),
+        "Cannot add Captain to room plan"
+      );
+
+      $("roomTopic").value = "";
+      $("actualRoomLabel").value = "";
+      $("guestHoldCount").value = "0";
+      $("roomNote").value = "";
+      await loadApp();
+      renderApp();
+    }
+
+    async function joinRoomPlan(planId, eta) {
+      await requireOk(
+        await supabase.from("room_plan_members").upsert({
+          room_plan_id: planId,
+          user_id: state.profile.id,
+          status: "requested",
+          eta: eta || null
+        }, { onConflict: "room_plan_id,user_id" }),
+        "Cannot join room plan"
+      );
+      await loadApp();
+      renderApp();
+    }
+
+    async function updateRoomMember(memberId, patch) {
+      await requireOk(
+        await supabase.from("room_plan_members").update(patch).eq("id", memberId),
+        "Cannot update room member"
+      );
+      await loadApp();
+      renderApp();
+    }
+
+    async function editRoomPlan(planId) {
+      const plan = state.roomPlans.find((item) => item.id === planId);
+      if (!plan) return;
+      if (!canEditRoomPlan(plan)) {
+        alert("开始前 12 小时内不能修改时间、主题、容量等核心信息。");
+        return;
+      }
+
+      const startTime = prompt("开始时间，例如 09:00", timeShort(plan.start_time));
+      if (startTime === null) return;
+      const endTime = prompt("结束时间，例如 18:00", timeShort(plan.end_time));
+      if (endTime === null) return;
+      const plannedArrival = prompt("Captain 到达时间，例如 07:30", timeShort(plan.planned_arrival));
+      if (plannedArrival === null) return;
+      const topic = prompt("主题，空白表示无主题", plan.topic || "");
+      if (topic === null) return;
+      const note = prompt("备注", plan.note || "");
+      if (note === null) return;
+      const capacityText = prompt("容量", String(plan.max_capacity));
+      if (capacityText === null) return;
+      const capacity = Number(capacityText);
+
+      await requireOk(
+        await supabase.from("room_plans").update({
+          start_time: startTime,
+          end_time: endTime,
+          planned_arrival: plannedArrival || null,
+          topic: topic.trim() || null,
+          note: note.trim() || null,
+          max_capacity: Number.isFinite(capacity) ? capacity : plan.max_capacity
+        }).eq("id", planId),
+        "Cannot edit room plan"
+      );
+      await loadApp();
+      renderApp();
+    }
+
+    async function updateArrivalInfo(planId) {
+      const plan = state.roomPlans.find((item) => item.id === planId);
+      if (!plan) return;
+      if (!canManageArrivalInfo(plan)) return;
+
+      const roomLabel = prompt("实际房间号，例如 0.06", plan.actual_room_label || "");
+      if (roomLabel === null) return;
+      const capacityText = prompt("现在开放多少个座位", String(plan.max_capacity));
+      if (capacityText === null) return;
+      const guestHoldText = prompt("给未注册朋友预留几个位置", String(guestSeatsHeld(plan)));
+      if (guestHoldText === null) return;
+      const noteText = prompt("给后来想来的人补充一句话", plan.note || "");
+      if (noteText === null) return;
+
+      const capacity = Math.max(1, Number(capacityText) || plan.max_capacity);
+      const guestHoldCount = Math.max(0, Math.min(capacity, Number(guestHoldText) || 0));
+
+      await requireOk(
+        await supabase.from("room_plans").update({
+          actual_room_label: roomLabel.trim() || null,
+          max_capacity: capacity,
+          guest_hold_count: guestHoldCount,
+          note: noteText.trim() || null,
+          status: plan.status === "cancelled" ? "cancelled" : "active"
+        }).eq("id", planId),
+        "Cannot update arrival info"
+      );
+
+      const captainMembership = membersForPlan(planId).find((member) => member.user_id === state.profile.id && member.status !== "cancelled");
+      if (captainMembership && captainMembership.status !== "confirmed") {
+        await requireOk(
+          await supabase.from("room_plan_members").update({
+            status: "confirmed",
+            checked_in_at: new Date().toISOString()
+          }).eq("id", captainMembership.id),
+          "Cannot confirm captain arrival"
+        );
+      }
+
+      await loadApp();
+      renderApp();
+    }
+
+    async function updateRoomPlanStatus(planId, status) {
+      await requireOk(
+        await supabase.from("room_plans").update({ status }).eq("id", planId),
+        "Cannot update room plan"
+      );
+      await loadApp();
+      renderApp();
+    }
+
+    async function sendFeedback() {
+      const message = $("feedbackMessage").value.trim();
+      if (!message) return;
+      await requireOk(
+        await supabase.from("feedback").insert({
+          user_id: state.profile.id,
+          category: $("feedbackCategory").value,
+          message
+        }),
+        "Cannot send feedback"
+      );
+      $("feedbackMessage").value = "";
+      $("feedbackStatus").textContent = "已提交。普通用户无法读取反馈箱，管理员可以看到。";
+    }
+
+    async function sendChat() {
+      const body = $("chatInput").value.trim();
+      if (!body) return;
+      await requireOk(
+        await supabase.from("chat_messages").insert({ user_id: state.profile.id, body }),
+        "Cannot send chat"
+      );
+      $("chatInput").value = "";
+      await loadApp();
+      renderApp();
+    }
+
+    function bind() {
+      $("signupButton").addEventListener("click", signUp);
+      $("loginButton").addEventListener("click", login);
+      $("logoutButton").addEventListener("click", logout);
+      $("refreshButton").addEventListener("click", async () => {
+        await loadApp();
+        renderApp();
+      });
+      $("createRoomPlanButton").addEventListener("click", createRoomPlan);
+      $("roomType").addEventListener("change", () => {
+        $("roomCapacity").value = String(defaultCapacity($("roomType").value));
+      });
+      $("roomPlanDate").addEventListener("change", () => {
+        renderRoomCalendar();
+        renderRoomPlans();
+      });
+      $("sendFeedbackButton").addEventListener("click", sendFeedback);
+      $("reloadFeedbackButton").addEventListener("click", async () => {
+        await loadApp();
+        renderApp();
+      });
+      $("sendChatButton").addEventListener("click", sendChat);
+      $("chatInput").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") sendChat();
+      });
+    }
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      state.session = session;
+    });
+
+    bind();
+    boot().catch((error) => {
+      console.error(error);
+      alert(`加载失败：${error.message}\n\n请确认已经在 Supabase SQL Editor 运行 schema，并关闭 Email Confirm。`);
+      renderAuth();
+    });
+  </script>
+</body>
+</html>
