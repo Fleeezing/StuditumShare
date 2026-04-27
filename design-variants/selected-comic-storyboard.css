@@ -1,0 +1,380 @@
+/*
+  Seat Happens visual exploration 09
+  Direction: comic storyboard with bold panels and action labels.
+  Scope: CSS-only preview. No business logic, DOM contracts, or API fields changed.
+*/
+
+:root {
+  --v9-paper: #fff8e7;
+  --v9-ink: #15151a;
+  --v9-muted: #5d5b66;
+  --v9-line: #15151a;
+  --v9-blue: #2364ff;
+  --v9-yellow: #ffd23f;
+  --v9-red: #ff4d4d;
+  --v9-green: #20bf55;
+  --v9-pink: #ff6ab7;
+  --background: #ffeec4;
+  --surface: var(--v9-paper);
+  --panel: var(--v9-paper);
+  --ink: var(--v9-ink);
+  --muted: var(--v9-muted);
+  --line: var(--v9-line);
+  --soft: #fff2bd;
+  --blue: var(--v9-blue);
+  --blue-deep: var(--v9-ink);
+  --blue-soft: #eaf0ff;
+  --green: var(--v9-green);
+  --yellow: #f59e0b;
+  --red: var(--v9-red);
+}
+
+* { letter-spacing: 0; }
+
+html { background: #ffeec4; }
+
+body {
+  color: var(--v9-ink);
+  background:
+    radial-gradient(circle at 0 0, rgba(255,210,63,.48) 0 90px, transparent 92px),
+    radial-gradient(circle at 100% 10%, rgba(35,100,255,.22) 0 130px, transparent 132px),
+    radial-gradient(circle at 18px 18px, rgba(21,21,26,.08) 0 2px, transparent 2.4px) 0 0 / 26px 26px,
+    #ffeec4 !important;
+  font-family: "Trebuchet MS", "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+body::before,
+body::after,
+main::before,
+main::after,
+.topbar::before,
+.topbar::after,
+.location-banner::before,
+.location-banner::after,
+.today-hero::before,
+.today-hero::after,
+#roomPlansPanel::after,
+.captain-create-panel .panel-head::after,
+#futureDaysPanel .panel-head::after,
+#captainBoardPanel .panel-head::after {
+  display: none !important;
+}
+
+body::before {
+  content: "Seat! Seat! Seat!";
+  display: block !important;
+  position: fixed;
+  right: 34px;
+  bottom: 40px;
+  transform: rotate(-8deg);
+  color: rgba(255, 77, 77, .28);
+  font-size: clamp(44px, 7vw, 112px);
+  font-weight: 950;
+  letter-spacing: -.05em;
+  pointer-events: none;
+}
+
+main {
+  width: min(1160px, calc(100vw - 36px)) !important;
+  padding: 26px 0 80px !important;
+}
+
+.auth-wrap { padding: 44px 20px !important; background: transparent !important; }
+.auth { width: min(1120px, 100%) !important; gap: 24px !important; }
+
+.topbar,
+.auth-hero,
+.auth-card,
+.location-banner,
+.panel,
+.secondary-panel,
+.room-card-clean,
+.captain-plan-card,
+.feedback-item,
+.message-item,
+.release-item,
+.day-card {
+  border: 4px solid var(--v9-line) !important;
+  border-radius: 16px !important;
+  background: var(--v9-paper) !important;
+  box-shadow: 8px 8px 0 rgba(21,21,26,.88) !important;
+}
+
+.topbar {
+  padding: 18px !important;
+  gap: 18px !important;
+  transform: rotate(-.2deg);
+  background: linear-gradient(135deg, #fff8e7, #fff2bd) !important;
+}
+
+.brand-lockup { gap: 18px !important; }
+
+.brand-mark {
+  width: 84px !important;
+  height: 84px !important;
+  padding: 8px !important;
+  border: 4px solid var(--v9-line) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 4px 4px 0 var(--v9-blue) !important;
+}
+
+.brand-logo { object-fit: contain !important; border-radius: 12px; }
+
+.brand-kicker,
+.section-kicker {
+  color: var(--v9-red) !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase;
+}
+
+.topbar .brand-copy h1,
+.auth-hero h1 {
+  color: var(--v9-ink) !important;
+  font-size: clamp(44px, 5.8vw, 80px) !important;
+  font-weight: 950 !important;
+  line-height: .90 !important;
+  letter-spacing: -.07em !important;
+}
+
+.muted,
+small,
+.topbar .brand-copy .muted { color: var(--v9-muted) !important; }
+
+button,
+.pill,
+.status-chip,
+.tag {
+  border-radius: 12px !important;
+}
+
+button {
+  min-height: 42px;
+  border: 3px solid var(--v9-line) !important;
+  background: #fff !important;
+  color: var(--v9-ink) !important;
+  font-weight: 950 !important;
+  box-shadow: 4px 4px 0 var(--v9-line) !important;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+button:hover,
+.room-card-clean:hover,
+.day-card:hover {
+  transform: translate(-2px, -2px) rotate(-.35deg);
+  box-shadow: 8px 8px 0 var(--v9-line) !important;
+}
+
+button.primary,
+.primary,
+.hero-actions button {
+  background: var(--v9-blue) !important;
+  color: #fff !important;
+}
+
+button.danger,
+.danger {
+  background: #fff !important;
+  color: var(--v9-red) !important;
+}
+
+input,
+select,
+textarea {
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: var(--v9-ink) !important;
+}
+
+button:focus-visible,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 4px solid var(--v9-yellow) !important;
+  outline-offset: 3px !important;
+}
+
+.location-banner {
+  margin: 24px 0 28px !important;
+  padding: 18px 22px !important;
+  transform: rotate(.15deg);
+}
+
+.location-banner a { color: var(--v9-blue) !important; }
+
+.today-hero {
+  display: grid !important;
+  grid-template-columns: minmax(330px, 1fr) minmax(470px, auto) minmax(184px, auto) !important;
+  grid-template-areas: "copy metrics actions" !important;
+  gap: 24px !important;
+  align-items: center !important;
+  min-height: 292px !important;
+  padding: 34px !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(circle at 86% 18%, rgba(255,210,63,.7) 0 70px, transparent 72px),
+    linear-gradient(135deg, #fff8e7, #eaf0ff) !important;
+  overflow: visible !important;
+}
+
+.today-hero-copy { grid-area: copy !important; }
+
+.today-hero h2 {
+  color: var(--v9-ink) !important;
+  font-size: clamp(48px, 6.5vw, 88px) !important;
+  font-weight: 950 !important;
+  line-height: .86 !important;
+  letter-spacing: -.08em !important;
+  text-transform: none;
+}
+
+.today-hero h2::after {
+  width: 120px !important;
+  height: 12px !important;
+  border: 3px solid var(--v9-line);
+  border-radius: 999px !important;
+  background: var(--v9-yellow) !important;
+}
+
+.today-hero p {
+  font-size: 22px !important;
+  font-weight: 850 !important;
+}
+
+.hero-metrics {
+  grid-area: metrics !important;
+  display: grid !important;
+  grid-template-columns: minmax(126px, .78fr) minmax(126px, .78fr) minmax(194px, 1.18fr) !important;
+  gap: 12px !important;
+  min-width: 470px !important;
+}
+
+.hero-metric {
+  min-height: 158px !important;
+  min-width: 0 !important;
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  box-shadow: 4px 4px 0 var(--v9-line) !important;
+  overflow: visible !important;
+}
+
+.hero-metric:nth-child(1) { background: #e9ffe8 !important; }
+.hero-metric:nth-child(2) { background: #eaf0ff !important; }
+.hero-metric:nth-child(3) { min-width: 194px !important; background: #fff2bd !important; }
+
+.hero-metric strong {
+  color: var(--v9-ink) !important;
+  font-size: clamp(42px, 4vw, 64px) !important;
+  font-weight: 950 !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-actions { grid-area: actions !important; display: flex !important; justify-content: flex-end !important; }
+.hero-actions button { min-width: 184px !important; min-height: 70px !important; font-size: 16px !important; }
+
+.panel { margin-top: 28px !important; }
+
+.panel-head,
+.clean-head {
+  padding: 22px 26px !important;
+  border-bottom: 4px solid var(--v9-line) !important;
+  background: #fff2bd !important;
+}
+
+.panel-body { padding: 26px !important; }
+
+#roomPlansPanel .clean-head::after {
+  content: "NEXT PANEL" !important;
+  display: block !important;
+  position: absolute;
+  right: 24px;
+  top: 22px;
+  transform: rotate(3deg);
+  color: var(--v9-red);
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.room-card-clean {
+  position: relative;
+  padding: 24px !important;
+  transform: rotate(.12deg);
+}
+
+.room-card-clean::before {
+  content: "";
+  display: block !important;
+  position: absolute;
+  left: 0;
+  top: 20px;
+  bottom: 20px;
+  width: 10px;
+  background: var(--v9-blue);
+}
+
+.room-card-meta {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.room-card-meta span {
+  min-height: 86px !important;
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  box-shadow: 3px 3px 0 rgba(21,21,26,.86) !important;
+}
+
+.room-card-meta span:nth-child(1) { background: #e9ffe8 !important; }
+
+.room-card-meta strong {
+  color: var(--v9-ink) !important;
+  font-size: 29px !important;
+  font-weight: 950 !important;
+}
+
+.status-chip.open { background: #e9ffe8 !important; color: #12803d !important; }
+.status-chip.planned { background: #eaf0ff !important; color: var(--v9-blue) !important; }
+.status-chip.full, .status-chip.cancelled { background: #ffe7e7 !important; color: var(--v9-red) !important; }
+
+.room-hint {
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 14px !important;
+  background: #fff2bd !important;
+  color: var(--v9-ink) !important;
+  box-shadow: 3px 3px 0 var(--v9-line) !important;
+}
+
+@media (max-width: 1320px) {
+  .today-hero { grid-template-columns: minmax(320px,1fr) minmax(470px,auto) !important; grid-template-areas: "copy metrics" "copy actions" !important; }
+  .hero-actions { justify-content: flex-start !important; }
+}
+
+@media (max-width: 980px) {
+  main { width: min(100% - 24px, 760px) !important; }
+  .today-hero { grid-template-columns: 1fr !important; grid-template-areas: "copy" "metrics" "actions" !important; }
+  .hero-metrics { min-width: 0 !important; grid-template-columns: 1fr 1fr !important; }
+  .hero-metric:nth-child(3) { grid-column: 1 / -1; }
+  .room-card-meta { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 640px) {
+  body::before { display: none !important; }
+  main { width: calc(100% - 16px) !important; }
+  .topbar .brand-copy h1 { font-size: 38px !important; }
+  .brand-mark { width: 64px !important; height: 64px !important; }
+  .today-hero { padding: 22px !important; }
+  .today-hero h2 { font-size: clamp(40px, 13vw, 58px) !important; }
+  .hero-metrics { grid-template-columns: 1fr !important; }
+  .hero-actions button { width: 100% !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

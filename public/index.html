@@ -1811,10 +1811,11 @@
         linear-gradient(180deg, rgba(65, 120, 190, 0.04) 1px, transparent 1px) 18px 18px / 12px 12px,
         radial-gradient(circle at 78% 4%, rgba(22, 115, 209, 0.08), transparent 28%),
         linear-gradient(180deg, #fbfdff 0%, var(--bg) 46%, #f4f9ff 100%);
+      background-attachment: fixed;
     }
 
     body::before {
-      content: "MAKE SPACE.\A FOCUS BETTER.\A TOGETHER";
+      content: "RUDOLF DIESEL\A TUM ALUMNUS\A IDEAL DIESEL CYCLE\A\A eta_D = 1 -\A (1/r^(gamma-1))\A * ((rho^gamma - 1)\A / gamma(rho - 1))";
       position: fixed;
       left: 28px;
       top: 174px;
@@ -2772,12 +2773,16 @@
     }
 
     body::before {
-      content: "MAKE SPACE.\A FOCUS BETTER.\A TOGETHER.\A\A DATUM A\A SCALE 1:1\A SH-ROOM-SET";
+      content: "RUDOLF DIESEL\A TUM ALUMNUS\A IDEAL DIESEL CYCLE\A\A eta_D = 1 -\A (1/r^(gamma-1))\A * ((rho^gamma - 1)\A / gamma(rho - 1))";
     }
 
     body::after {
       background:
-        var(--draft-assembly-left) 1.2vw 23vh / 210px 452px no-repeat,
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 36px 36px,
+        linear-gradient(180deg, rgba(65, 120, 190, 0.055) 1px, transparent 1px) 0 0 / 36px 36px,
+        linear-gradient(90deg, rgba(65, 120, 190, 0.055) 1px, transparent 1px) 18px 18px / 12px 12px,
+        linear-gradient(180deg, rgba(65, 120, 190, 0.04) 1px, transparent 1px) 18px 18px / 12px 12px,
+        var(--draft-assembly-left) 1.2vw 34vh / 210px 452px no-repeat,
         var(--draft-assembly-right) calc(100vw - 372px) 6.2vh / 310px 274px no-repeat,
         var(--draft-nautical) calc(100vw - 342px) calc(100vh - 228px) / 310px 204px no-repeat,
         linear-gradient(rgba(22, 115, 209, 0.30), rgba(22, 115, 209, 0.30)) 8.7vw 17.5vh / 1px 24vh no-repeat,
@@ -2985,6 +2990,253 @@
       --button-icon: var(--icon-compass);
     }
 
+    main {
+      isolation: isolate;
+    }
+
+    main::before,
+    main::after {
+      position: fixed;
+      z-index: 0;
+    }
+
+    main::before {
+      left: 0;
+      right: 0;
+    }
+
+    main::after {
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    main > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .today-hero {
+      isolation: isolate;
+    }
+
+    .today-hero::before,
+    .today-hero::after {
+      z-index: 0;
+    }
+
+    .today-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-actions {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-actions button::after {
+      right: -46px;
+      bottom: -34px;
+      width: 38px;
+      height: 38px;
+      opacity: 0.78;
+    }
+
+    /* Calmer blueprint pass: keep decorations in the margins and protect hero metrics. */
+    body {
+      background:
+        radial-gradient(circle at 80% 0%, rgba(22, 115, 209, 0.045), transparent 30%),
+        linear-gradient(180deg, #fbfdff 0%, var(--bg) 54%, #f7fbff 100%);
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "STUDITUM\A ROOM SHARING\A CAPTAIN FIRST.\A SEATS SHARED.";
+      left: max(18px, calc((100vw - 1680px) / 2 - 132px));
+      top: 218px;
+      color: rgba(22, 115, 209, 0.28);
+      font-size: 10px;
+      line-height: 1.7;
+      letter-spacing: 0.12em;
+    }
+
+    body::after {
+      background:
+        linear-gradient(90deg, rgba(65, 120, 190, 0.040) 1px, transparent 1px) 0 0 / 36px 36px,
+        linear-gradient(180deg, rgba(65, 120, 190, 0.032) 1px, transparent 1px) 0 0 / 36px 36px,
+        radial-gradient(circle, transparent 0 48px, rgba(22, 115, 209, 0.16) 49px 50px, transparent 51px) max(24px, calc((100vw - 1680px) / 2 - 112px)) 69vh / 132px 132px no-repeat,
+        radial-gradient(circle, transparent 0 18px, rgba(22, 115, 209, 0.15) 19px 20px, transparent 21px) max(54px, calc((100vw - 1680px) / 2 - 82px)) 73.4vh / 58px 58px no-repeat,
+        linear-gradient(90deg, rgba(22, 115, 209, 0.16), rgba(22, 115, 209, 0.16)) calc(100vw - max(104px, calc((100vw - 1680px) / 2 + 220px))) 120px / 220px 1px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.14), rgba(22, 115, 209, 0.14)) calc(100vw - max(236px, calc((100vw - 1680px) / 2 + 352px))) 78px / 1px 120px no-repeat,
+        radial-gradient(circle, rgba(22, 115, 209, 0.20) 0 3px, transparent 4px) calc(100vw - max(120px, calc((100vw - 1680px) / 2 + 236px))) 112px / 16px 16px no-repeat,
+        linear-gradient(135deg, transparent 0 47%, rgba(22, 115, 209, 0.13) 47% 49%, transparent 49%) calc(100vw - max(138px, calc((100vw - 1680px) / 2 + 254px))) 76vh / 92px 58px no-repeat,
+        var(--draft-nautical) calc(100vw - max(300px, calc((100vw - 1680px) / 2 + 416px))) calc(100vh - 196px) / 240px 158px no-repeat;
+      opacity: 0.38;
+    }
+
+    main::before {
+      top: 118px;
+      height: 112px;
+      background:
+        linear-gradient(90deg, transparent, rgba(22, 115, 209, 0.12) 18%, rgba(22, 115, 209, 0.12) 82%, transparent) 0 44px / 100% 1px no-repeat,
+        linear-gradient(rgba(22, 115, 209, 0.11), rgba(22, 115, 209, 0.11)) 58% 0 / 1px 84px no-repeat,
+        radial-gradient(circle, rgba(22, 115, 209, 0.15) 0 3px, transparent 4px) 55% 38px / 18px 18px no-repeat;
+      opacity: 1;
+    }
+
+    main::after,
+    .topbar::after,
+    .location-banner::after,
+    .today-hero::before,
+    .today-hero::after,
+    #roomPlansPanel::after {
+      display: none;
+    }
+
+    .topbar,
+    .location-banner,
+    .panel,
+    .room-card-clean {
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 14px 34px rgba(11, 35, 65, 0.052);
+    }
+
+    .main-flow {
+      gap: 28px;
+    }
+
+    .today-hero {
+      grid-template-columns: minmax(360px, 1fr) max-content max-content;
+      grid-template-areas:
+        "copy metrics actions";
+      align-items: center;
+      min-height: 246px;
+      padding: clamp(30px, 3.1vw, 48px);
+      gap: clamp(28px, 4vw, 64px);
+      overflow: visible;
+      background:
+        linear-gradient(135deg, rgba(22, 115, 209, 0.048), transparent 48%),
+        rgba(255, 255, 255, 0.94);
+    }
+
+    .today-hero-copy {
+      grid-area: copy;
+      max-width: 650px;
+    }
+
+    .today-hero h2 {
+      font-size: clamp(46px, 4vw, 68px);
+      white-space: normal;
+      text-wrap: balance;
+    }
+
+    .today-hero p {
+      max-width: 34ch;
+      font-size: clamp(20px, 1.3vw, 25px);
+    }
+
+    .hero-metrics {
+      grid-area: metrics;
+      display: grid;
+      grid-template-columns: minmax(132px, auto) minmax(132px, auto) minmax(190px, auto);
+      justify-content: end;
+      align-items: stretch;
+      min-width: min(100%, 486px);
+      min-height: 150px;
+      overflow: visible;
+    }
+
+    .hero-metric {
+      min-width: 132px;
+      min-height: 150px;
+      padding: 22px 24px;
+      flex-shrink: 0;
+    }
+
+    .hero-metric:nth-child(3) {
+      min-width: 190px;
+      padding-inline: 28px;
+    }
+
+    .hero-metric strong {
+      max-width: none;
+      overflow: visible;
+      text-overflow: clip;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(40px, 3vw, 54px);
+      letter-spacing: 0;
+    }
+
+    .hero-actions {
+      grid-area: actions;
+      justify-self: end;
+      align-self: center;
+      margin-left: 0;
+      width: max-content;
+      min-width: max-content;
+    }
+
+    .hero-actions button {
+      min-width: 236px;
+      min-height: 72px;
+      box-shadow: 0 16px 32px rgba(11, 86, 168, 0.20);
+    }
+
+    .hero-actions button::after {
+      display: none;
+    }
+
+    #roomPlansPanel {
+      margin-top: 4px;
+    }
+
+    #roomPlansPanel .panel-head,
+    .clean-head {
+      padding-inline: clamp(22px, 2.4vw, 34px);
+    }
+
+    .room-card-clean {
+      margin-top: 16px;
+      padding: clamp(18px, 2vw, 26px);
+    }
+
+    @media (max-width: 1380px) {
+      .today-hero {
+        grid-template-columns: minmax(320px, 1fr) minmax(486px, auto);
+        grid-template-areas:
+          "copy metrics"
+          "copy actions";
+      }
+
+      .hero-actions {
+        grid-area: actions;
+        margin-left: 0;
+        margin-top: 18px;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .today-hero {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "copy"
+          "controls";
+      }
+
+      .hero-metrics {
+        justify-self: start;
+      }
+
+      .hero-actions {
+        grid-area: auto / auto / auto / auto;
+        grid-column: 1;
+        grid-row: 3;
+        justify-self: start;
+      }
+    }
+
     @media (max-width: 980px) {
       .topbar::after,
       .brand-mark::after,
@@ -3070,6 +3322,382 @@
         font-size: 13px;
       }
     }
+    /* Seat Happens selected production theme: Comic Storyboard UI */
+:root {
+  --v9-paper: #fff8e7;
+  --v9-ink: #15151a;
+  --v9-muted: #5d5b66;
+  --v9-line: #15151a;
+  --v9-blue: #2364ff;
+  --v9-yellow: #ffd23f;
+  --v9-red: #ff4d4d;
+  --v9-green: #20bf55;
+  --v9-pink: #ff6ab7;
+  --background: #ffeec4;
+  --surface: var(--v9-paper);
+  --panel: var(--v9-paper);
+  --ink: var(--v9-ink);
+  --muted: var(--v9-muted);
+  --line: var(--v9-line);
+  --soft: #fff2bd;
+  --blue: var(--v9-blue);
+  --blue-deep: var(--v9-ink);
+  --blue-soft: #eaf0ff;
+  --green: var(--v9-green);
+  --yellow: #f59e0b;
+  --red: var(--v9-red);
+}
+
+* { letter-spacing: 0; }
+
+html { background: #ffeec4; }
+
+body {
+  color: var(--v9-ink);
+  background:
+    radial-gradient(circle at 0 0, rgba(255,210,63,.48) 0 90px, transparent 92px),
+    radial-gradient(circle at 100% 10%, rgba(35,100,255,.22) 0 130px, transparent 132px),
+    radial-gradient(circle at 18px 18px, rgba(21,21,26,.08) 0 2px, transparent 2.4px) 0 0 / 26px 26px,
+    #ffeec4 !important;
+  font-family: "Trebuchet MS", "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+body::before,
+body::after,
+main::before,
+main::after,
+.topbar::before,
+.topbar::after,
+.location-banner::before,
+.location-banner::after,
+.today-hero::before,
+.today-hero::after,
+#roomPlansPanel::after,
+.captain-create-panel .panel-head::after,
+#futureDaysPanel .panel-head::after,
+#captainBoardPanel .panel-head::after {
+  display: none !important;
+}
+
+body::before {
+  content: "Seat! Seat! Seat!";
+  display: block !important;
+  position: fixed;
+  right: 34px;
+  bottom: 40px;
+  transform: rotate(-8deg);
+  color: rgba(255, 77, 77, .28);
+  font-size: clamp(44px, 7vw, 112px);
+  font-weight: 950;
+  letter-spacing: -.05em;
+  pointer-events: none;
+}
+
+main {
+  width: min(1160px, calc(100vw - 36px)) !important;
+  padding: 26px 0 80px !important;
+}
+
+.auth-wrap { padding: 44px 20px !important; background: transparent !important; }
+.auth { width: min(1120px, 100%) !important; gap: 24px !important; }
+
+.topbar,
+.auth-hero,
+.auth-card,
+.location-banner,
+.panel,
+.secondary-panel,
+.room-card-clean,
+.captain-plan-card,
+.feedback-item,
+.message-item,
+.release-item,
+.day-card {
+  border: 4px solid var(--v9-line) !important;
+  border-radius: 16px !important;
+  background: var(--v9-paper) !important;
+  box-shadow: 8px 8px 0 rgba(21,21,26,.88) !important;
+}
+
+.topbar {
+  padding: 18px !important;
+  gap: 18px !important;
+  transform: rotate(-.2deg);
+  background: linear-gradient(135deg, #fff8e7, #fff2bd) !important;
+}
+
+.brand-lockup { gap: 18px !important; }
+
+.brand-mark {
+  width: 84px !important;
+  height: 84px !important;
+  padding: 8px !important;
+  border: 4px solid var(--v9-line) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 4px 4px 0 var(--v9-blue) !important;
+}
+
+.brand-logo { object-fit: contain !important; border-radius: 12px; }
+
+.brand-kicker,
+.section-kicker {
+  color: var(--v9-red) !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase;
+}
+
+.topbar .brand-copy h1,
+.auth-hero h1 {
+  color: var(--v9-ink) !important;
+  font-size: clamp(44px, 5.8vw, 80px) !important;
+  font-weight: 950 !important;
+  line-height: .90 !important;
+  letter-spacing: -.07em !important;
+}
+
+.muted,
+small,
+.topbar .brand-copy .muted { color: var(--v9-muted) !important; }
+
+button,
+.pill,
+.status-chip,
+.tag {
+  border-radius: 12px !important;
+}
+
+button {
+  min-height: 42px;
+  border: 3px solid var(--v9-line) !important;
+  background: #fff !important;
+  color: var(--v9-ink) !important;
+  font-weight: 950 !important;
+  box-shadow: 4px 4px 0 var(--v9-line) !important;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+button:hover,
+.room-card-clean:hover,
+.day-card:hover {
+  transform: translate(-2px, -2px) rotate(-.35deg);
+  box-shadow: 8px 8px 0 var(--v9-line) !important;
+}
+
+button.primary,
+.primary,
+.hero-actions button {
+  background: var(--v9-blue) !important;
+  color: #fff !important;
+}
+
+button.danger,
+.danger {
+  background: #fff !important;
+  color: var(--v9-red) !important;
+}
+
+input,
+select,
+textarea {
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: var(--v9-ink) !important;
+}
+
+button:focus-visible,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 4px solid var(--v9-yellow) !important;
+  outline-offset: 3px !important;
+}
+
+.location-banner {
+  margin: 24px 0 28px !important;
+  padding: 18px 22px !important;
+  transform: rotate(.15deg);
+}
+
+.location-banner a { color: var(--v9-blue) !important; }
+
+.today-hero {
+  display: grid !important;
+  grid-template-columns: minmax(330px, 1fr) minmax(470px, auto) minmax(184px, auto) !important;
+  grid-template-areas: "copy metrics actions" !important;
+  gap: 24px !important;
+  align-items: center !important;
+  min-height: 292px !important;
+  padding: 34px !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(circle at 86% 18%, rgba(255,210,63,.7) 0 70px, transparent 72px),
+    linear-gradient(135deg, #fff8e7, #eaf0ff) !important;
+  overflow: visible !important;
+}
+
+.today-hero-copy { grid-area: copy !important; }
+
+.today-hero h2 {
+  color: var(--v9-ink) !important;
+  font-size: clamp(48px, 6.5vw, 88px) !important;
+  font-weight: 950 !important;
+  line-height: .86 !important;
+  letter-spacing: -.08em !important;
+  text-transform: none;
+}
+
+.today-hero h2::after {
+  width: 120px !important;
+  height: 12px !important;
+  border: 3px solid var(--v9-line);
+  border-radius: 999px !important;
+  background: var(--v9-yellow) !important;
+}
+
+.today-hero p {
+  font-size: 22px !important;
+  font-weight: 850 !important;
+}
+
+.hero-metrics {
+  grid-area: metrics !important;
+  display: grid !important;
+  grid-template-columns: minmax(126px, .78fr) minmax(126px, .78fr) minmax(194px, 1.18fr) !important;
+  gap: 12px !important;
+  min-width: 470px !important;
+}
+
+.hero-metric {
+  min-height: 158px !important;
+  min-width: 0 !important;
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  box-shadow: 4px 4px 0 var(--v9-line) !important;
+  overflow: visible !important;
+}
+
+.hero-metric:nth-child(1) { background: #e9ffe8 !important; }
+.hero-metric:nth-child(2) { background: #eaf0ff !important; }
+.hero-metric:nth-child(3) { min-width: 194px !important; background: #fff2bd !important; }
+
+.hero-metric strong {
+  color: var(--v9-ink) !important;
+  font-size: clamp(42px, 4vw, 64px) !important;
+  font-weight: 950 !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-actions { grid-area: actions !important; display: flex !important; justify-content: flex-end !important; }
+.hero-actions button { min-width: 184px !important; min-height: 70px !important; font-size: 16px !important; }
+
+.panel { margin-top: 28px !important; }
+
+.panel-head,
+.clean-head {
+  padding: 22px 26px !important;
+  border-bottom: 4px solid var(--v9-line) !important;
+  background: #fff2bd !important;
+}
+
+.panel-body { padding: 26px !important; }
+
+#roomPlansPanel .clean-head::after {
+  content: "NEXT PANEL" !important;
+  display: block !important;
+  position: absolute;
+  right: 24px;
+  top: 22px;
+  transform: rotate(3deg);
+  color: var(--v9-red);
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.room-card-clean {
+  position: relative;
+  padding: 24px !important;
+  transform: rotate(.12deg);
+}
+
+.room-card-clean::before {
+  content: "";
+  display: block !important;
+  position: absolute;
+  left: 0;
+  top: 20px;
+  bottom: 20px;
+  width: 10px;
+  background: var(--v9-blue);
+}
+
+.room-card-meta {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.room-card-meta span {
+  min-height: 86px !important;
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  box-shadow: 3px 3px 0 rgba(21,21,26,.86) !important;
+}
+
+.room-card-meta span:nth-child(1) { background: #e9ffe8 !important; }
+
+.room-card-meta strong {
+  color: var(--v9-ink) !important;
+  font-size: 29px !important;
+  font-weight: 950 !important;
+}
+
+.status-chip.open { background: #e9ffe8 !important; color: #12803d !important; }
+.status-chip.planned { background: #eaf0ff !important; color: var(--v9-blue) !important; }
+.status-chip.full, .status-chip.cancelled { background: #ffe7e7 !important; color: var(--v9-red) !important; }
+
+.room-hint {
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 14px !important;
+  background: #fff2bd !important;
+  color: var(--v9-ink) !important;
+  box-shadow: 3px 3px 0 var(--v9-line) !important;
+}
+
+@media (max-width: 1320px) {
+  .today-hero { grid-template-columns: minmax(320px,1fr) minmax(470px,auto) !important; grid-template-areas: "copy metrics" "copy actions" !important; }
+  .hero-actions { justify-content: flex-start !important; }
+}
+
+@media (max-width: 980px) {
+  main { width: min(100% - 24px, 760px) !important; }
+  .today-hero { grid-template-columns: 1fr !important; grid-template-areas: "copy" "metrics" "actions" !important; }
+  .hero-metrics { min-width: 0 !important; grid-template-columns: 1fr 1fr !important; }
+  .hero-metric:nth-child(3) { grid-column: 1 / -1; }
+  .room-card-meta { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 640px) {
+  body::before { display: none !important; }
+  main { width: calc(100% - 16px) !important; }
+  .topbar .brand-copy h1 { font-size: 38px !important; }
+  .brand-mark { width: 64px !important; height: 64px !important; }
+  .today-hero { padding: 22px !important; }
+  .today-hero h2 { font-size: clamp(40px, 13vw, 58px) !important; }
+  .hero-metrics { grid-template-columns: 1fr !important; }
+  .hero-actions button { width: 100% !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
   </style>
 </head>
 <body>
@@ -3106,7 +3734,7 @@
         <div class="auth-location">
           <strong>主校区 StudiTUM</strong>
           <span>Gabelsbergerstr. 43, 80333 München</span>
-          <a href="https://nav.tum.de/en/building/studitum-innenstadt" target="_blank" rel="noopener">查看位置</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=StudiTUM%2C%20Gabelsbergerstr.%2043%2C%2080333%20M%C3%BCnchen" target="_blank" rel="noopener">查看位置</a>
         </div>
       </section>
 
@@ -3186,7 +3814,7 @@
         <strong>主校区 StudiTUM</strong>
         <span class="muted">Gabelsbergerstr. 43, 80333 München</span>
       </div>
-      <a href="https://nav.tum.de/en/building/studitum-innenstadt" target="_blank" rel="noopener">查看位置</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=StudiTUM%2C%20Gabelsbergerstr.%2043%2C%2080333%20M%C3%BCnchen" target="_blank" rel="noopener">查看位置</a>
     </div>
 
     <section id="todayStatusHero" class="panel today-hero" aria-labelledby="todayHeroTitle"></section>
@@ -3197,7 +3825,6 @@
           <div class="panel-head clean-head">
             <div>
               <h2 id="roomPlansTitle">今天的可加入房间</h2>
-              <div class="muted">优先显示还能加入或即将可加入的房间。</div>
             </div>
           </div>
           <div class="panel-body stack">
@@ -3444,230 +4071,32 @@
     };
 
     const RELEASE_HISTORY = [
-      {
-        version: "v0.2.24",
-        date: "2026-04-26",
-        changes: [
-          "按指定截图裁剪现有 Seat Happens 原图，替换为只显示船长、笔记本和座椅的 logo。",
-          "保留原始完整 logo 备份，不重新生成图片；同步裁剪版到 public 和 versions 资产目录。",
-          "去掉 logo 右上角额外罗盘装饰，避免覆盖指定图片。"
-        ]
-      },
-      {
-        version: "v0.2.23",
-        date: "2026-04-26",
-        changes: [
-          "增强背景装饰为更复杂的机械制图感：加入装配图、剖面线、同心圆、尺寸线和基准标注。",
-          "在 Header、地点条、今日状态和房间模块加入更细的制图辅助线，同时保持内容可读性。",
-          "轻量加入航海元素：罗盘、船长帽和锚点图标分布到 Captain、状态和提示区域。"
-        ]
-      },
-      {
-        version: "v0.2.22",
-        date: "2026-04-26",
-        changes: [
-          "继续按参考图贴合 blueprint mockup：桌面端画布更宽，Header 去掉整块外框，按钮和用户身份改为独立白色胶囊。",
-          "今日状态 Hero 改成更接近参考图的横向大标题、整体统计仪表盘和带门图标的强 CTA。",
-          "房间列表和房间卡片放大间距、标题、指标组和提示条，边缘工程制图装饰更接近目标视觉。"
-        ]
-      },
-      {
-        version: "v0.2.21",
-        date: "2026-04-26",
-        changes: [
-          "把首页视觉进一步调整为更精细的 blueprint editorial 风格：浅蓝网格、边缘制图线、白色卡片和深蓝文字层级更统一。",
-          "重做今日状态、房间列表标题和房间卡片质感，加入真实线性图标和更清晰的指标分组。",
-          "禁用漂浮贴纸动画，保留轻量 hover 与 reduced-motion 支持，不改变现有业务逻辑。"
-        ]
-      },
-      {
-        version: "v0.2.20",
-        date: "2026-04-26",
-        changes: [
-          "按机械制图/蓝图参考图做纯视觉调整：加入淡网格、工程标注线、定位圆和蓝图边框质感。",
-          "强化 Header、今日状态卡、房间卡和按钮的线性制图风格，不改变任何现有业务逻辑。",
-          "移动端隐藏装饰性制图元素，保持页面可读性和无横向滚动。"
-        ]
-      },
-      {
-        version: "v0.2.19",
-        date: "2026-04-26",
-        changes: [
-          "优化注册登录页，改为清爽入口页：左侧说明 Seat Happens 使用流程，右侧保留登录/注册操作。",
-          "登录页文案聚焦今天是否有座位；注册页去掉管理员邀请码，只保留普通用户注册字段。",
-          "登录页视觉统一为浅蓝蓝图背景、白色卡片和深蓝文字。"
-        ]
-      },
-      {
-        version: "v0.2.18",
-        date: "2026-04-26",
-        changes: [
-          "重构首页信息架构：Header、地点、今日状态、今日房间、Seat Captain 发布、未来几天和测试反馈分层展示。",
-          "新增 Today Status Hero，优先回答今天是否有座位、能否加入、最早可加入时间。",
-          "房间列表和 Captain 计划改为渐进展开，聊天、反馈、版本记录等次要模块默认折叠。"
-        ]
-      },
-      {
-        version: "v0.2.17",
-        date: "2026-04-26",
-        changes: [
-          "改用用户提供的 Seat Happens PNG 原图裁剪版，替换登录页和应用顶部的 SH 方块标识。",
-          "logo 以等比例图片方式显示，只裁剪白边，不再使用会变形的 SVG 复刻。"
-        ]
-      },
-      {
-        version: "v0.2.16",
-        date: "2026-04-26",
-        changes: [
-          "房间共享区去掉说明文案，优先展示可预约房间和座位时段。",
-          "主校区 StudiTUM 地点提示压缩为地址和位置链接。",
-          "Seat Captain 发布表单下移，并与用户预约区域做明显区分。",
-          "贴纸动画回到轻量上浮效果，文案改为按点击功能显示。"
-        ]
-      },
-      {
-        version: "v0.2.15",
-        date: "2026-04-26",
-        changes: [
-          "登录页改为单入口：默认只显示登录，注册通过页内链接进入，注册完成后返回登录。",
-          "页面显著标注当前服务地点为 TUM 主校区 StudiTUM Innenstadt，并提供 NavigaTUM 位置链接。",
-          "点击反馈贴纸统一为 TUM 蓝色 EXCELLENT!，并改为自然下落动画。"
-        ]
-      },
-      {
-        version: "v0.2.14",
-        date: "2026-04-26",
-        changes: [
-          "房间卡片改为按时间段显示可预约座位数，用户能看到稍后释放出来的位置。",
-          "加入房间时改为拖动选择开始和离开时间，并按所选时段校验座位。",
-          "提前离开释放座位后，该时段之后的座位会立刻重新计入可预约。"
-        ]
-      },
-      {
-        version: "v0.2.13",
-        date: "2026-04-26",
-        changes: [
-          "称号按 C/B/A/S/SS 稀有度增加不同质感动画，SS 称号加入金色流光效果。",
-          "房间区默认进入周概览，让用户先看到未来 7 天可加入计划和今日可用座位状态。",
-          "周卡按状态着色：有可加入座位显示绿色，没有房间显示淡灰色。"
-        ]
-      },
-      {
-        version: "v0.2.12",
-        date: "2026-04-26",
-        changes: [
-          "完成第一轮 TUM 蓝白视觉更新：头部、面板、房间卡和周概览更有层级。",
-          "新增用户头像占位和昵称色，房间成员、Captain Board 更容易扫读。",
-          "升级称号稀有度质感，并加入轻量点击贴纸反馈。"
-        ]
-      },
-      {
-        version: "v0.2.11",
-        date: "2026-04-26",
-        changes: [
-          "房间区新增“今天优先”和“周概览”切换，今天可加入房间会排在最前面，已满房间保留为参考。",
-          "周概览可以快速查看未来 7 天每天的开放房间数量，并点击日期查看当天详情。",
-          "加入房间改为页内选择预计到达和自习时长；已到达用户可以提前离开并释放座位。"
-        ]
-      },
-      {
-        version: "v0.2.10",
-        date: "2026-04-26",
-        changes: [
-          "重写成就称号系统：新增中文称号、稀有度和可扩展定义表。",
-          "房间卡和 Seat Captain Board 现在会展示用户最有代表性的称号。",
-          "称号先基于现有房间计划和签到数据计算，不新增数据库表，后续可平滑迁移到成就表。"
-        ]
-      },
-      {
-        version: "v0.2.9",
-        date: "2026-04-26",
-        changes: [
-          "新增管理员删除任意房间计划入口，删除前需要二次确认。",
-          "新增站内私信：管理员可以向任意用户发送消息，用户可在页面下方查看。",
-          "紧急反馈提交后会提示管理员联系电话；号码从 Supabase 配置读取，不写入公开源码。"
-        ]
-      },
-      {
-        version: "v0.2.8",
-        date: "2026-04-26",
-        changes: [
-          "取消计划增加兼容处理：远端 API 尚未识别 cancelled_at 字段时，仍会先把计划标记为已取消。",
-          "补充远端场景测试：同一天重复计划、过去开始时间、结束早于开始时间都已由数据库拦截。"
-        ]
-      },
-      {
-        version: "v0.2.7",
-        date: "2026-04-26",
-        changes: [
-          "新增时间校验：不能发布开始时间已经过去的房间计划。",
-          "修改计划时不能把开始时间改到过去。",
-          "结束时间必须晚于开始时间，并新增数据库 trigger 兜底。"
-        ]
-      },
-      {
-        version: "v0.2.6",
-        date: "2026-04-26",
-        changes: [
-          "新增同一天重复发布保护：同一个 Seat Captain 每天只能有一个未取消房间计划。",
-          "发布房间计划时增加页内成功/失败提示。",
-          "补充数据库唯一索引迁移，避免绕过前端重复创建。"
-        ]
-      },
-      {
-        version: "v0.2.5",
-        date: "2026-04-26",
-        changes: [
-          "Seat Captain 编辑卡拆成“计划设置”和“到场房间信息”两块。",
-          "房间号和可共享座位必须通过“保存房间号和座位”保存，点错按钮时会给出明确提示。",
-          "保存计划和保存房间信息现在都会显示成功或失败反馈。"
-        ]
-      },
-      {
-        version: "v0.2.4",
-        date: "2026-04-26",
-        changes: [
-          "新增页面底部版本更新区，用户可以直接看到当前版本和最近上线内容。",
-          "版本记录改成简洁说明，方便每次发布后快速同步改动。",
-          "保留现有房间共享主流程，不把更新说明塞进主要操作区。"
-        ]
-      },
-      {
-        version: "v0.2.3",
-        date: "2026-04-26",
-        changes: [
-          "房间共享成为唯一主流程，课程计划入口从当前界面移除。",
-          "Seat Captain 可页内直接填写房间号、可共享座位和计划设置。",
-          "新增计划中、已到达、已取消状态，并限制提前签到和提前标记到场。"
-        ]
-      },
-      {
-        version: "v0.2.2",
-        date: "2026-04-22",
-        changes: [
-          "页面布局收紧，反馈移到底部，去掉多余说明区。",
-          "优化平面图和房间记录文件，补齐现场确认信息。",
-          "整理项目交接文档、待办和部署说明。"
-        ]
-      },
-      {
-        version: "v0.2.1",
-        date: "2026-04-22",
-        changes: [
-          "房间共享 MVP 上线，支持创建计划、加入、签到、完成和取消。",
-          "Captain 和管理员可编辑计划，开始前 12 小时内锁定核心信息。",
-          "开始建立 Captain 可信度和房间状态展示。"
-        ]
-      },
-      {
-        version: "v0.1.0",
-        date: "2026-04-22",
-        changes: [
-          "完成基础注册登录。",
-          "加入聊天广场和反馈功能。",
-          "接通 Supabase 认证和数据库。"
-        ]
-      }
+      { version: "v0.2.25", date: "2026-04-27", changes: ["应用漫画分镜工具风视觉，精简首页说明文案。"] },
+      { version: "v0.2.24", date: "2026-04-26", changes: ["优化蓝图视觉、Logo、位置链接与 Hero 布局。"] },
+      { version: "v0.2.23", date: "2026-04-26", changes: ["增强机械制图背景与轻量航海元素。"] },
+      { version: "v0.2.22", date: "2026-04-26", changes: ["调整桌面布局、Hero 与房间卡片视觉。"] },
+      { version: "v0.2.21", date: "2026-04-26", changes: ["统一 blueprint editorial 视觉体系。"] },
+      { version: "v0.2.20", date: "2026-04-26", changes: ["加入蓝图网格、工程线与制图边框。"] },
+      { version: "v0.2.19", date: "2026-04-26", changes: ["优化登录与注册入口页面。"] },
+      { version: "v0.2.18", date: "2026-04-26", changes: ["重构首页信息层级与折叠逻辑。"] },
+      { version: "v0.2.17", date: "2026-04-26", changes: ["替换为用户提供的 PNG Logo。"] },
+      { version: "v0.2.16", date: "2026-04-26", changes: ["优化房间共享、地点条与 Captain 发布区。"] },
+      { version: "v0.2.15", date: "2026-04-26", changes: ["调整登录流程、地点提示与点击反馈。"] },
+      { version: "v0.2.14", date: "2026-04-26", changes: ["支持按时间段预约与提前释放座位。"] },
+      { version: "v0.2.13", date: "2026-04-26", changes: ["新增称号稀有度视觉与周概览状态。"] },
+      { version: "v0.2.12", date: "2026-04-26", changes: ["完成第一轮 TUM 蓝白视觉更新。"] },
+      { version: "v0.2.11", date: "2026-04-26", changes: ["新增今日优先、周概览与页内加入流程。"] },
+      { version: "v0.2.10", date: "2026-04-26", changes: ["重构称号系统与 Captain 展示。"] },
+      { version: "v0.2.9", date: "2026-04-26", changes: ["新增管理员删除、站内私信与紧急反馈提示。"] },
+      { version: "v0.2.8", date: "2026-04-26", changes: ["增强取消计划兼容性与远端校验。"] },
+      { version: "v0.2.7", date: "2026-04-26", changes: ["新增计划时间校验与数据库兜底。"] },
+      { version: "v0.2.6", date: "2026-04-26", changes: ["限制同一 Captain 同日重复发布计划。"] },
+      { version: "v0.2.5", date: "2026-04-26", changes: ["拆分 Captain 编辑与到场房间信息。"] },
+      { version: "v0.2.4", date: "2026-04-26", changes: ["新增页面底部版本更新区。"] },
+      { version: "v0.2.3", date: "2026-04-26", changes: ["确立房间共享为当前主流程。"] },
+      { version: "v0.2.2", date: "2026-04-22", changes: ["整理页面布局、平面图与项目文档。"] },
+      { version: "v0.2.1", date: "2026-04-22", changes: ["上线房间共享 MVP。"] },
+      { version: "v0.1.0", date: "2026-04-22", changes: ["完成登录、聊天、反馈与 Supabase 接入。"] }
     ];
 
     function $(id) {
@@ -4909,7 +5338,7 @@
       box.innerHTML = `
         <div class="today-hero-copy">
           <div class="section-kicker">今日状态</div>
-          <h2 id="todayHeroTitle">今天还能加入吗？</h2>
+          <h2 id="todayHeroTitle">还有座吗？</h2>
           <p>${hasSeats ? `今天有 ${stats.openSeats} 个座位可以加入。` : "今天还没有 Captain 开放房间。"}</p>
         </div>
         <div class="hero-metrics" aria-label="今日房间状态">
@@ -5003,7 +5432,6 @@
       heading.innerHTML = `
         <div class="room-list-title">
           <strong>${selected === today() ? "今天的房间" : escapeHtml(dayLabel(selected))}</strong>
-          <span class="muted">可加入房间优先显示；已满、已完成或近期取消的房间保留在后面。</span>
         </div>
         <div class="compact-list">
           <span class="status-chip open">${openSeats} 可预约座位</span>
@@ -5226,7 +5654,6 @@
       heading.innerHTML = `
         <div class="room-list-title">
           <strong>${selectedIsToday ? "今天房间" : escapeHtml(dayLabel(selected))}</strong>
-          <span class="muted">${selectedIsToday ? "只把还能加入或即将可加入的房间放在前面。" : "这是从未来几天日期卡片进入的房间列表。"}</span>
         </div>
         <div class="compact-list">
           <span class="status-chip open">${openSeats} 可加入座位</span>
@@ -5247,7 +5674,6 @@
         box.insertAdjacentHTML("beforeend", `
           <div class="empty empty-action">
             <strong>${selectedIsToday ? "今天还没有可加入座位。" : "这一天暂时没有可加入座位。"}</strong>
-            <span>已满、已结束或已取消的房间已折叠在下方。</span>
             ${selectedIsToday ? `<button class="primary small" data-open-captain-inline type="button">开放我的房间</button>` : ""}
           </div>
         `);
