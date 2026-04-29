@@ -1307,6 +1307,42 @@
       padding-inline: 14px;
     }
 
+    .auth-language-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 8px 18px rgba(11, 35, 65, 0.055);
+      justify-self: end;
+      white-space: nowrap;
+    }
+
+    .auth-language-label {
+      padding: 0 6px 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .auth-language-option {
+      min-height: 30px;
+      border-color: transparent;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: none;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+
+    .auth-language-option.active {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+
     .clean-head {
       padding: 18px;
       background:
@@ -3504,6 +3540,41 @@ button.danger,
   color: var(--v9-red) !important;
 }
 
+.auth-language-bar {
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 14px !important;
+  background: rgba(255, 255, 255, .82) !important;
+  box-shadow: 3px 3px 0 rgba(21, 21, 26, .88) !important;
+}
+
+.auth-language-label {
+  color: var(--v9-muted) !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+}
+
+.auth-language-option {
+  min-height: 34px !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 12px !important;
+  color: var(--v9-ink) !important;
+  font-size: 12px !important;
+}
+
+.auth-language-option:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.auth-language-option.active {
+  background: var(--v9-blue) !important;
+  color: #fff !important;
+  box-shadow: 2px 2px 0 var(--v9-line) !important;
+}
+
 input,
 select,
 textarea {
@@ -4303,7 +4374,6 @@ body.campus-garching .campus-name-chip {
           <div class="auth-intro">
             <h1>Seat Happens</h1>
             <p>Captain 先到场，大家直接入座。先看今天有没有座位，再选择合适的自习时段。</p>
-            <button id="authLanguageButton" class="language-button small" type="button" aria-label="Switch language">EN</button>
           </div>
         </div>
         <div class="auth-flow" aria-label="使用流程">
@@ -4337,6 +4407,11 @@ body.campus-garching .campus-name-chip {
             <h2>登录</h2>
             <div class="muted">进入后先看到今天是否还有可加入座位。</div>
           </div>
+          <div class="auth-language-bar" role="group" aria-label="Language">
+            <span class="auth-language-label">语言</span>
+            <button class="auth-language-option" type="button" data-language-choice="zh">中文</button>
+            <button class="auth-language-option" type="button" data-language-choice="en">English</button>
+          </div>
         </div>
         <div class="panel-body stack">
           <label class="field">
@@ -4360,6 +4435,11 @@ body.campus-garching .campus-name-chip {
             <div class="section-kicker">New account</div>
             <h2>注册</h2>
             <div class="muted">创建账号后会回到登录页面，再用密码登录。</div>
+          </div>
+          <div class="auth-language-bar" role="group" aria-label="Language">
+            <span class="auth-language-label">语言</span>
+            <button class="auth-language-option" type="button" data-language-choice="zh">中文</button>
+            <button class="auth-language-option" type="button" data-language-choice="en">English</button>
           </div>
         </div>
         <div class="panel-body stack">
@@ -4690,17 +4770,28 @@ body.campus-garching .campus-name-chip {
       return value === "en" ? "en" : "zh";
     }
 
+    function preferredBrowserLanguage() {
+      const languages = Array.isArray(navigator.languages) && navigator.languages.length
+        ? navigator.languages
+        : [navigator.language || ""];
+      const primary = String(languages[0] || "").toLowerCase();
+      return primary.startsWith("zh") ? "zh" : "en";
+    }
+
     function readSavedLanguage() {
       try {
-        return normalizeLanguage(window.localStorage.getItem("seatHappensLanguage") || "zh");
+        const saved = window.localStorage.getItem("seatHappensLanguage");
+        if (saved) return normalizeLanguage(saved);
       } catch {
-        return "zh";
+        // Local storage can be unavailable in some embedded browsers.
       }
+      return preferredBrowserLanguage();
     }
 
     const I18N = {
       zh: {
         languageToggle: "EN",
+        authLanguageLabel: "语言",
         brandSubtitle: "Captain 先到场，大家直接入座。",
         viewLocation: "查看位置",
         refresh: "刷新",
@@ -4802,6 +4893,7 @@ body.campus-garching .campus-name-chip {
       },
       en: {
         languageToggle: "中文",
+        authLanguageLabel: "Language",
         brandSubtitle: "Captains arrive first. Everyone sits down directly.",
         viewLocation: "View map",
         refresh: "Refresh",
@@ -4933,7 +5025,12 @@ body.campus-garching .campus-name-chip {
       expandedCaptainPlans: new Set()
     };
 
+    const AUTO_REFRESH_INTERVAL_MS = 15000;
+    let autoRefreshTimer = null;
+    let autoRefreshRunning = false;
+
     const RELEASE_HISTORY = [
+      { version: "v0.2.34", date: "2026-04-29", changes: ["优化注册登录页语言入口，并加入房间数据自动刷新。"] },
       { version: "v0.2.33", date: "2026-04-29", changes: ["新增中英切换，覆盖登录页和核心房间共享流程。"] },
       { version: "v0.2.32", date: "2026-04-29", changes: ["优化手机端排版，修正房间标题装饰遮挡、按钮换行和详情卡片贴边。"] },
       { version: "v0.2.31", date: "2026-04-27", changes: ["调整校区色系：主校区改为城市蓝灰与春花点缀，Garching 改为青绿色草地主题。"] },
@@ -6010,6 +6107,14 @@ body.campus-garching .campus-name-chip {
         button.textContent = t("languageToggle");
         button.setAttribute("aria-label", state.language === "en" ? "Switch to Chinese" : "Switch to English");
       });
+      document.querySelectorAll(".auth-language-label").forEach((label) => {
+        label.textContent = t("authLanguageLabel");
+      });
+      document.querySelectorAll("[data-language-choice]").forEach((button) => {
+        const isActive = button.dataset.languageChoice === state.language;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
     }
 
     function applyStaticTranslations() {
@@ -6176,6 +6281,7 @@ body.campus-garching .campus-name-chip {
     }
 
     async function logout() {
+      stopAutoRefresh();
       await supabase.auth.signOut();
       state.session = null;
       state.profile = null;
@@ -6186,11 +6292,43 @@ body.campus-garching .campus-name-chip {
       const result = await supabase.auth.getSession();
       state.session = result.data.session;
       if (!state.session) {
+        stopAutoRefresh();
         renderAuth();
         return;
       }
       await loadApp();
       renderApp();
+      startAutoRefresh();
+    }
+
+    function userIsEditing() {
+      const active = document.activeElement;
+      if (!active) return false;
+      return ["INPUT", "TEXTAREA", "SELECT"].includes(active.tagName) || active.isContentEditable;
+    }
+
+    async function refreshAppSilently() {
+      if (!state.session || document.hidden || autoRefreshRunning || userIsEditing()) return;
+      autoRefreshRunning = true;
+      try {
+        await loadApp();
+        renderApp();
+      } catch (error) {
+        console.warn("Auto refresh failed", error);
+      } finally {
+        autoRefreshRunning = false;
+      }
+    }
+
+    function startAutoRefresh() {
+      if (autoRefreshTimer) return;
+      autoRefreshTimer = window.setInterval(refreshAppSilently, AUTO_REFRESH_INTERVAL_MS);
+    }
+
+    function stopAutoRefresh() {
+      if (!autoRefreshTimer) return;
+      window.clearInterval(autoRefreshTimer);
+      autoRefreshTimer = null;
     }
 
     async function loadApp() {
@@ -7744,6 +7882,9 @@ body.campus-garching .campus-name-chip {
       $("showLoginButton").addEventListener("click", () => showAuthMode("login"));
       $("authLanguageButton")?.addEventListener("click", toggleLanguage);
       $("languageButton")?.addEventListener("click", toggleLanguage);
+      document.querySelectorAll("[data-language-choice]").forEach((button) => {
+        button.addEventListener("click", () => setLanguage(button.dataset.languageChoice));
+      });
       $("logoutButton").addEventListener("click", logout);
       $("refreshButton").addEventListener("click", async () => {
         await loadApp();
@@ -7795,6 +7936,10 @@ body.campus-garching .campus-name-chip {
         if (event.key === "Enter") sendChat();
       });
       document.addEventListener("click", showClickSticker, { passive: true });
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) refreshAppSilently();
+      });
+      window.addEventListener("focus", refreshAppSilently);
     }
 
     supabase.auth.onAuthStateChange((_event, session) => {
