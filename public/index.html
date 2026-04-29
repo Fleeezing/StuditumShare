@@ -3980,6 +3980,306 @@ body.campus-garching .campus-name-chip {
   .hero-actions button { width: 100% !important; }
 }
 
+@media (max-width: 640px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  main {
+    width: calc(100% - 18px) !important;
+    padding-top: 10px !important;
+  }
+
+  .topbar,
+  .location-banner,
+  .panel,
+  .room-card-clean,
+  .captain-plan-card,
+  .day-card {
+    transform: none !important;
+    box-shadow: 5px 5px 0 rgba(21, 21, 26, .86) !important;
+  }
+
+  .topbar {
+    padding: 14px !important;
+    gap: 14px !important;
+  }
+
+  .brand-lockup {
+    display: grid !important;
+    grid-template-columns: 64px minmax(0, 1fr);
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100%;
+  }
+
+  .brand-mark {
+    width: 60px !important;
+    height: 60px !important;
+    padding: 6px !important;
+    border-width: 3px !important;
+    box-shadow: 3px 3px 0 var(--v9-blue) !important;
+  }
+
+  .topbar .brand-copy h1,
+  .auth-hero h1 {
+    font-size: clamp(34px, 11vw, 42px) !important;
+    line-height: .92 !important;
+    letter-spacing: -.055em !important;
+  }
+
+  .brand-kicker,
+  .section-kicker {
+    font-size: 10px !important;
+  }
+
+  .topbar .brand-copy .muted {
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+  }
+
+  .user-controls {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px !important;
+    width: 100%;
+  }
+
+  .user-badge {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    padding: 10px 12px !important;
+  }
+
+  .user-badge span:last-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #refreshButton,
+  #logoutButton {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    padding: 0 10px !important;
+  }
+
+  .location-banner {
+    gap: 8px !important;
+    padding: 16px 18px !important;
+  }
+
+  .location-banner strong,
+  .location-banner .muted {
+    overflow-wrap: anywhere;
+  }
+
+  .campus-switch {
+    margin-bottom: 22px;
+  }
+
+  .campus-choice {
+    min-height: 96px;
+    padding: 16px !important;
+  }
+
+  .campus-choice strong {
+    font-size: clamp(24px, 8vw, 32px);
+  }
+
+  .campus-choice::after {
+    font-size: clamp(34px, 12vw, 48px);
+  }
+
+  .today-hero {
+    min-height: auto !important;
+    padding: 18px !important;
+    gap: 18px !important;
+  }
+
+  .today-hero p {
+    max-width: 100%;
+    font-size: 20px !important;
+    line-height: 1.42 !important;
+  }
+
+  .hero-metrics {
+    gap: 12px !important;
+    width: 100%;
+  }
+
+  .hero-metric {
+    min-height: 138px !important;
+    padding: 18px !important;
+  }
+
+  .hero-metric strong {
+    font-size: clamp(40px, 13vw, 52px) !important;
+  }
+
+  .hero-actions {
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .hero-actions button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 62px !important;
+  }
+
+  .panel-head,
+  .clean-head {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    align-items: start !important;
+    gap: 14px !important;
+    padding: 18px !important;
+  }
+
+  #roomPlansPanel .clean-head::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  .panel-head > button,
+  .clean-head > button,
+  .fold-row button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .fold-row,
+  .room-list-head-clean {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    align-items: start !important;
+    gap: 12px !important;
+  }
+
+  .room-list-head-clean .compact-list {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .status-chip {
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .panel-body {
+    padding: 18px !important;
+  }
+
+  .room-card-clean {
+    padding: 18px 16px 18px 18px !important;
+    border-left-width: 6px !important;
+  }
+
+  .room-card-main {
+    gap: 14px !important;
+  }
+
+  .room-card-main > div:first-child > strong {
+    flex-wrap: wrap;
+    font-size: clamp(26px, 8vw, 34px) !important;
+    line-height: 1.12 !important;
+  }
+
+  .captain-line {
+    margin-left: 0 !important;
+    font-size: 15px !important;
+  }
+
+  .room-card-meta span {
+    min-height: 78px !important;
+    padding: 14px !important;
+  }
+
+  .join-controls {
+    grid-template-columns: 1fr !important;
+    padding: 12px !important;
+  }
+
+  .join-slider-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .join-window-meta {
+    align-items: flex-start;
+  }
+
+  .room-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    justify-content: stretch !important;
+    gap: 10px !important;
+    width: 100%;
+  }
+
+  .room-actions button {
+    width: 100%;
+    min-width: 0;
+    padding-inline: 10px !important;
+  }
+
+  .room-actions button[data-room-delete] {
+    grid-column: 1 / -1;
+  }
+
+  .room-extra summary {
+    line-height: 1.35;
+  }
+
+  .auth-wrap {
+    padding: 20px 10px 40px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  main {
+    width: calc(100% - 12px) !important;
+  }
+
+  .topbar,
+  .location-banner,
+  .panel,
+  .room-card-clean,
+  .captain-plan-card,
+  .day-card {
+    border-width: 3px !important;
+    box-shadow: 4px 4px 0 rgba(21, 21, 26, .86) !important;
+  }
+
+  .brand-lockup {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+
+  .brand-mark {
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  .user-controls,
+  .room-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .room-actions button[data-room-delete] {
+    grid-column: auto;
+  }
+
+  .today-hero h2 {
+    font-size: clamp(36px, 15vw, 50px) !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
@@ -4399,6 +4699,7 @@ body.campus-garching .campus-name-chip {
     };
 
     const RELEASE_HISTORY = [
+      { version: "v0.2.32", date: "2026-04-29", changes: ["优化手机端排版，修正房间标题装饰遮挡、按钮换行和详情卡片贴边。"] },
       { version: "v0.2.31", date: "2026-04-27", changes: ["调整校区色系：主校区改为城市蓝灰与春花点缀，Garching 改为青绿色草地主题。"] },
       { version: "v0.2.30", date: "2026-04-27", changes: ["细化校区背景图案，降低装饰对内容的视觉干扰。"] },
       { version: "v0.2.29", date: "2026-04-27", changes: ["按校区切换整体视觉主题：主校区为城市草地，Garching 为麦田。"] },
