@@ -48,5 +48,17 @@ function Get-SupabaseMigrationMap {
       Name = "admin_tools"
       Target = "supabase/migrations/20260426000500_admin_tools.sql"
     }
+    [pscustomobject]@{
+      Source = "sql/supabase_room_member_time_tracking_migration.sql"
+      Version = "20260426000600"
+      Name = "room_member_time_tracking"
+      Target = "supabase/migrations/20260426000600_room_member_time_tracking.sql"
+    }
+    [pscustomobject]@{
+      Source = "sql/supabase_room_campus_split_migration.sql"
+      Version = "20260427000100"
+      Name = "room_campus_split"
+      Target = "supabase/migrations/20260427000100_room_campus_split.sql"
+    }
   )
 }

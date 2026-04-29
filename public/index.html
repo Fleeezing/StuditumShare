@@ -3670,6 +3670,286 @@ textarea:focus {
   box-shadow: 3px 3px 0 var(--v9-line) !important;
 }
 
+.campus-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 28px;
+}
+
+.campus-choice {
+  position: relative;
+  min-height: 118px;
+  padding: 18px 20px;
+  border: 4px solid var(--v9-line) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  color: var(--v9-ink) !important;
+  box-shadow: 7px 7px 0 var(--v9-line) !important;
+  text-align: left;
+  overflow: hidden;
+}
+
+.campus-choice::after {
+  content: attr(data-campus-tag);
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  transform: rotate(4deg);
+  color: rgba(21, 21, 26, .18);
+  font-size: 38px;
+  font-weight: 950;
+  letter-spacing: -.06em;
+  pointer-events: none;
+}
+
+.campus-choice strong {
+  display: block;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 8px;
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 950;
+  line-height: .95;
+  letter-spacing: -.055em;
+}
+
+.campus-choice span {
+  display: block;
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+  color: var(--v9-muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.campus-choice.active {
+  background: #fff2bd !important;
+  box-shadow: 10px 10px 0 var(--v9-line) !important;
+  transform: translate(-2px, -2px) rotate(-.2deg);
+}
+
+.campus-choice.active::before {
+  content: "NOW";
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 1;
+  padding: 4px 10px;
+  border: 3px solid var(--v9-line);
+  border-radius: 999px;
+  background: var(--v9-blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.campus-choice.garching {
+  background: #eaf0ff !important;
+}
+
+.campus-choice.garching.active {
+  background: #dff5ff !important;
+}
+
+.campus-name-chip {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+  padding: 2px 8px;
+  border: 2px solid var(--v9-line);
+  border-radius: 999px;
+  background: #fff2bd;
+  color: var(--v9-ink);
+  font-size: 12px;
+  font-weight: 950;
+  vertical-align: middle;
+}
+
+main,
+.auth-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+body.campus-main {
+  --v9-paper: #fffaf0;
+  --v9-blue: #315f8f;
+  --v9-yellow: #e8d4b4;
+  --v9-green: #6e8b7a;
+  --v9-red: #ef4d4d;
+  --v9-muted: #626a76;
+  --background: #ece7de;
+  --soft: #ebe6dc;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255, 183, 197, .18) 0 118px, transparent 120px),
+    linear-gradient(180deg, #f6f4ee 0%, #ece7de 48%, #dce3e6 100%) !important;
+  background-attachment: fixed !important;
+}
+
+body.campus-garching {
+  --v9-paper: #f4fff3;
+  --v9-blue: #1f8a83;
+  --v9-yellow: #d8f19a;
+  --v9-green: #23a66b;
+  --v9-red: #d94b3d;
+  --v9-muted: #456d62;
+  --background: #d9f5df;
+  --soft: #dff7e5;
+  background:
+    radial-gradient(circle at 86% 8%, rgba(104, 219, 189, .22) 0 128px, transparent 130px),
+    linear-gradient(180deg, #f2fff8 0%, #dff7e5 50%, #bfe8b5 100%) !important;
+  background-attachment: fixed !important;
+}
+
+body.campus-main::before,
+body.campus-garching::before {
+  content: "" !important;
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  transform: none !important;
+  pointer-events: none;
+  opacity: .75;
+}
+
+body.campus-main::after,
+body.campus-garching::after {
+  content: "" !important;
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .8;
+}
+
+body.campus-main::before {
+  background:
+    linear-gradient(90deg, rgba(49, 95, 143, .072) 1px, transparent 1px) max(22px, calc((100vw - 1460px) / 2 - 56px)) 138px / 118px 118px no-repeat,
+    linear-gradient(180deg, rgba(49, 95, 143, .06) 1px, transparent 1px) max(22px, calc((100vw - 1460px) / 2 - 56px)) 138px / 118px 118px no-repeat,
+    linear-gradient(28deg, transparent 0 47%, rgba(49, 95, 143, .065) 48% 50%, transparent 51%) max(36px, calc((100vw - 1460px) / 2 - 46px)) 168px / 118px 92px no-repeat,
+    linear-gradient(90deg, rgba(49, 95, 143, .075), rgba(49, 95, 143, .075)) max(34px, calc((100vw - 1460px) / 2 - 46px)) 292px / 128px 1px no-repeat,
+    radial-gradient(circle, transparent 0 28px, rgba(49, 95, 143, .07) 29px 30px, transparent 31px) max(42px, calc((100vw - 1460px) / 2 - 38px)) 318px / 72px 72px no-repeat,
+    radial-gradient(circle, rgba(230, 115, 142, .10) 0 4px, transparent 5px) min(calc(100vw - 196px), calc((100vw + 1160px) / 2 + 64px)) 152px / 16px 16px no-repeat,
+    radial-gradient(circle, rgba(230, 115, 142, .09) 0 5px, transparent 6px) min(calc(100vw - 174px), calc((100vw + 1160px) / 2 + 86px)) 176px / 20px 20px no-repeat,
+    linear-gradient(90deg, rgba(49, 95, 143, .055), rgba(49, 95, 143, .055)) min(calc(100vw - 220px), calc((100vw + 1160px) / 2 + 42px)) 214px / 142px 1px no-repeat,
+    linear-gradient(90deg, transparent 0 25%, rgba(49, 95, 143, .05) 25% 27%, transparent 27% 52%, rgba(49, 95, 143, .05) 52% 54%, transparent 54%) min(calc(100vw - 220px), calc((100vw + 1160px) / 2 + 42px)) 214px / 142px 82px no-repeat;
+}
+
+body.campus-garching::before {
+  background:
+    linear-gradient(90deg, rgba(31, 138, 131, .075), rgba(31, 138, 131, .075)) max(26px, calc((100vw - 1460px) / 2 - 52px)) 282px / 144px 1px no-repeat,
+    linear-gradient(rgba(31, 138, 131, .075), rgba(31, 138, 131, .075)) max(72px, calc((100vw - 1460px) / 2 - 4px)) 206px / 1px 94px no-repeat,
+    radial-gradient(ellipse at 50% 100%, transparent 0 24px, rgba(31, 138, 131, .09) 25px 26px, transparent 27px) max(38px, calc((100vw - 1460px) / 2 - 42px)) 216px / 78px 82px no-repeat,
+    radial-gradient(ellipse at 50% 100%, transparent 0 24px, rgba(31, 138, 131, .09) 25px 26px, transparent 27px) max(80px, calc((100vw - 1460px) / 2)) 218px / 78px 82px no-repeat,
+    linear-gradient(90deg, rgba(31, 138, 131, .06), rgba(31, 138, 131, .06)) min(calc(100vw - 230px), calc((100vw + 1160px) / 2 + 42px)) 150px / 180px 1px no-repeat,
+    linear-gradient(rgba(31, 138, 131, .06), rgba(31, 138, 131, .06)) min(calc(100vw - 230px), calc((100vw + 1160px) / 2 + 42px)) 150px / 1px 128px no-repeat,
+    radial-gradient(circle, rgba(31, 138, 131, .08) 0 4px, transparent 5px) min(calc(100vw - 168px), calc((100vw + 1160px) / 2 + 104px)) 204px / 14px 14px no-repeat,
+    linear-gradient(90deg, rgba(31, 138, 131, .06), rgba(31, 138, 131, .06)) min(calc(100vw - 184px), calc((100vw + 1160px) / 2 + 88px)) 246px / 72px 1px no-repeat;
+}
+
+body.campus-main::after {
+  background:
+    linear-gradient(90deg, rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(30px, calc((100vw - 1460px) / 2 - 34px)) calc(100vh - 206px) / 132px 1px no-repeat,
+    linear-gradient(rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(50px, calc((100vw - 1460px) / 2 - 14px)) calc(100vh - 206px) / 1px 112px no-repeat,
+    linear-gradient(rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(82px, calc((100vw - 1460px) / 2 + 18px)) calc(100vh - 206px) / 1px 112px no-repeat,
+    linear-gradient(rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(114px, calc((100vw - 1460px) / 2 + 50px)) calc(100vh - 206px) / 1px 112px no-repeat,
+    linear-gradient(90deg, rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(42px, calc((100vw - 1460px) / 2 - 22px)) calc(100vh - 178px) / 96px 1px no-repeat,
+    radial-gradient(circle, rgba(230, 115, 142, .095) 0 6px, transparent 7px) min(calc(100vw - 190px), calc((100vw + 1160px) / 2 + 66px)) calc(100vh - 172px) / 22px 22px no-repeat,
+    radial-gradient(ellipse at 50% 100%, transparent 0 16px, rgba(49, 95, 143, .068) 17px 18px, transparent 19px) min(calc(100vw - 174px), calc((100vw + 1160px) / 2 + 82px)) calc(100vh - 164px) / 86px 52px no-repeat,
+    linear-gradient(90deg, rgba(49, 95, 143, .058), rgba(49, 95, 143, .058)) min(calc(100vw - 176px), calc((100vw + 1160px) / 2 + 80px)) calc(100vh - 112px) / 88px 1px no-repeat;
+}
+
+body.campus-garching::after {
+  background:
+    linear-gradient(90deg, rgba(31, 138, 131, .075), rgba(31, 138, 131, .075)) max(34px, calc((100vw - 1460px) / 2 - 36px)) calc(100vh - 172px) / 170px 1px no-repeat,
+    repeating-linear-gradient(88deg, transparent 0 28px, rgba(31, 138, 131, .08) 29px 30px, transparent 31px 58px) max(20px, calc((100vw - 1460px) / 2 - 60px)) calc(100vh - 152px) / 206px 118px no-repeat,
+    repeating-linear-gradient(103deg, transparent 0 32px, rgba(53, 156, 83, .07) 33px 34px, transparent 35px 62px) min(calc(100vw - 244px), calc((100vw + 1160px) / 2 + 26px)) calc(100vh - 168px) / 222px 132px no-repeat,
+    linear-gradient(90deg, rgba(31, 138, 131, .078), rgba(31, 138, 131, .078)) min(calc(100vw - 276px), calc((100vw + 1160px) / 2 - 8px)) calc(100vh - 224px) / 190px 1px no-repeat,
+    linear-gradient(90deg, transparent 0 12%, rgba(31, 138, 131, .062) 12% 13%, transparent 13% 32%, rgba(31, 138, 131, .062) 32% 33%, transparent 33%) min(calc(100vw - 264px), calc((100vw + 1160px) / 2 + 10px)) calc(100vh - 222px) / 172px 96px no-repeat;
+}
+
+body.campus-main .topbar,
+body.campus-main .auth-hero,
+body.campus-main .auth-card,
+body.campus-main .location-banner,
+body.campus-main .panel,
+body.campus-main .room-card-clean,
+body.campus-main .captain-plan-card,
+body.campus-main .day-card {
+  background: #fff9e9 !important;
+}
+
+body.campus-garching .topbar,
+body.campus-garching .auth-hero,
+body.campus-garching .auth-card,
+body.campus-garching .location-banner,
+body.campus-garching .panel,
+body.campus-garching .room-card-clean,
+body.campus-garching .captain-plan-card,
+body.campus-garching .day-card {
+  background: #f4fff3 !important;
+}
+
+body.campus-main .topbar,
+body.campus-main .panel-head,
+body.campus-main .clean-head {
+  background: linear-gradient(135deg, #fffaf0, #dce5ee) !important;
+}
+
+body.campus-garching .topbar,
+body.campus-garching .panel-head,
+body.campus-garching .clean-head {
+  background: linear-gradient(135deg, #f4fff3, #bfeecf) !important;
+}
+
+body.campus-main .today-hero {
+  background:
+    radial-gradient(circle at 86% 18%, rgba(255, 183, 197, .46) 0 62px, transparent 64px),
+    linear-gradient(135deg, #fffaf0, #dce5ee) !important;
+}
+
+body.campus-garching .today-hero {
+  background:
+    radial-gradient(circle at 86% 18%, rgba(85, 214, 170, .58) 0 74px, transparent 76px),
+    linear-gradient(135deg, #f4fff3, #c8f4d6) !important;
+}
+
+body.campus-main .campus-choice.main {
+  background: #edf0f4 !important;
+}
+
+body.campus-main .campus-choice.main.active {
+  background: #dce5ee !important;
+}
+
+body.campus-main .campus-choice.garching {
+  background: #e1f7e8 !important;
+}
+
+body.campus-garching .campus-choice.main {
+  background: #edf0f4 !important;
+}
+
+body.campus-garching .campus-choice.garching {
+  background: #d9f8df !important;
+}
+
+body.campus-garching .campus-choice.garching.active {
+  background: #b7f0c7 !important;
+}
+
+body.campus-main .campus-name-chip {
+  background: #dce5ee;
+}
+
+body.campus-garching .campus-name-chip {
+  background: #c8f4d6;
+}
+
 @media (max-width: 1320px) {
   .today-hero { grid-template-columns: minmax(320px,1fr) minmax(470px,auto) !important; grid-template-areas: "copy metrics" "copy actions" !important; }
   .hero-actions { justify-content: flex-start !important; }
@@ -3684,8 +3964,14 @@ textarea:focus {
 }
 
 @media (max-width: 640px) {
-  body::before { display: none !important; }
+  body::before,
+  body.campus-main::before,
+  body.campus-main::after,
+  body.campus-garching::before,
+  body.campus-garching::after { display: none !important; }
   main { width: calc(100% - 16px) !important; }
+  .campus-switch { grid-template-columns: 1fr; gap: 12px; }
+  .campus-choice { min-height: 104px; }
   .topbar .brand-copy h1 { font-size: 38px !important; }
   .brand-mark { width: 64px !important; height: 64px !important; }
   .today-hero { padding: 22px !important; }
@@ -3718,7 +4004,7 @@ textarea:focus {
           <div class="auth-step">
             <span class="auth-step-icon" aria-hidden="true">1</span>
             <strong>看今天</strong>
-            <span>先确认主校区 StudiTUM 是否有可加入座位。</span>
+            <span>先选主校区或 Garching，再看今天有没有座位。</span>
           </div>
           <div class="auth-step">
             <span class="auth-step-icon" aria-hidden="true">2</span>
@@ -3732,9 +4018,9 @@ textarea:focus {
           </div>
         </div>
         <div class="auth-location">
-          <strong>主校区 StudiTUM</strong>
-          <span>Gabelsbergerstr. 43, 80333 München</span>
-          <a href="https://www.google.com/maps/search/?api=1&query=StudiTUM%2C%20Gabelsbergerstr.%2043%2C%2080333%20M%C3%BCnchen" target="_blank" rel="noopener">查看位置</a>
+          <strong>主校区 / Garching StudiTUM</strong>
+          <span>登录后先选择校区，再加入对应房间。</span>
+          <a href="https://nav.tum.de/en/building/studitum-garching" target="_blank" rel="noopener">查看 Garching</a>
         </div>
       </section>
 
@@ -3811,13 +4097,28 @@ textarea:focus {
     </div>
     <div class="location-banner">
       <div>
-        <strong>主校区 StudiTUM</strong>
-        <span class="muted">Gabelsbergerstr. 43, 80333 München</span>
+        <strong id="campusLocationTitle">主校区 StudiTUM</strong>
+        <span id="campusLocationAddress" class="muted">Gabelsbergerstr. 43, 80333 München</span>
       </div>
-      <a href="https://www.google.com/maps/search/?api=1&query=StudiTUM%2C%20Gabelsbergerstr.%2043%2C%2080333%20M%C3%BCnchen" target="_blank" rel="noopener">查看位置</a>
+      <a id="campusLocationLink" href="https://www.google.com/maps/search/?api=1&query=StudiTUM%2C%20Gabelsbergerstr.%2043%2C%2080333%20M%C3%BCnchen" target="_blank" rel="noopener">查看位置</a>
     </div>
 
+    <section id="campusSwitch" class="campus-switch" aria-label="选择 StudiTUM 校区"></section>
+
     <section id="todayStatusHero" class="panel today-hero" aria-labelledby="todayHeroTitle"></section>
+
+    <section id="futureDaysPanel" class="panel">
+      <div class="panel-head clean-head">
+        <div>
+          <h2>未来几天</h2>
+          <div id="futureDaysSummary" class="muted">未来 7 天共有 0 个座位可能开放。</div>
+        </div>
+        <button id="toggleFutureDaysButton" type="button">查看未来几天</button>
+      </div>
+      <div id="futureDaysBody" class="panel-body stack hidden">
+        <div id="roomCalendar" class="calendar-grid"></div>
+      </div>
+    </section>
 
     <div class="layout">
       <section class="stack main-flow">
@@ -3847,6 +4148,10 @@ textarea:focus {
               <span>3 同学选时段加入</span>
             </div>
             <div class="grid-3">
+              <label class="field">
+                <span>校区</span>
+                <select id="roomCampus"></select>
+              </label>
               <label class="field">
                 <span>日期</span>
                 <input id="roomPlanDate" type="date">
@@ -3915,19 +4220,6 @@ textarea:focus {
           </div>
           <div class="panel-body">
             <div id="myCaptainActions" class="list"></div>
-          </div>
-        </section>
-
-        <section id="futureDaysPanel" class="panel">
-          <div class="panel-head clean-head">
-            <div>
-              <h2>未来几天</h2>
-              <div id="futureDaysSummary" class="muted">未来 7 天共有 0 个座位可能开放。</div>
-            </div>
-            <button id="toggleFutureDaysButton" type="button">查看未来几天</button>
-          </div>
-          <div id="futureDaysBody" class="panel-body stack hidden">
-            <div id="roomCalendar" class="calendar-grid"></div>
           </div>
         </section>
 
@@ -4048,6 +4340,41 @@ textarea:focus {
     const SUPABASE_KEY = "sb_publishable_ENREznKaAif0g72RnSJxEg_7QJgk0WN";
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    const CAMPUS_OPTIONS = [
+      {
+        id: "main",
+        storage: "StudiTUM Innenstadt",
+        label: "主校区",
+        title: "主校区 StudiTUM",
+        heroTag: "CITY",
+        address: "Gabelsbergerstr. 43, 80333 München",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=StudiTUM%2C%20Gabelsbergerstr.%2043%2C%2080333%20M%C3%BCnchen"
+      },
+      {
+        id: "garching",
+        storage: "StudiTUM Garching",
+        label: "Garching",
+        title: "Garching StudiTUM",
+        heroTag: "GAR",
+        address: "Lichtenbergstr. 3, 85748 Garching b. München",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=StudiTUM%20Garching%2C%20Lichtenbergstr.%203%2C%2085748%20Garching%20b.%20M%C3%BCnchen"
+      }
+    ];
+
+    function normalizeCampusId(value) {
+      const text = String(value || "").toLowerCase();
+      if (text.includes("garching")) return "garching";
+      return "main";
+    }
+
+    function readSavedCampusId() {
+      try {
+        return normalizeCampusId(window.localStorage.getItem("seatHappensCampus") || "main");
+      } catch {
+        return "main";
+      }
+    }
+
     const state = {
       session: null,
       profile: null,
@@ -4067,10 +4394,17 @@ textarea:focus {
       helpFeedbackOpen: false,
       releaseHistoryOpen: false,
       captainBoardOpen: false,
+      selectedCampus: readSavedCampusId(),
       expandedCaptainPlans: new Set()
     };
 
     const RELEASE_HISTORY = [
+      { version: "v0.2.31", date: "2026-04-27", changes: ["调整校区色系：主校区改为城市蓝灰与春花点缀，Garching 改为青绿色草地主题。"] },
+      { version: "v0.2.30", date: "2026-04-27", changes: ["细化校区背景图案，降低装饰对内容的视觉干扰。"] },
+      { version: "v0.2.29", date: "2026-04-27", changes: ["按校区切换整体视觉主题：主校区为城市草地，Garching 为麦田。"] },
+      { version: "v0.2.28", date: "2026-04-27", changes: ["将未来几天模块上移到今日状态之后，便于快速查看后续房间。"] },
+      { version: "v0.2.27", date: "2026-04-27", changes: ["在我的 Captain 计划中增加取消入口，并补充取消确认与失败提示。"] },
+      { version: "v0.2.26", date: "2026-04-27", changes: ["新增主校区与 Garching StudiTUM 校区分流。"] },
       { version: "v0.2.25", date: "2026-04-27", changes: ["应用漫画分镜工具风视觉，精简首页说明文案。"] },
       { version: "v0.2.24", date: "2026-04-26", changes: ["优化蓝图视觉、Logo、位置链接与 Hero 布局。"] },
       { version: "v0.2.23", date: "2026-04-26", changes: ["增强机械制图背景与轻量航海元素。"] },
@@ -4235,7 +4569,7 @@ textarea:focus {
       if (target.matches("[data-room-join]")) return CLICK_STICKERS.join;
       if (target.matches("[data-room-checkin]")) return CLICK_STICKERS.checkin;
       if (target.matches("[data-room-release-member]")) return CLICK_STICKERS.release;
-      if (target.matches("[data-room-cancel-member], [data-room-status][data-status='cancelled']")) return CLICK_STICKERS.cancel;
+      if (target.matches("[data-room-cancel-member], [data-room-status][data-status='cancelled'], [data-captain-cancel-plan]")) return CLICK_STICKERS.cancel;
       if (target.matches("[data-room-arrival], [data-captain-save], [data-captain-plan-save]")) return CLICK_STICKERS.captain;
       if (target.id === "createRoomPlanButton") return CLICK_STICKERS.publish;
       if (target.id === "refreshButton") return CLICK_STICKERS.refresh;
@@ -4283,6 +4617,35 @@ textarea:focus {
         flexible: "可小声讨论",
         discussion: "讨论型"
       }[mode] || mode;
+    }
+
+    function campusById(campusId = state.selectedCampus) {
+      return CAMPUS_OPTIONS.find((campus) => campus.id === campusId) || CAMPUS_OPTIONS[0];
+    }
+
+    function currentCampus() {
+      return campusById(state.selectedCampus);
+    }
+
+    function planCampusId(plan) {
+      return normalizeCampusId(plan?.campus);
+    }
+
+    function isCurrentCampusPlan(plan) {
+      return planCampusId(plan) === state.selectedCampus;
+    }
+
+    function campusOptions(selected = state.selectedCampus) {
+      return CAMPUS_OPTIONS.map((campus) => (
+        `<option value="${campus.id}" ${selected === campus.id ? "selected" : ""}>${campus.title}</option>`
+      )).join("");
+    }
+
+    function applyCampusTheme(campusId = state.selectedCampus) {
+      const normalized = normalizeCampusId(campusId);
+      document.body.classList.toggle("campus-main", normalized === "main");
+      document.body.classList.toggle("campus-garching", normalized === "garching");
+      document.body.dataset.campusTheme = normalized;
     }
 
     function roomTypeOptions(selected) {
@@ -4336,12 +4699,13 @@ textarea:focus {
     function visiblePlansForDate(dateString) {
       return state.roomPlans
         .filter((plan) => plan.plan_date === dateString)
+        .filter(isCurrentCampusPlan)
         .filter(isVisiblePlan);
     }
 
     function plansForDate(dateString) {
       const plans = isAdmin()
-        ? state.roomPlans.filter((plan) => plan.plan_date === dateString)
+        ? state.roomPlans.filter((plan) => plan.plan_date === dateString).filter(isCurrentCampusPlan)
         : visiblePlansForDate(dateString);
       return sortRoomPlans(plans);
     }
@@ -5237,6 +5601,7 @@ textarea:focus {
     }
 
     function renderAuth() {
+      applyCampusTheme();
       $("authView").classList.remove("hidden");
       $("appView").classList.add("hidden");
       showAuthMode("login");
@@ -5258,6 +5623,7 @@ textarea:focus {
       renderUserBadge();
       renderCaptainFormState();
       renderFoldStates();
+      renderCampusSwitcher();
       renderTodayStatusHero();
       renderRoomCalendar();
       renderMyCaptainActions();
@@ -5267,6 +5633,50 @@ textarea:focus {
       renderFeedback();
       renderDirectMessages();
       renderReleaseHistory();
+    }
+
+    function renderCampusSwitcher() {
+      const campus = currentCampus();
+      applyCampusTheme(campus.id);
+      const title = $("campusLocationTitle");
+      const address = $("campusLocationAddress");
+      const link = $("campusLocationLink");
+      const switcher = $("campusSwitch");
+      const campusInput = $("roomCampus");
+
+      if (title) title.textContent = campus.title;
+      if (address) address.textContent = campus.address;
+      if (link) {
+        link.href = campus.mapUrl;
+        link.textContent = "查看位置";
+      }
+      if (campusInput) campusInput.innerHTML = campusOptions(state.selectedCampus);
+      if (!switcher) return;
+
+      switcher.innerHTML = CAMPUS_OPTIONS.map((item) => `
+        <button class="campus-choice ${item.id} ${item.id === state.selectedCampus ? "active" : ""}" data-campus="${item.id}" data-campus-tag="${item.heroTag}" type="button" aria-pressed="${item.id === state.selectedCampus}">
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${escapeHtml(item.address)}</span>
+        </button>
+      `).join("");
+
+      switcher.querySelectorAll("[data-campus]").forEach((button) => {
+        button.addEventListener("click", () => switchCampus(button.dataset.campus));
+      });
+    }
+
+    function switchCampus(campusId) {
+      const nextCampus = normalizeCampusId(campusId);
+      if (state.selectedCampus === nextCampus) return;
+      state.selectedCampus = nextCampus;
+      try {
+        window.localStorage.setItem("seatHappensCampus", nextCampus);
+      } catch {
+        // Local storage can be unavailable in some embedded browsers.
+      }
+      state.roomViewMode = "today";
+      $("roomPlanDate").value = today();
+      renderApp();
     }
 
     function renderUserBadge() {
@@ -5333,13 +5743,14 @@ textarea:focus {
     function renderTodayStatusHero() {
       const box = $("todayStatusHero");
       if (!box) return;
+      const campus = currentCampus();
       const stats = todayRoomStats();
       const hasSeats = stats.openSeats > 0;
       box.innerHTML = `
         <div class="today-hero-copy">
-          <div class="section-kicker">今日状态</div>
+          <div class="section-kicker">${escapeHtml(campus.label)} · 今日状态</div>
           <h2 id="todayHeroTitle">还有座吗？</h2>
-          <p>${hasSeats ? `今天有 ${stats.openSeats} 个座位可以加入。` : "今天还没有 Captain 开放房间。"}</p>
+          <p>${hasSeats ? `${escapeHtml(campus.label)} 今天有 ${stats.openSeats} 个座位可以加入。` : `${escapeHtml(campus.label)} 今天还没有 Captain 开放房间。`}</p>
         </div>
         <div class="hero-metrics" aria-label="今日房间状态">
           <div class="hero-metric ${hasSeats ? "success" : "muted"}">
@@ -5375,7 +5786,7 @@ textarea:focus {
     function renderRoomSummary() {
       const stats = weekRoomStats();
       const summary = $("futureDaysSummary");
-      if (summary) summary.textContent = `未来 7 天共有 ${stats.openSeats} 个座位可能开放。`;
+      if (summary) summary.textContent = `${currentCampus().label} 未来 7 天共有 ${stats.openSeats} 个座位可能开放。`;
       return stats;
     }
 
@@ -5647,13 +6058,13 @@ textarea:focus {
       const openSeats = primaryPlans.reduce((sum, plan) => sum + seatsLeft(plan), 0);
       const selectedIsToday = selected === today();
 
-      if (title) title.textContent = selectedIsToday ? "今天的可加入房间" : `${dayLabel(selected)} 的房间`;
+      if (title) title.textContent = selectedIsToday ? `${currentCampus().label} · 今天的可加入房间` : `${currentCampus().label} · ${dayLabel(selected)} 的房间`;
 
       const heading = document.createElement("div");
       heading.className = "room-list-head room-list-head-clean";
       heading.innerHTML = `
         <div class="room-list-title">
-          <strong>${selectedIsToday ? "今天房间" : escapeHtml(dayLabel(selected))}</strong>
+          <strong>${selectedIsToday ? `${escapeHtml(currentCampus().label)} 今天房间` : `${escapeHtml(currentCampus().label)} ${escapeHtml(dayLabel(selected))}`}</strong>
         </div>
         <div class="compact-list">
           <span class="status-chip open">${openSeats} 可加入座位</span>
@@ -5709,7 +6120,7 @@ textarea:focus {
           <div class="room-card-main">
             <div>
               <strong>${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))} · ${escapeHtml(roomLabel)}</strong>
-              <div class="muted captain-line">Seat Captain: ${avatarHtml(plan.captain_id, "small")} ${memberNameHtml(plan.captain_id, "captain-name")} ${renderAchievementChips(captainAchievements)}</div>
+              <div class="muted captain-line"><span class="campus-name-chip">${escapeHtml(campusById(planCampusId(plan)).label)}</span> Seat Captain: ${avatarHtml(plan.captain_id, "small")} ${memberNameHtml(plan.captain_id, "captain-name")} ${renderAchievementChips(captainAchievements)}</div>
             </div>
             <div class="compact-list">
               <span class="status-chip ${plan.status === "completed" ? "completed" : planStatusClass}">${planStatusLabel(plan)}</span>
@@ -5901,7 +6312,7 @@ textarea:focus {
       const box = $("myCaptainActions");
       box.replaceChildren();
       const plans = state.roomPlans
-        .filter((plan) => plan.captain_id === state.profile.id && !["completed", "cancelled"].includes(plan.status))
+        .filter((plan) => plan.captain_id === state.profile.id && isCurrentCampusPlan(plan) && !["completed", "cancelled"].includes(plan.status))
         .sort((a, b) => `${a.plan_date} ${a.start_time}`.localeCompare(`${b.plan_date} ${b.start_time}`));
 
       if (plans.length === 0) {
@@ -6001,7 +6412,7 @@ textarea:focus {
       const box = $("myCaptainActions");
       box.replaceChildren();
       const plans = state.roomPlans
-        .filter((plan) => plan.captain_id === state.profile.id && !["completed", "cancelled"].includes(plan.status))
+        .filter((plan) => plan.captain_id === state.profile.id && isCurrentCampusPlan(plan) && !["completed", "cancelled"].includes(plan.status))
         .sort((a, b) => `${a.plan_date} ${a.start_time}`.localeCompare(`${b.plan_date} ${b.start_time}`));
 
       if (panel) panel.classList.toggle("hidden", plans.length === 0);
@@ -6019,7 +6430,7 @@ textarea:focus {
           <button class="captain-plan-summary" data-captain-toggle="${plan.id}" type="button" aria-expanded="${expanded}">
             <span>
               <strong>${escapeHtml(plan.plan_date)} · ${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))}</strong>
-              <small>${escapeHtml(roomTypeLabel(plan.room_type))}</small>
+              <small>${escapeHtml(campusById(planCampusId(plan)).label)} · ${escapeHtml(roomTypeLabel(plan.room_type))}</small>
             </span>
             <span class="captain-plan-stats">
               <span>${shareableSeatLimit(plan)} 可开放</span>
@@ -6045,6 +6456,12 @@ textarea:focus {
                 <label class="field">
                   <span>Seat Captain 到达</span>
                   <input data-captain-arrival="${plan.id}" type="time" value="${escapeHtml(timeShort(plan.planned_arrival))}" ${planEditable ? "" : "disabled"}>
+                </label>
+                <label class="field">
+                  <span>校区</span>
+                  <select data-captain-campus="${plan.id}" ${planEditable ? "" : "disabled"}>
+                    ${campusOptions(planCampusId(plan))}
+                  </select>
                 </label>
                 <label class="field">
                   <span>房间类型</span>
@@ -6089,6 +6506,9 @@ textarea:focus {
                 ${!checkInReady ? `<span class="muted">到达时间后才能填写房间号并确认到场。</span>` : ``}
               </div>
             </div>
+            <div class="captain-editor-actions">
+              <button class="small danger" data-captain-cancel-plan="${plan.id}" type="button">取消计划</button>
+            </div>
             <div class="captain-editor-status" data-captain-status="${plan.id}"></div>
           </div>
         `;
@@ -6114,6 +6534,10 @@ textarea:focus {
       box.querySelectorAll("[data-captain-save]").forEach((button) => {
         button.addEventListener("click", () => saveCaptainRoomInfo(button.dataset.captainSave));
       });
+
+      box.querySelectorAll("[data-captain-cancel-plan]").forEach((button) => {
+        button.addEventListener("click", () => updateRoomPlanStatus(button.dataset.captainCancelPlan, "cancelled"));
+      });
     }
 
     function renderCaptainBoard() {
@@ -6121,7 +6545,7 @@ textarea:focus {
       box.replaceChildren();
       const captains = state.profiles
         .map((profile) => {
-          const plans = state.roomPlans.filter((plan) => plan.captain_id === profile.id);
+          const plans = state.roomPlans.filter((plan) => plan.captain_id === profile.id && isCurrentCampusPlan(plan));
           return {
             profile,
             plans,
@@ -6290,7 +6714,7 @@ textarea:focus {
         start_time: $("roomStartTime").value,
         end_time: $("roomEndTime").value,
         planned_arrival: $("captainArrival").value || null,
-        campus: "StudiTUM Innenstadt",
+        campus: campusById($("roomCampus").value).storage,
         room_type: roomType,
         actual_room_label: null,
         topic: $("roomTopic").value.trim() || null,
@@ -6422,13 +6846,14 @@ textarea:focus {
       const startInput = document.querySelector(`[data-captain-start="${planId}"]`);
       const endInput = document.querySelector(`[data-captain-end="${planId}"]`);
       const arrivalInput = document.querySelector(`[data-captain-arrival="${planId}"]`);
+      const campusInput = document.querySelector(`[data-captain-campus="${planId}"]`);
       const roomTypeInput = document.querySelector(`[data-captain-room-type="${planId}"]`);
       const discussionInput = document.querySelector(`[data-captain-discussion="${planId}"]`);
       const topicInput = document.querySelector(`[data-captain-topic="${planId}"]`);
       const roomInput = document.querySelector(`[data-captain-room="${planId}"]`);
       const shareableInput = document.querySelector(`[data-captain-shareable="${planId}"]`);
       const noteInput = document.querySelector(`[data-captain-note="${planId}"]`);
-      if (!startInput || !endInput || !arrivalInput || !roomTypeInput || !discussionInput || !topicInput) return;
+      if (!startInput || !endInput || !arrivalInput || !campusInput || !roomTypeInput || !discussionInput || !topicInput) return;
 
       if (!isEndAfterStart(startInput.value, endInput.value)) {
         setCaptainEditorStatus(planId, "结束时间必须晚于开始时间。", "error");
@@ -6453,12 +6878,19 @@ textarea:focus {
             start_time: startInput.value || plan.start_time,
             end_time: endInput.value || plan.end_time,
             planned_arrival: arrivalInput.value || null,
+            campus: campusById(campusInput.value).storage,
             room_type: roomTypeInput.value || plan.room_type,
             discussion_mode: discussionInput.value || plan.discussion_mode,
             topic: topicInput.value.trim() || null
           }).eq("id", planId),
           "Cannot save Seat Captain plan settings"
         );
+        state.selectedCampus = normalizeCampusId(campusInput.value);
+        try {
+          window.localStorage.setItem("seatHappensCampus", state.selectedCampus);
+        } catch {
+          // Local storage can be unavailable in some embedded browsers.
+        }
         await loadApp();
         renderApp();
         focusCaptainEditor(planId, roomInfoChanged ? "room" : "plan");
@@ -6531,20 +6963,36 @@ textarea:focus {
     }
 
     async function updateRoomPlanStatus(planId, status) {
-      const patch = { status };
-      if (status === "cancelled") patch.cancelled_at = new Date().toISOString();
-      if (status !== "cancelled") patch.cancelled_at = null;
-      let result = await supabase.from("room_plans").update(patch).eq("id", planId);
-      if (
-        result.error
-        && result.error.code === "PGRST204"
-        && String(result.error.message || "").includes("cancelled_at")
-      ) {
-        result = await supabase.from("room_plans").update({ status }).eq("id", planId);
+      const plan = state.roomPlans.find((item) => item.id === planId);
+      if (status === "cancelled") {
+        const label = plan
+          ? `${plan.plan_date} ${timeShort(plan.start_time)}-${timeShort(plan.end_time)} ${plan.actual_room_label ? "房间 " + plan.actual_room_label : roomTypeLabel(plan.room_type)}`
+          : "这个房间计划";
+        const lateNotice = plan && hoursUntilPlan(plan) <= 12
+          ? "\n\n开始前 12 小时内取消时，计划会保留在页面上并标红提醒其他用户。"
+          : "\n\n提前 12 小时以上取消时，计划会从普通列表中隐藏。";
+        if (!confirm(`确认取消这个房间计划吗？\n\n${label}${lateNotice}`)) return;
       }
-      await requireOk(result, "Cannot update room plan status");
-      await loadApp();
-      renderApp();
+
+      try {
+        const patch = { status };
+        if (status === "cancelled") patch.cancelled_at = new Date().toISOString();
+        if (status !== "cancelled") patch.cancelled_at = null;
+        let result = await supabase.from("room_plans").update(patch).eq("id", planId);
+        if (
+          result.error
+          && result.error.code === "PGRST204"
+          && String(result.error.message || "").includes("cancelled_at")
+        ) {
+          result = await supabase.from("room_plans").update({ status }).eq("id", planId);
+        }
+        await requireOk(result, "Cannot update room plan status");
+        await loadApp();
+        renderApp();
+      } catch (error) {
+        console.error(error);
+        alert(`更新计划状态失败：${error.message}`);
+      }
     }
 
     async function releaseRoomSeat(memberId) {
@@ -6675,6 +7123,7 @@ textarea:focus {
       $("roomType").addEventListener("change", () => {
         $("roomCapacity").value = String(defaultCapacity($("roomType").value));
       });
+      $("roomCampus").addEventListener("change", () => switchCampus($("roomCampus").value));
       $("roomPlanDate").addEventListener("change", () => {
         state.roomViewMode = $("roomPlanDate").value === today() ? "today" : "week";
         renderRoomCalendar();
