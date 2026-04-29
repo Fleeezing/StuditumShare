@@ -1,0 +1,56 @@
+[
+  {
+    "dishKey": "297e68a08a5f4f3d6aaa0ea5f88c845540ad7fe38d2e6679f632031c3f078926",
+    "zhName": "蔬菜博洛尼亚酱意面",
+    "originalName": "Pasta mit Gemüsebolognese",
+    "file": "01_pasta-gemuesebolognese.png"
+  },
+  {
+    "dishKey": "a32db2e2919a331c58172e80472d115d313815c472f8ef1805d2928db699a18a",
+    "zhName": "哈罗米芝士配莎莎酱",
+    "originalName": "Halloumi mit Salsa (scharf), dazu Koriander",
+    "file": "02_halloumi-salsa.png"
+  },
+  {
+    "dishKey": "fef40b8e8fe954a4c05048f27c8af58c6e55998b54b1acedb731a59d83c9793f",
+    "zhName": "巴尔干烤肉肠配 Ajvar 红椒酱",
+    "originalName": "Cevapcici (5 Stück) mit Ajvar (R)",
+    "file": "03_cevapcici-ajvar.png"
+  },
+  {
+    "dishKey": "f24532b2d9442e61e49bbbbd8eb66c173c2dfe87b05752d87d7df999089e52bd",
+    "zhName": "亚洲风味白菜蔬菜锅",
+    "originalName": "Asiatisches Gemüse mit Weißkohl (scharf)",
+    "file": "04_asian-vegetables-cabbage.png"
+  },
+  {
+    "dishKey": "9c8bf78cb61349afd2622d9440a686fde51aceb407ea620475c136d852587731",
+    "zhName": "山地奶酪土豆饼配香草蘸酱",
+    "originalName": "Senner Rösti mit Bergkäse und Kräuterdip",
+    "file": "05_senner-roesti-bergkaese.png"
+  },
+  {
+    "dishKey": "3a8973fbad84d300c40340db20cce62e905c0003ed598c5976843fd5f5ed06ee",
+    "zhName": "猪肉古拉什炖菜",
+    "originalName": "Gulasch vom Schwein (S vom Strohschwein)",
+    "file": "06_pork-goulash.png"
+  },
+  {
+    "dishKey": "4b436200cf2111b34dda4f6796079877d0e5cbc9bfb71fbdb3fbfd5fe03c185d",
+    "zhName": "香煎青鳕鱼排配野蒜荷兰酱",
+    "originalName": "Gebratenes Seelachsfilet (1 Stück) mit Bärlauchhollandaise",
+    "file": "07_seelachsfilet-hollandaise.png"
+  },
+  {
+    "dishKey": "5e8c5af35e2ffa355e84caa18ea5a9ba7f00c5b182c0bb9d2eaf2e9ef549b564",
+    "zhName": "蘑菇奶油汤",
+    "originalName": "Champignoncremesuppe",
+    "file": "08_champignoncremesuppe.png"
+  },
+  {
+    "dishKey": "772df0d855053b350bbdc4b03c992bfb46d469c2355f42790355706f384ce119",
+    "zhName": "纯素椰奶芒果奇亚籽布丁",
+    "originalName": "Veganer Chiapudding mit Kokosmilch und Mangospiegel",
+    "file": "09_chiapudding-mango.png"
+  }
+]

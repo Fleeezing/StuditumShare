@@ -3860,7 +3860,6 @@ textarea:focus {
 
 .app-content-grid {
   gap: 28px !important;
-  align-items: start !important;
 }
 
 .app-content-grid.has-mensa {
@@ -3868,15 +3867,14 @@ textarea:focus {
 }
 
 .right-rail {
-  top: 28px !important;
-  align-self: start !important;
+  top: 22px !important;
   max-height: none !important;
   overflow: visible !important;
   padding-right: 0 !important;
 }
 
 .right-rail .panel {
-  margin-top: 28px !important;
+  margin-top: 0 !important;
 }
 
 .today-hero {
@@ -4371,13 +4369,9 @@ body.campus-main {
   --background: #ece7de;
   --soft: #ebe6dc;
   background:
-    radial-gradient(circle at 12% 8%, rgba(255, 183, 197, .16) 0 118px, transparent 120px),
-    radial-gradient(circle at 88% 12%, rgba(49, 95, 143, .08) 0 148px, transparent 150px),
-    repeating-linear-gradient(0deg, rgba(49, 95, 143, .035) 0 1px, transparent 1px 24px),
-    repeating-linear-gradient(90deg, rgba(49, 95, 143, .030) 0 1px, transparent 1px 24px),
-    linear-gradient(180deg, #fffaf0 0%, #f2eee6 52%, #e6edf1 100%) !important;
+    radial-gradient(circle at 12% 8%, rgba(255, 183, 197, .18) 0 118px, transparent 120px),
+    linear-gradient(180deg, #f6f4ee 0%, #ece7de 48%, #dce3e6 100%) !important;
   background-attachment: fixed !important;
-  background-color: #fff3dc !important;
 }
 
 body.campus-garching {
@@ -4390,13 +4384,9 @@ body.campus-garching {
   --background: #d9f5df;
   --soft: #dff7e5;
   background:
-    radial-gradient(circle at 86% 8%, rgba(104, 219, 189, .20) 0 128px, transparent 130px),
-    radial-gradient(circle at 10% 16%, rgba(216, 241, 154, .20) 0 132px, transparent 134px),
-    repeating-linear-gradient(0deg, rgba(31, 138, 131, .032) 0 1px, transparent 1px 24px),
-    repeating-linear-gradient(90deg, rgba(31, 138, 131, .028) 0 1px, transparent 1px 24px),
-    linear-gradient(180deg, #f2fff8 0%, #dff7e5 52%, #bfe8b5 100%) !important;
+    radial-gradient(circle at 86% 8%, rgba(104, 219, 189, .22) 0 128px, transparent 130px),
+    linear-gradient(180deg, #f2fff8 0%, #dff7e5 50%, #bfe8b5 100%) !important;
   background-attachment: fixed !important;
-  background-color: #d9f5df !important;
 }
 
 body.campus-main::before,
@@ -4424,33 +4414,48 @@ body.campus-garching::after {
 
 body.campus-main::before {
   background:
-    linear-gradient(90deg, rgba(49, 95, 143, .065) 1px, transparent 1px) max(22px, calc((100vw - 1460px) / 2 - 56px)) 138px / 118px 118px no-repeat,
-    linear-gradient(180deg, rgba(49, 95, 143, .052) 1px, transparent 1px) max(22px, calc((100vw - 1460px) / 2 - 56px)) 138px / 118px 118px no-repeat,
-    linear-gradient(28deg, transparent 0 47%, rgba(49, 95, 143, .055) 48% 50%, transparent 51%) max(36px, calc((100vw - 1460px) / 2 - 46px)) 168px / 118px 92px no-repeat,
-    radial-gradient(circle, rgba(230, 115, 142, .085) 0 5px, transparent 6px) min(calc(100vw - 174px), calc((100vw + 1160px) / 2 + 86px)) 176px / 20px 20px no-repeat,
-    linear-gradient(90deg, rgba(49, 95, 143, .045), rgba(49, 95, 143, .045)) min(calc(100vw - 220px), calc((100vw + 1160px) / 2 + 42px)) 214px / 142px 1px no-repeat;
+    linear-gradient(90deg, rgba(49, 95, 143, .072) 1px, transparent 1px) max(22px, calc((100vw - 1460px) / 2 - 56px)) 138px / 118px 118px no-repeat,
+    linear-gradient(180deg, rgba(49, 95, 143, .06) 1px, transparent 1px) max(22px, calc((100vw - 1460px) / 2 - 56px)) 138px / 118px 118px no-repeat,
+    linear-gradient(28deg, transparent 0 47%, rgba(49, 95, 143, .065) 48% 50%, transparent 51%) max(36px, calc((100vw - 1460px) / 2 - 46px)) 168px / 118px 92px no-repeat,
+    linear-gradient(90deg, rgba(49, 95, 143, .075), rgba(49, 95, 143, .075)) max(34px, calc((100vw - 1460px) / 2 - 46px)) 292px / 128px 1px no-repeat,
+    radial-gradient(circle, transparent 0 28px, rgba(49, 95, 143, .07) 29px 30px, transparent 31px) max(42px, calc((100vw - 1460px) / 2 - 38px)) 318px / 72px 72px no-repeat,
+    radial-gradient(circle, rgba(230, 115, 142, .10) 0 4px, transparent 5px) min(calc(100vw - 196px), calc((100vw + 1160px) / 2 + 64px)) 152px / 16px 16px no-repeat,
+    radial-gradient(circle, rgba(230, 115, 142, .09) 0 5px, transparent 6px) min(calc(100vw - 174px), calc((100vw + 1160px) / 2 + 86px)) 176px / 20px 20px no-repeat,
+    linear-gradient(90deg, rgba(49, 95, 143, .055), rgba(49, 95, 143, .055)) min(calc(100vw - 220px), calc((100vw + 1160px) / 2 + 42px)) 214px / 142px 1px no-repeat,
+    linear-gradient(90deg, transparent 0 25%, rgba(49, 95, 143, .05) 25% 27%, transparent 27% 52%, rgba(49, 95, 143, .05) 52% 54%, transparent 54%) min(calc(100vw - 220px), calc((100vw + 1160px) / 2 + 42px)) 214px / 142px 82px no-repeat;
 }
 
 body.campus-garching::before {
   background:
-    linear-gradient(90deg, rgba(31, 138, 131, .065), rgba(31, 138, 131, .065)) max(26px, calc((100vw - 1460px) / 2 - 52px)) 282px / 144px 1px no-repeat,
-    linear-gradient(rgba(31, 138, 131, .065), rgba(31, 138, 131, .065)) max(72px, calc((100vw - 1460px) / 2 - 4px)) 206px / 1px 94px no-repeat,
-    radial-gradient(ellipse at 50% 100%, transparent 0 24px, rgba(31, 138, 131, .075) 25px 26px, transparent 27px) max(38px, calc((100vw - 1460px) / 2 - 42px)) 216px / 78px 82px no-repeat,
-    linear-gradient(90deg, rgba(31, 138, 131, .052), rgba(31, 138, 131, .052)) min(calc(100vw - 230px), calc((100vw + 1160px) / 2 + 42px)) 150px / 180px 1px no-repeat;
+    linear-gradient(90deg, rgba(31, 138, 131, .075), rgba(31, 138, 131, .075)) max(26px, calc((100vw - 1460px) / 2 - 52px)) 282px / 144px 1px no-repeat,
+    linear-gradient(rgba(31, 138, 131, .075), rgba(31, 138, 131, .075)) max(72px, calc((100vw - 1460px) / 2 - 4px)) 206px / 1px 94px no-repeat,
+    radial-gradient(ellipse at 50% 100%, transparent 0 24px, rgba(31, 138, 131, .09) 25px 26px, transparent 27px) max(38px, calc((100vw - 1460px) / 2 - 42px)) 216px / 78px 82px no-repeat,
+    radial-gradient(ellipse at 50% 100%, transparent 0 24px, rgba(31, 138, 131, .09) 25px 26px, transparent 27px) max(80px, calc((100vw - 1460px) / 2)) 218px / 78px 82px no-repeat,
+    linear-gradient(90deg, rgba(31, 138, 131, .06), rgba(31, 138, 131, .06)) min(calc(100vw - 230px), calc((100vw + 1160px) / 2 + 42px)) 150px / 180px 1px no-repeat,
+    linear-gradient(rgba(31, 138, 131, .06), rgba(31, 138, 131, .06)) min(calc(100vw - 230px), calc((100vw + 1160px) / 2 + 42px)) 150px / 1px 128px no-repeat,
+    radial-gradient(circle, rgba(31, 138, 131, .08) 0 4px, transparent 5px) min(calc(100vw - 168px), calc((100vw + 1160px) / 2 + 104px)) 204px / 14px 14px no-repeat,
+    linear-gradient(90deg, rgba(31, 138, 131, .06), rgba(31, 138, 131, .06)) min(calc(100vw - 184px), calc((100vw + 1160px) / 2 + 88px)) 246px / 72px 1px no-repeat;
 }
 
 body.campus-main::after {
   background:
-    linear-gradient(90deg, rgba(49, 95, 143, .058), rgba(49, 95, 143, .058)) max(30px, calc((100vw - 1460px) / 2 - 34px)) calc(100vh - 206px) / 132px 1px no-repeat,
-    linear-gradient(rgba(49, 95, 143, .058), rgba(49, 95, 143, .058)) max(50px, calc((100vw - 1460px) / 2 - 14px)) calc(100vh - 206px) / 1px 112px no-repeat,
-    radial-gradient(circle, rgba(230, 115, 142, .075) 0 6px, transparent 7px) min(calc(100vw - 190px), calc((100vw + 1160px) / 2 + 66px)) calc(100vh - 172px) / 22px 22px no-repeat;
+    linear-gradient(90deg, rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(30px, calc((100vw - 1460px) / 2 - 34px)) calc(100vh - 206px) / 132px 1px no-repeat,
+    linear-gradient(rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(50px, calc((100vw - 1460px) / 2 - 14px)) calc(100vh - 206px) / 1px 112px no-repeat,
+    linear-gradient(rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(82px, calc((100vw - 1460px) / 2 + 18px)) calc(100vh - 206px) / 1px 112px no-repeat,
+    linear-gradient(rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(114px, calc((100vw - 1460px) / 2 + 50px)) calc(100vh - 206px) / 1px 112px no-repeat,
+    linear-gradient(90deg, rgba(49, 95, 143, .072), rgba(49, 95, 143, .072)) max(42px, calc((100vw - 1460px) / 2 - 22px)) calc(100vh - 178px) / 96px 1px no-repeat,
+    radial-gradient(circle, rgba(230, 115, 142, .095) 0 6px, transparent 7px) min(calc(100vw - 190px), calc((100vw + 1160px) / 2 + 66px)) calc(100vh - 172px) / 22px 22px no-repeat,
+    radial-gradient(ellipse at 50% 100%, transparent 0 16px, rgba(49, 95, 143, .068) 17px 18px, transparent 19px) min(calc(100vw - 174px), calc((100vw + 1160px) / 2 + 82px)) calc(100vh - 164px) / 86px 52px no-repeat,
+    linear-gradient(90deg, rgba(49, 95, 143, .058), rgba(49, 95, 143, .058)) min(calc(100vw - 176px), calc((100vw + 1160px) / 2 + 80px)) calc(100vh - 112px) / 88px 1px no-repeat;
 }
 
 body.campus-garching::after {
   background:
-    linear-gradient(90deg, rgba(31, 138, 131, .062), rgba(31, 138, 131, .062)) max(34px, calc((100vw - 1460px) / 2 - 36px)) calc(100vh - 172px) / 170px 1px no-repeat,
-    repeating-linear-gradient(88deg, transparent 0 28px, rgba(31, 138, 131, .065) 29px 30px, transparent 31px 58px) max(20px, calc((100vw - 1460px) / 2 - 60px)) calc(100vh - 152px) / 206px 118px no-repeat,
-    repeating-linear-gradient(103deg, transparent 0 32px, rgba(53, 156, 83, .055) 33px 34px, transparent 35px 62px) min(calc(100vw - 244px), calc((100vw + 1160px) / 2 + 26px)) calc(100vh - 168px) / 222px 132px no-repeat;
+    linear-gradient(90deg, rgba(31, 138, 131, .075), rgba(31, 138, 131, .075)) max(34px, calc((100vw - 1460px) / 2 - 36px)) calc(100vh - 172px) / 170px 1px no-repeat,
+    repeating-linear-gradient(88deg, transparent 0 28px, rgba(31, 138, 131, .08) 29px 30px, transparent 31px 58px) max(20px, calc((100vw - 1460px) / 2 - 60px)) calc(100vh - 152px) / 206px 118px no-repeat,
+    repeating-linear-gradient(103deg, transparent 0 32px, rgba(53, 156, 83, .07) 33px 34px, transparent 35px 62px) min(calc(100vw - 244px), calc((100vw + 1160px) / 2 + 26px)) calc(100vh - 168px) / 222px 132px no-repeat,
+    linear-gradient(90deg, rgba(31, 138, 131, .078), rgba(31, 138, 131, .078)) min(calc(100vw - 276px), calc((100vw + 1160px) / 2 - 8px)) calc(100vh - 224px) / 190px 1px no-repeat,
+    linear-gradient(90deg, transparent 0 12%, rgba(31, 138, 131, .062) 12% 13%, transparent 13% 32%, rgba(31, 138, 131, .062) 32% 33%, transparent 33%) min(calc(100vw - 264px), calc((100vw + 1160px) / 2 + 10px)) calc(100vh - 222px) / 172px 96px no-repeat;
 }
 
 body.campus-main .topbar,
@@ -4578,11 +4583,6 @@ body.campus-garching .campus-name-chip {
 }
 
 @media (max-width: 640px) {
-  body.campus-main,
-  body.campus-garching {
-    background-attachment: scroll !important;
-  }
-
   body::before,
   body.campus-main::before,
   body.campus-main::after,
@@ -5671,8 +5671,6 @@ body.campus-garching .campus-name-chip {
     let autoRefreshRunning = false;
 
     const RELEASE_HISTORY = [
-      { version: "v0.2.51", date: "2026-04-29", changes: ["回退为简洁图案背景，并对齐主内容与右侧模块顶部。"] },
-      { version: "v0.2.50", date: "2026-04-29", changes: ["为主校区和 Garching 启用新的春季校园背景图。"] },
       { version: "v0.2.49", date: "2026-04-29", changes: ["精简 Garching 食堂模块，移除今日推荐并压缩菜品卡片高度。"] },
       { version: "v0.2.48", date: "2026-04-29", changes: ["Garching 食堂卡片放大菜图占比，并改用七言短诗短评。"] },
       { version: "v0.2.47", date: "2026-04-29", changes: ["食堂短评改为网游物品说明风格：概览加锐评。"] },
