@@ -203,6 +203,30 @@
       align-items: start;
     }
 
+    .app-content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .app-content-grid.has-mensa {
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 340px);
+    }
+
+    .app-primary-column {
+      min-width: 0;
+    }
+
+    .right-rail {
+      min-width: 0;
+      position: sticky;
+      top: 18px;
+      align-self: start;
+      max-height: none;
+      overflow: visible;
+    }
+
     .stack {
       display: grid;
       gap: 18px;
@@ -1285,14 +1309,62 @@
     }
 
     .mensa-summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: auto 1fr;
       gap: 12px;
       padding: 12px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--surface-soft);
+    }
+
+    .mensa-summary-copy {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .mensa-best-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .mensa-best-name {
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .mensa-original {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .mensa-cartoon {
+      width: 82px;
+      height: 82px;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      background: #fff9dd;
+      box-shadow: 4px 4px 0 rgba(21, 21, 26, .9);
+      display: grid;
+      place-items: center;
+    }
+
+    .mensa-cartoon-svg {
+      width: 72px;
+      height: 72px;
+      display: block;
+    }
+
+    .mensa-art-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: inherit;
     }
 
     .mensa-score {
@@ -1316,11 +1388,34 @@
 
     .mensa-menu-item {
       display: grid;
-      gap: 4px;
-      padding: 10px;
+      grid-template-columns: 118px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 14px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.72);
+    }
+
+    .mensa-dish-visual {
+      width: 118px;
+      height: 118px;
+      border: 2px solid var(--ink);
+      border-radius: 22px;
+      background: #fff2bd;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-size: 42px;
+      font-weight: 950;
+      box-shadow: 3px 3px 0 rgba(21, 21, 26, .85);
+      overflow: hidden;
+    }
+
+    .mensa-dish-copy {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
     }
 
     .mensa-menu-item-head {
@@ -1337,9 +1432,103 @@
       text-transform: uppercase;
     }
 
+    .mensa-poem {
+      margin-top: 10px;
+      padding: 12px 12px 13px;
+      border: 1px solid rgba(29, 36, 48, .14);
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .84), rgba(255, 243, 196, .68)),
+        #fff8df;
+      color: #0f2636;
+      font-family: "KaiTi", "STKaiti", "Kaiti SC", "FangSong", serif;
+      font-size: 22px;
+      line-height: 1.5;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-align: center;
+    }
+
+    .mensa-poem span {
+      display: block;
+      white-space: nowrap;
+    }
+
     .mensa-source {
       font-size: 12px;
       color: var(--muted);
+    }
+
+    .transit-panel {
+      margin-bottom: 18px;
+    }
+
+    .transit-body {
+      display: grid;
+      gap: 10px;
+    }
+
+    .transit-summary {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-soft);
+    }
+
+    .u6-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      display: inline-grid;
+      place-items: center;
+      background: #0065bd;
+      color: #fff;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+
+    .transit-countdown {
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 950;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .transit-leave {
+      border: 1px solid #8bd8a6;
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #edfff3;
+      color: var(--green);
+      font-weight: 850;
+    }
+
+    .transit-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .transit-item {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      font-size: 13px;
+    }
+
+    .transit-item strong {
+      font-size: 16px;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
     }
 
     .bar-row {
@@ -3502,7 +3691,7 @@ body::before {
 }
 
 main {
-  width: min(1160px, calc(100vw - 36px)) !important;
+  width: min(1420px, calc(100vw - 36px)) !important;
   padding: 26px 0 80px !important;
 }
 
@@ -3669,11 +3858,30 @@ textarea:focus {
 
 .location-banner a { color: var(--v9-blue) !important; }
 
+.app-content-grid {
+  gap: 28px !important;
+}
+
+.app-content-grid.has-mensa {
+  grid-template-columns: minmax(0, 1fr) minmax(310px, 350px) !important;
+}
+
+.right-rail {
+  top: 22px !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding-right: 0 !important;
+}
+
+.right-rail .panel {
+  margin-top: 0 !important;
+}
+
 .today-hero {
   display: grid !important;
-  grid-template-columns: minmax(330px, 1fr) minmax(470px, auto) minmax(184px, auto) !important;
+  grid-template-columns: minmax(300px, 1fr) minmax(430px, auto) minmax(150px, auto) !important;
   grid-template-areas: "copy metrics actions" !important;
-  gap: 24px !important;
+  gap: 20px !important;
   align-items: center !important;
   min-height: 292px !important;
   padding: 34px !important;
@@ -3711,9 +3919,9 @@ textarea:focus {
 .hero-metrics {
   grid-area: metrics !important;
   display: grid !important;
-  grid-template-columns: minmax(126px, .78fr) minmax(126px, .78fr) minmax(194px, 1.18fr) !important;
+  grid-template-columns: minmax(118px, .78fr) minmax(118px, .78fr) minmax(180px, 1.12fr) !important;
   gap: 12px !important;
-  min-width: 470px !important;
+  min-width: 430px !important;
 }
 
 .hero-metric {
@@ -3728,7 +3936,11 @@ textarea:focus {
 
 .hero-metric:nth-child(1) { background: #e9ffe8 !important; }
 .hero-metric:nth-child(2) { background: #eaf0ff !important; }
-.hero-metric:nth-child(3) { min-width: 194px !important; background: #fff2bd !important; }
+.hero-metric:nth-child(3) {
+  min-width: 196px !important;
+  padding-inline: 18px !important;
+  background: #fff2bd !important;
+}
 
 .hero-metric strong {
   color: var(--v9-ink) !important;
@@ -3738,8 +3950,36 @@ textarea:focus {
   font-variant-numeric: tabular-nums;
 }
 
-.hero-actions { grid-area: actions !important; display: flex !important; justify-content: flex-end !important; }
-.hero-actions button { min-width: 184px !important; min-height: 70px !important; font-size: 16px !important; }
+.hero-metric:nth-child(3) strong {
+  font-size: clamp(36px, 3.2vw, 50px) !important;
+  letter-spacing: 0 !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+}
+
+.hero-actions {
+  grid-area: actions !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  min-width: 0 !important;
+}
+
+.hero-actions button {
+  width: min(100%, 166px) !important;
+  min-width: 0 !important;
+  min-height: 64px !important;
+  padding: 0 14px !important;
+  font-size: 15px !important;
+  line-height: 1.18 !important;
+  white-space: normal !important;
+  text-align: center !important;
+}
+
+.hero-actions button::before {
+  width: 24px !important;
+  height: 24px !important;
+  flex: 0 0 auto !important;
+}
 
 .panel { margin-top: 28px !important; }
 
@@ -3806,6 +4046,207 @@ textarea:focus {
 .status-chip.open { background: #e9ffe8 !important; color: #12803d !important; }
 .status-chip.planned { background: #eaf0ff !important; color: var(--v9-blue) !important; }
 .status-chip.full, .status-chip.cancelled { background: #ffe7e7 !important; color: var(--v9-red) !important; }
+
+.mensa-panel {
+  transform: rotate(.2deg);
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: visible !important;
+}
+
+.mensa-panel .panel-head {
+  align-items: flex-start !important;
+  gap: 12px !important;
+}
+
+.mensa-panel .panel-head h2 {
+  font-size: 25px !important;
+  line-height: 1.05 !important;
+}
+
+.mensa-body {
+  gap: 14px !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  overscroll-behavior: contain !important;
+  padding-right: 0 !important;
+}
+
+.mensa-body::-webkit-scrollbar {
+  width: 10px;
+}
+
+.mensa-body::-webkit-scrollbar-track {
+  background: rgba(255, 242, 189, .55);
+  border-left: 2px solid rgba(21, 21, 26, .2);
+}
+
+.mensa-body::-webkit-scrollbar-thumb {
+  background: var(--v9-blue);
+  border: 2px solid #fff8e7;
+  border-radius: 999px;
+}
+
+.mensa-summary {
+  grid-template-columns: 1fr !important;
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 16px !important;
+  background: #fff7cf !important;
+  box-shadow: 3px 3px 0 var(--v9-line) !important;
+}
+
+.mensa-summary .mensa-cartoon {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 10 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+}
+
+.mensa-best-line {
+  align-items: flex-start !important;
+}
+
+.mensa-best-name {
+  color: var(--v9-ink) !important;
+  font-size: 18px !important;
+  font-weight: 950 !important;
+  letter-spacing: -.03em !important;
+}
+
+.mensa-original {
+  color: var(--v9-muted) !important;
+  font-size: 12px !important;
+}
+
+.mensa-score {
+  min-width: 58px !important;
+  min-height: 38px !important;
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 12px !important;
+  background: #e9ffe8 !important;
+  box-shadow: 2px 2px 0 var(--v9-line) !important;
+  color: #12803d !important;
+  font-size: 18px !important;
+}
+
+.mensa-menu-list {
+  gap: 14px !important;
+}
+
+.mensa-menu-item {
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
+  align-items: stretch !important;
+  padding: 14px !important;
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 3px 3px 0 rgba(21, 21, 26, .86) !important;
+}
+
+.mensa-menu-item strong {
+  color: var(--v9-ink) !important;
+  font-size: 17px !important;
+  line-height: 1.3 !important;
+}
+
+.mensa-dish-visual {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 10 !important;
+  border-radius: 22px !important;
+  background: #fff2bd !important;
+  font-size: 44px !important;
+  box-shadow: 4px 4px 0 rgba(21, 21, 26, .86) !important;
+  overflow: hidden !important;
+}
+
+.mensa-dish-visual.fish { background: #dff5ff !important; }
+.mensa-dish-visual.veg { background: #e9ffe8 !important; }
+.mensa-dish-visual.dessert { background: #ffe7e7 !important; }
+.mensa-dish-visual.soup { background: #fff7cf !important; }
+
+.mensa-poem {
+  margin-top: 10px !important;
+  padding: 13px 12px 14px !important;
+  border: 2px solid rgba(29, 36, 48, .14) !important;
+  border-radius: 16px !important;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .84), rgba(255, 243, 196, .68)),
+    #fff8df !important;
+  color: #0f2636 !important;
+  font-family: "KaiTi", "STKaiti", "Kaiti SC", "FangSong", serif !important;
+  font-size: 23px !important;
+  line-height: 1.48 !important;
+  font-weight: 700 !important;
+  letter-spacing: .04em !important;
+  text-align: center !important;
+}
+
+.mensa-poem span {
+  display: block !important;
+  white-space: nowrap !important;
+}
+
+.transit-panel {
+  transform: rotate(-.15deg);
+}
+
+.transit-panel .panel-head {
+  align-items: flex-start !important;
+  gap: 12px !important;
+}
+
+.transit-panel .panel-head h2 {
+  font-size: 24px !important;
+  line-height: 1.05 !important;
+}
+
+.transit-body {
+  gap: 12px !important;
+}
+
+.transit-summary {
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 16px !important;
+  background: #eaf0ff !important;
+  box-shadow: 3px 3px 0 var(--v9-line) !important;
+}
+
+.u6-badge {
+  border: 3px solid var(--v9-line);
+  background: var(--v9-blue);
+  color: #fff;
+  box-shadow: 2px 2px 0 var(--v9-line);
+}
+
+.transit-countdown {
+  color: var(--v9-ink) !important;
+}
+
+.transit-leave {
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 13px !important;
+  background: #e9ffe8 !important;
+  box-shadow: 2px 2px 0 var(--v9-line) !important;
+  color: #12803d !important;
+}
+
+.transit-list {
+  gap: 8px !important;
+}
+
+.transit-item {
+  border: 3px solid var(--v9-line) !important;
+  border-radius: 13px !important;
+  background: #fff !important;
+  box-shadow: 2px 2px 0 rgba(21, 21, 26, .8) !important;
+}
+
+.transit-item strong {
+  color: var(--v9-ink) !important;
+}
 
 .room-hint {
   border: 3px solid var(--v9-line) !important;
@@ -4096,15 +4537,41 @@ body.campus-garching .campus-name-chip {
 }
 
 @media (max-width: 1320px) {
-  .today-hero { grid-template-columns: minmax(320px,1fr) minmax(470px,auto) !important; grid-template-areas: "copy metrics" "copy actions" !important; }
+  .app-content-grid.has-mensa { grid-template-columns: 1fr !important; }
+  .right-rail {
+    position: static !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  .mensa-panel {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  .mensa-body {
+    overflow: visible !important;
+    padding-right: 18px !important;
+  }
+  .today-hero { grid-template-columns: minmax(320px,1fr) minmax(446px,auto) !important; grid-template-areas: "copy metrics" "copy actions" !important; }
   .hero-actions { justify-content: flex-start !important; }
+  .hero-actions button { width: auto !important; min-width: 166px !important; }
 }
 
 @media (max-width: 980px) {
   main { width: min(100% - 24px, 760px) !important; }
+  .app-content-grid,
+  .app-content-grid.has-mensa { grid-template-columns: 1fr !important; }
+  .mensa-panel { transform: none !important; }
+  .mensa-summary { grid-template-columns: 1fr !important; }
+  .mensa-cartoon {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 10 !important;
+  }
   .today-hero { grid-template-columns: 1fr !important; grid-template-areas: "copy" "metrics" "actions" !important; }
   .hero-metrics { min-width: 0 !important; grid-template-columns: 1fr 1fr !important; }
   .hero-metric:nth-child(3) { grid-column: 1 / -1; }
+  .hero-metric:nth-child(3) strong { font-size: clamp(38px, 9vw, 50px) !important; }
+  .hero-actions button { width: 100% !important; min-width: 0 !important; }
   .room-card-meta { grid-template-columns: 1fr !important; }
 }
 
@@ -4265,6 +4732,10 @@ body.campus-garching .campus-name-chip {
 
   .hero-metric strong {
     font-size: clamp(40px, 13vw, 52px) !important;
+  }
+
+  .hero-metric:nth-child(3) strong {
+    font-size: clamp(36px, 11vw, 48px) !important;
   }
 
   .hero-actions {
@@ -4561,35 +5032,25 @@ body.campus-garching .campus-name-chip {
 
     <section id="campusSwitch" class="campus-switch" aria-label="选择 StudiTUM 校区"></section>
 
-    <section id="mensaPanel" class="panel mensa-panel hidden">
-      <div class="panel-head clean-head">
-        <div>
-          <div class="section-kicker" id="mensaKicker">Garching Mensa</div>
-          <h2 id="mensaTitle">今日食堂预测</h2>
-          <div class="muted" id="mensaLead">只在选择 Garching 校区时显示。</div>
-        </div>
-        <a id="mensaSourceLink" class="mensa-source" href="https://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_422_-de.html" target="_blank" rel="noopener">官方食谱</a>
-      </div>
-      <div id="mensaBody" class="panel-body mensa-body"></div>
-    </section>
+    <div id="appContentGrid" class="app-content-grid">
+      <div class="app-primary-column">
+        <section id="todayStatusHero" class="panel today-hero" aria-labelledby="todayHeroTitle"></section>
 
-    <section id="todayStatusHero" class="panel today-hero" aria-labelledby="todayHeroTitle"></section>
+        <section id="futureDaysPanel" class="panel">
+          <div class="panel-head clean-head">
+            <div>
+              <h2>未来几天</h2>
+              <div id="futureDaysSummary" class="muted">未来 7 天共有 0 个座位可能开放。</div>
+            </div>
+            <button id="toggleFutureDaysButton" type="button">查看未来几天</button>
+          </div>
+          <div id="futureDaysBody" class="panel-body stack hidden">
+            <div id="roomCalendar" class="calendar-grid"></div>
+          </div>
+        </section>
 
-    <section id="futureDaysPanel" class="panel">
-      <div class="panel-head clean-head">
-        <div>
-          <h2>未来几天</h2>
-          <div id="futureDaysSummary" class="muted">未来 7 天共有 0 个座位可能开放。</div>
-        </div>
-        <button id="toggleFutureDaysButton" type="button">查看未来几天</button>
-      </div>
-      <div id="futureDaysBody" class="panel-body stack hidden">
-        <div id="roomCalendar" class="calendar-grid"></div>
-      </div>
-    </section>
-
-    <div class="layout">
-      <section class="stack main-flow">
+        <div class="layout">
+          <section class="stack main-flow">
         <section id="roomPlansPanel" class="panel">
           <div class="panel-head clean-head">
             <div>
@@ -4797,7 +5258,33 @@ body.campus-garching .campus-name-chip {
             <div id="releaseHistory" class="list"></div>
           </div>
         </section>
-      </section>
+          </section>
+        </div>
+      </div>
+      <aside id="mensaRail" class="right-rail hidden" aria-label="Garching 校区侧栏信息">
+        <section id="transitPanel" class="panel transit-panel hidden">
+          <div class="panel-head clean-head">
+            <div>
+              <div class="section-kicker" id="transitKicker">U6 Monitor</div>
+              <h2 id="transitTitle">回市区地铁</h2>
+              <div class="muted" id="transitLead">Garching Forschungszentrum · U6</div>
+            </div>
+            <a id="transitSourceLink" class="mensa-source" href="https://efa.mvv-muenchen.de/index.html#trip@enquiry" target="_blank" rel="noopener">MVV</a>
+          </div>
+          <div id="transitBody" class="panel-body transit-body"></div>
+        </section>
+        <section id="mensaPanel" class="panel mensa-panel hidden">
+          <div class="panel-head clean-head">
+            <div>
+              <div class="section-kicker" id="mensaKicker">Garching Mensa</div>
+              <h2 id="mensaTitle">今日食堂预测</h2>
+              <div class="muted" id="mensaLead">只在选择 Garching 校区时显示。</div>
+            </div>
+            <a id="mensaSourceLink" class="mensa-source" href="https://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_422_-de.html" target="_blank" rel="noopener">官方食谱</a>
+          </div>
+          <div id="mensaBody" class="panel-body mensa-body"></div>
+        </section>
+      </aside>
     </div>
   </main>
 
@@ -4807,6 +5294,18 @@ body.campus-garching .campus-name-chip {
     const SUPABASE_URL = "https://egocecoudqerewvurumh.supabase.co";
     const SUPABASE_KEY = "sb_publishable_ENREznKaAif0g72RnSJxEg_7QJgk0WN";
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const MENSA_DISH_ART = {
+      "297e68a08a5f4f3d6aaa0ea5f88c845540ad7fe38d2e6679f632031c3f078926": "assets/mensa-dish-art/01_pasta-gemuesebolognese.png",
+      "a32db2e2919a331c58172e80472d115d313815c472f8ef1805d2928db699a18a": "assets/mensa-dish-art/02_halloumi-salsa.png",
+      "fef40b8e8fe954a4c05048f27c8af58c6e55998b54b1acedb731a59d83c9793f": "assets/mensa-dish-art/03_cevapcici-ajvar.png",
+      "f24532b2d9442e61e49bbbbd8eb66c173c2dfe87b05752d87d7df999089e52bd": "assets/mensa-dish-art/04_asian-vegetables-cabbage.png",
+      "9c8bf78cb61349afd2622d9440a686fde51aceb407ea620475c136d852587731": "assets/mensa-dish-art/05_senner-roesti-bergkaese.png",
+      "3a8973fbad84d300c40340db20cce62e905c0003ed598c5976843fd5f5ed06ee": "assets/mensa-dish-art/06_pork-goulash.png",
+      "4b436200cf2111b34dda4f6796079877d0e5cbc9bfb71fbdb3fbfd5fe03c185d": "assets/mensa-dish-art/07_seelachsfilet-hollandaise.png",
+      "5e8c5af35e2ffa355e84caa18ea5a9ba7f00c5b182c0bb9d2eaf2e9ef549b564": "assets/mensa-dish-art/08_champignoncremesuppe.png",
+      "772df0d855053b350bbdc4b03c992bfb46d469c2355f42790355706f384ce119": "assets/mensa-dish-art/09_chiapudding-mango.png"
+    };
 
     const CAMPUS_OPTIONS = [
       {
@@ -4925,12 +5424,23 @@ body.campus-garching .campus-name-chip {
         dayEarliest: "{time} 最早",
         noTimeYet: "暂无时间",
         mensaTitle: "Garching 今日食堂预测",
-        mensaLead: "自动同步 Mensa Garching 食谱，并给出适合午饭的预测分。",
+        mensaLead: "自动同步 Mensa Garching 食谱，翻译成中文并给出午饭预测分。",
         mensaSource: "官方食谱",
         mensaEmpty: "今日食谱还没同步。部署 Supabase Function 后会自动更新。",
         mensaUnavailable: "食谱暂不可用。",
         mensaUpdated: "更新于 {time}",
         mensaModel: "预测模型 {model}",
+        transitTitle: "回市区地铁",
+        transitLead: "Garching Forschungszentrum · U6",
+        transitSource: "MVV",
+        transitLoading: "正在读取 U6 出发信息。",
+        transitUnavailable: "U6 信息暂不可用。",
+        transitEmpty: "暂时没有读到开往市区方向的 U6。",
+        transitWalk: "StudiTUM 到站约 {minutes} 分钟",
+        transitNow: "现在出发",
+        transitLeaveIn: "{minutes} 分钟内出发",
+        transitMayMiss: "这班可能赶不上",
+        transitNext: "下一班",
         roomPlansTodayTitle: "{campus} · 今天的可加入房间",
         roomPlansDateTitle: "{campus} · {date} 的房间",
         roomHeadToday: "{campus} 今天房间",
@@ -5034,12 +5544,23 @@ body.campus-garching .campus-name-chip {
         dayEarliest: "{time} earliest",
         noTimeYet: "No time yet",
         mensaTitle: "Garching lunch forecast",
-        mensaLead: "Mensa Garching menu is synced automatically with a lunch-fit score.",
+        mensaLead: "Mensa Garching menu is synced, translated into Chinese, and scored for lunch.",
         mensaSource: "Official menu",
         mensaEmpty: "Today's menu has not been synced yet. It will update after the Supabase Function is deployed.",
         mensaUnavailable: "Menu is unavailable right now.",
         mensaUpdated: "Updated {time}",
         mensaModel: "Model {model}",
+        transitTitle: "U6 to the city",
+        transitLead: "Garching Forschungszentrum · U6",
+        transitSource: "MVV",
+        transitLoading: "Loading U6 departures.",
+        transitUnavailable: "U6 information is unavailable right now.",
+        transitEmpty: "No city-bound U6 departures found.",
+        transitWalk: "About {minutes} min walk from StudiTUM",
+        transitNow: "Leave now",
+        transitLeaveIn: "Leave within {minutes} min",
+        transitMayMiss: "Probably too late",
+        transitNext: "Next train",
         roomPlansTodayTitle: "{campus} · Today's available rooms",
         roomPlansDateTitle: "{campus} · Rooms on {date}",
         roomHeadToday: "{campus} today",
@@ -5108,6 +5629,9 @@ body.campus-garching .campus-name-chip {
       directMessagesError: "",
       mensaMenu: null,
       mensaMenuError: "",
+      transitData: null,
+      transitError: "",
+      transitLastLoadedAt: 0,
       adminEmergencyPhone: "",
       roomViewMode: "today",
       captainFormOpen: false,
@@ -5123,10 +5647,24 @@ body.campus-garching .campus-name-chip {
     };
 
     const AUTO_REFRESH_INTERVAL_MS = 15000;
+    const TRANSIT_REFRESH_INTERVAL_MS = 60000;
     let autoRefreshTimer = null;
     let autoRefreshRunning = false;
 
     const RELEASE_HISTORY = [
+      { version: "v0.2.48", date: "2026-04-29", changes: ["Garching 食堂卡片放大菜图占比，并改用七言短诗短评。"] },
+      { version: "v0.2.47", date: "2026-04-29", changes: ["食堂短评改为网游物品说明风格：概览加锐评。"] },
+      { version: "v0.2.46", date: "2026-04-29", changes: ["取消食堂折叠入口，右侧栏无独立滚动条并保持页面固定显示。"] },
+      { version: "v0.2.45", date: "2026-04-29", changes: ["右侧 Garching 信息栏固定在视口内，并改为侧栏整体滚动。"] },
+      { version: "v0.2.44", date: "2026-04-29", changes: ["调整 Garching 侧栏顺序，今日食堂入口放到 U6 信息下方。"] },
+      { version: "v0.2.43", date: "2026-04-29", changes: ["U6 实时信息保持常显，食堂模块单独折叠。"] },
+      { version: "v0.2.42", date: "2026-04-29", changes: ["Garching 侧栏改为可折叠，修正小窗口下食堂模块显示受限。"] },
+      { version: "v0.2.41", date: "2026-04-29", changes: ["调整食堂短评结构，改为文化背景、口味预测和热量评估。"] },
+      { version: "v0.2.40", date: "2026-04-29", changes: ["扩大食堂评分区间，新增 Garching U6 回市区出发提示。"] },
+      { version: "v0.2.39", date: "2026-04-29", changes: ["优化 Garching 食堂评分短评，按菜品特征生成更具体的选择建议。"] },
+      { version: "v0.2.38", date: "2026-04-29", changes: ["导入今日 Garching 菜谱卡通图资产，前端按菜品缓存键自动匹配。"] },
+      { version: "v0.2.37", date: "2026-04-29", changes: ["新增 Garching 菜品图片缓存，支持 AI 卡通图并修复中文名兜底。"] },
+      { version: "v0.2.36", date: "2026-04-29", changes: ["食堂模块改为右侧独立栏，菜谱显示中文翻译和卡通可视化。"] },
       { version: "v0.2.35", date: "2026-04-29", changes: ["新增 Garching 食堂菜单缓存、自动预测评分和 Supabase Edge Function。"] },
       { version: "v0.2.34", date: "2026-04-29", changes: ["优化注册登录页语言入口，并加入房间数据自动刷新。"] },
       { version: "v0.2.33", date: "2026-04-29", changes: ["新增中英切换，覆盖登录页和核心房间共享流程。"] },
@@ -6429,6 +6967,27 @@ body.campus-garching .campus-name-chip {
       autoRefreshTimer = null;
     }
 
+    async function loadTransitDepartures(force = false) {
+      if (state.selectedCampus !== "garching") {
+        state.transitData = null;
+        state.transitError = "";
+        state.transitLastLoadedAt = 0;
+        return;
+      }
+      const now = Date.now();
+      if (!force && state.transitData && now - state.transitLastLoadedAt < TRANSIT_REFRESH_INTERVAL_MS) return;
+
+      const result = await supabase.functions.invoke("fetch-garching-transit", { body: {} });
+      state.transitLastLoadedAt = now;
+      if (result.error) {
+        state.transitData = null;
+        state.transitError = result.error.message || "Transit unavailable";
+        return;
+      }
+      state.transitData = result.data || null;
+      state.transitError = "";
+    }
+
     async function loadApp() {
       const userId = state.session.user.id;
 
@@ -6464,6 +7023,13 @@ body.campus-garching .campus-name-chip {
       } else {
         state.mensaMenu = mensaResult.data || null;
         state.mensaMenuError = "";
+      }
+
+      try {
+        await loadTransitDepartures(false);
+      } catch (error) {
+        state.transitData = null;
+        state.transitError = error.message || "Transit unavailable";
       }
 
       state.chat = await requireOk(
@@ -6523,6 +7089,7 @@ body.campus-garching .campus-name-chip {
       renderCaptainFormState();
       renderFoldStates();
       renderCampusSwitcher();
+      renderTransitPanel();
       renderMensaMenu();
       renderTodayStatusHero();
       renderRoomCalendar();
@@ -6577,6 +7144,15 @@ body.campus-garching .campus-name-chip {
       state.roomViewMode = "today";
       $("roomPlanDate").value = today();
       renderApp();
+      if (nextCampus === "garching") {
+        loadTransitDepartures(true)
+          .then(() => renderTransitPanel())
+          .catch((error) => {
+            state.transitData = null;
+            state.transitError = error.message || "Transit unavailable";
+            renderTransitPanel();
+          });
+      }
     }
 
     function mensaItems() {
@@ -6592,12 +7168,178 @@ body.campus-garching .campus-name-chip {
       }
     }
 
-    function renderMensaMenu() {
-      const panel = $("mensaPanel");
-      const body = $("mensaBody");
+    function mensaVisualKind(item = {}) {
+      const text = `${item.visual || ""} ${item.zhName || ""} ${item.name || ""} ${item.category || ""}`.toLowerCase();
+      if (/fish|fisch|seelachs|鱼|鳕/.test(text)) return "fish";
+      if (/dessert|pudding|süß|甜|布丁/.test(text)) return "dessert";
+      if (/suppe|soup|汤/.test(text)) return "soup";
+      if (/vegan|vegetarisch|gemüse|veg|素|蔬菜/.test(text)) return "veg";
+      if (/pasta|nudel|意面|面/.test(text)) return "pasta";
+      if (/fleisch|grill|gulasch|肉|烤/.test(text)) return "grill";
+      return "plate";
+    }
+
+    function mensaVisualLabel(kind) {
+      return {
+        fish: "鱼",
+        dessert: "甜",
+        soup: "汤",
+        veg: "菜",
+        pasta: "面",
+        grill: "肉",
+        plate: "餐"
+      }[kind] || "餐";
+    }
+
+    function hasChineseText(value = "") {
+      return /[\u4e00-\u9fff]/.test(String(value));
+    }
+
+    function mensaDisplayName(item) {
+      if (item?.zhName && hasChineseText(item.zhName)) return item.zhName;
+      const original = item?.name || "";
+      const category = item?.zhCategory && hasChineseText(item.zhCategory) ? item.zhCategory : "餐品";
+      return original ? `${category}：${original}` : "";
+    }
+
+    function mensaOriginalName(item) {
+      if (!item?.name) return "";
+      return mensaDisplayName(item) !== item.name ? item.name : "";
+    }
+
+    function mensaCategoryName(item) {
+      return item?.zhCategory || item?.category || "";
+    }
+
+    function mensaPoemLines(item) {
+      const text = `${item?.zhName || ""} ${item?.name || ""} ${item?.originalName || ""} ${item?.category || ""}`.toLowerCase();
+      if (/r[oö]sti|roesti|kartoffel|bergk|土豆|薯/.test(text)) return ["金酪融香裹薯衣", "脆云入口满山辉"];
+      if (/halloumi|salsa|哈罗米|莎莎/.test(text)) return ["盐乳煎香映翠盘", "红莎一抹醒春寒"];
+      if (/seelachs|fisch|fish|filet|鳕|鱼/.test(text)) return ["银鳕初煎雪未消", "酪汁轻披海气遥"];
+      if (/gulasch|schwein|pork|猪|古拉什/.test(text)) return ["红汤慢炖肉香浓", "热雾盈盘午梦重"];
+      if (/pasta|nudel|bolognese|意面|面/.test(text)) return ["番蔬缠面染晴光", "叉起春风一缕长"];
+      if (/champignon|suppe|soup|蘑菇|汤/.test(text)) return ["菇影浮汤暖玉瓯", "轻烟入口慰清愁"];
+      if (/chia|pudding|kokos|mango|布丁|芒果|甜/.test(text)) return ["椰乳凝珠藏晓露", "芒金一点落晴沙"];
+      if (/gemüse|gemuese|weisskohl|asiatisch|vegetable|蔬|菜/.test(text)) return ["青蔬入镬带春声", "淡火翻香醒午晴"];
+      if (/cevap|ajvar|grill|烤|肉/.test(text)) return ["炭香绕指红椒醒", "肉火初成午气豪"];
+      return ["热盘初上慰饥肠", "一箸清欢抵午忙"];
+    }
+
+    function mensaPoemMarkup(item) {
+      return `<div class="mensa-poem">${mensaPoemLines(item).map((line) => `<span>${escapeHtml(line)}</span>`).join("")}</div>`;
+    }
+
+    function mensaCartoonSvg(kind) {
+      const fill = {
+        fish: "#dff5ff",
+        dessert: "#ffe7e7",
+        soup: "#fff7cf",
+        veg: "#e9ffe8",
+        pasta: "#fff2bd",
+        grill: "#ffe8d6",
+        plate: "#fff2bd"
+      }[kind] || "#fff2bd";
+      const accent = kind === "fish" ? "#1f8a83" : kind === "dessert" ? "#ef4d4d" : "#2563eb";
+      return `
+        <svg class="mensa-cartoon-svg" viewBox="0 0 120 90" aria-hidden="true">
+          <rect x="18" y="20" width="84" height="52" rx="18" fill="${fill}" stroke="#15151a" stroke-width="5"/>
+          <path d="M31 47c12 17 45 21 60 0" fill="none" stroke="#15151a" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="47" cy="39" r="4" fill="#15151a"/>
+          <circle cx="73" cy="39" r="4" fill="#15151a"/>
+          <path d="M39 18c5-9 15-9 20 0M64 18c6-10 17-8 21 1" fill="none" stroke="${accent}" stroke-width="4" stroke-linecap="round"/>
+          <path d="M25 76h70" stroke="#15151a" stroke-width="5" stroke-linecap="round"/>
+          <path d="M15 30v34M105 30v34" stroke="${accent}" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      `;
+    }
+
+    function mensaArtMarkup(item, visual, variant = "summary") {
+      const localArtUrl = item?.dishKey ? MENSA_DISH_ART[item.dishKey] : "";
+      const artUrl = item?.artUrl || item?.imageUrl || item?.art_url || localArtUrl || "";
+      if (artUrl) {
+        const alt = variant === "summary" ? mensaDisplayName(item) : "";
+        return `<img class="mensa-art-image" src="${escapeHtml(artUrl)}" alt="${escapeHtml(alt)}" loading="lazy">`;
+      }
+      if (variant === "summary") return mensaCartoonSvg(visual);
+      return escapeHtml(mensaVisualLabel(visual));
+    }
+
+    function transitDepartures() {
+      return Array.isArray(state.transitData?.departures) ? state.transitData.departures : [];
+    }
+
+    function transitLeaveLabel(departure) {
+      const leaveIn = Number(departure?.leaveInMinutes ?? 0);
+      if (leaveIn < 0) return t("transitMayMiss");
+      if (leaveIn === 0) return t("transitNow");
+      return t("transitLeaveIn", { minutes: leaveIn });
+    }
+
+    function renderTransitPanel() {
+      const panel = $("transitPanel");
+      const body = $("transitBody");
+      const rail = $("mensaRail");
+      const contentGrid = $("appContentGrid");
       if (!panel || !body) return;
       const show = state.selectedCampus === "garching";
       panel.classList.toggle("hidden", !show);
+      rail?.classList.toggle("hidden", !show);
+      contentGrid?.classList.toggle("has-mensa", show);
+      if (!show) return;
+
+      setText("#transitTitle", t("transitTitle"));
+      setText("#transitLead", t("transitLead"));
+      setText("#transitSourceLink", t("transitSource"));
+      renderFoldStates();
+
+      if (state.transitError) {
+        body.innerHTML = `<div class="empty">${escapeHtml(t("transitUnavailable"))}</div>`;
+        return;
+      }
+      if (!state.transitData) {
+        body.innerHTML = `<div class="empty">${escapeHtml(t("transitLoading"))}</div>`;
+        return;
+      }
+
+      const departures = transitDepartures();
+      if (!departures.length) {
+        body.innerHTML = `<div class="empty">${escapeHtml(t("transitEmpty"))}</div>`;
+        return;
+      }
+
+      const nextCatchable = departures.find((item) => item.catchable) || departures[0];
+      body.innerHTML = `
+        <div class="transit-summary">
+          <div class="u6-badge" aria-hidden="true">U6</div>
+          <div>
+            <div class="muted">${escapeHtml(t("transitNext"))} · ${escapeHtml(nextCatchable.departureTime || "")}</div>
+            <div class="transit-countdown">${escapeHtml(String(nextCatchable.countdown))} min</div>
+            <div class="muted">${escapeHtml(nextCatchable.direction || state.transitData.direction || "")}</div>
+          </div>
+        </div>
+        <div class="transit-leave">${escapeHtml(transitLeaveLabel(nextCatchable))} · ${escapeHtml(t("transitWalk", { minutes: state.transitData.walkingMinutes || 6 }))}</div>
+        <div class="transit-list">
+          ${departures.slice(0, 3).map((item) => `
+            <div class="transit-item">
+              <span>${escapeHtml(item.departureTime || "--:--")}</span>
+              <strong>${escapeHtml(String(item.countdown))} min</strong>
+              <span class="muted">${escapeHtml(transitLeaveLabel(item))}</span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderMensaMenu() {
+      const panel = $("mensaPanel");
+      const body = $("mensaBody");
+      const rail = $("mensaRail");
+      const contentGrid = $("appContentGrid");
+      if (!panel || !body) return;
+      const show = state.selectedCampus === "garching";
+      panel.classList.toggle("hidden", !show);
+      rail?.classList.toggle("hidden", !show);
+      contentGrid?.classList.toggle("has-mensa", show);
       if (!show) return;
 
       setText("#mensaTitle", t("mensaTitle"));
@@ -6618,28 +7360,39 @@ body.campus-garching .campus-name-chip {
       const sorted = [...items].sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
       const best = sorted[0];
       const updatedAt = formatMensaTime(state.mensaMenu.fetched_at);
+      const bestVisual = mensaVisualKind(best);
       body.innerHTML = `
         <div class="mensa-summary">
-          <div>
-            <strong>${escapeHtml(state.mensaMenu.summary || best.name || "")}</strong>
+          <div class="mensa-cartoon ${bestVisual}">${mensaArtMarkup(best, bestVisual, "summary")}</div>
+          <div class="mensa-summary-copy">
+            <div class="mensa-best-line">
+              <strong class="mensa-best-name">${escapeHtml(state.mensaMenu.summary || mensaDisplayName(best))}</strong>
+              <div class="mensa-score">${Number(best.score || 0).toFixed(1)}</div>
+            </div>
+            ${mensaOriginalName(best) ? `<div class="mensa-original">原文：${escapeHtml(mensaOriginalName(best))}</div>` : ""}
             <div class="muted">${escapeHtml([
               updatedAt ? t("mensaUpdated", { time: updatedAt }) : "",
               t("mensaModel", { model: state.mensaMenu.prediction_model || "heuristic-v1" })
             ].filter(Boolean).join(" · "))}</div>
           </div>
-          <div class="mensa-score">${Number(best.score || 0).toFixed(1)}</div>
         </div>
         <div class="mensa-menu-list">
-          ${sorted.slice(0, 5).map((item) => `
+          ${sorted.slice(0, 6).map((item) => {
+            const visual = mensaVisualKind(item);
+            return `
             <div class="mensa-menu-item">
-              <div class="mensa-menu-item-head">
-                <span class="mensa-category">${escapeHtml(item.category || "")}</span>
-                <span class="status-chip open">${Number(item.score || 0).toFixed(1)}/5</span>
+              <div class="mensa-dish-visual ${visual}">${mensaArtMarkup(item, visual, "dish")}</div>
+              <div class="mensa-dish-copy">
+                <div class="mensa-menu-item-head">
+                  <span class="mensa-category">${escapeHtml(mensaCategoryName(item))}</span>
+                  <span class="status-chip open">${Number(item.score || 0).toFixed(1)}/5</span>
+                </div>
+                <strong>${escapeHtml(mensaDisplayName(item))}</strong>
+                ${mensaOriginalName(item) ? `<div class="mensa-original">${escapeHtml(mensaOriginalName(item))}</div>` : ""}
+                ${mensaPoemMarkup(item)}
               </div>
-              <strong>${escapeHtml(item.name || "")}</strong>
-              <div class="muted">${escapeHtml(item.reason || "")}</div>
             </div>
-          `).join("")}
+          `; }).join("")}
         </div>
       `;
     }
