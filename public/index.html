@@ -1302,6 +1302,11 @@
       justify-content: flex-end;
     }
 
+    .language-button {
+      min-width: 62px;
+      padding-inline: 14px;
+    }
+
     .clean-head {
       padding: 18px;
       background:
@@ -4298,6 +4303,7 @@ body.campus-garching .campus-name-chip {
           <div class="auth-intro">
             <h1>Seat Happens</h1>
             <p>Captain 先到场，大家直接入座。先看今天有没有座位，再选择合适的自习时段。</p>
+            <button id="authLanguageButton" class="language-button small" type="button" aria-label="Switch language">EN</button>
           </div>
         </div>
         <div class="auth-flow" aria-label="使用流程">
@@ -4391,6 +4397,7 @@ body.campus-garching .campus-name-chip {
       </div>
       <div class="row user-controls">
         <span id="userBadge" class="pill"></span>
+        <button id="languageButton" class="language-button" type="button" aria-label="Switch language">EN</button>
         <button id="refreshButton" type="button">刷新</button>
         <button id="logoutButton" type="button">退出</button>
       </div>
@@ -4645,7 +4652,9 @@ body.campus-garching .campus-name-chip {
         id: "main",
         storage: "StudiTUM Innenstadt",
         label: "主校区",
+        labelEn: "Main Campus",
         title: "主校区 StudiTUM",
+        titleEn: "Main Campus StudiTUM",
         heroTag: "CITY",
         address: "Gabelsbergerstr. 43, 80333 München",
         mapUrl: "https://www.google.com/maps/search/?api=1&query=StudiTUM%2C%20Gabelsbergerstr.%2043%2C%2080333%20M%C3%BCnchen"
@@ -4654,7 +4663,9 @@ body.campus-garching .campus-name-chip {
         id: "garching",
         storage: "StudiTUM Garching",
         label: "Garching",
+        labelEn: "Garching",
         title: "Garching StudiTUM",
+        titleEn: "Garching StudiTUM",
         heroTag: "GAR",
         address: "Lichtenbergstr. 3, 85748 Garching b. München",
         mapUrl: "https://www.google.com/maps/search/?api=1&query=StudiTUM%20Garching%2C%20Lichtenbergstr.%203%2C%2085748%20Garching%20b.%20M%C3%BCnchen"
@@ -4673,6 +4684,229 @@ body.campus-garching .campus-name-chip {
       } catch {
         return "main";
       }
+    }
+
+    function normalizeLanguage(value) {
+      return value === "en" ? "en" : "zh";
+    }
+
+    function readSavedLanguage() {
+      try {
+        return normalizeLanguage(window.localStorage.getItem("seatHappensLanguage") || "zh");
+      } catch {
+        return "zh";
+      }
+    }
+
+    const I18N = {
+      zh: {
+        languageToggle: "EN",
+        brandSubtitle: "Captain 先到场，大家直接入座。",
+        viewLocation: "查看位置",
+        refresh: "刷新",
+        logout: "退出",
+        authHeroLead: "Captain 先到场，大家直接入座。先看今天有没有座位，再选择合适的自习时段。",
+        authFlowLabel: "使用流程",
+        authStep1Title: "看今天",
+        authStep1Text: "先选主校区或 Garching，再看今天有没有座位。",
+        authStep2Title: "选时段",
+        authStep2Text: "选择你计划学习的开始和离开时间。",
+        authStep3Title: "到场入座",
+        authStep3Text: "Captain 到场确认房间号后，大家按信息加入。",
+        authLocationTitle: "主校区 / Garching StudiTUM",
+        authLocationText: "登录后先选择校区，再加入对应房间。",
+        authLocationLink: "查看 Garching",
+        welcomeBack: "Welcome back",
+        loginTitle: "登录",
+        loginLead: "进入后先看到今天是否还有可加入座位。",
+        username: "用户名",
+        password: "密码",
+        loginButton: "登录",
+        noAccount: "还没有账号？",
+        createOne: "创建一个",
+        newAccount: "New account",
+        signupTitle: "注册",
+        signupLead: "创建账号后会回到登录页面，再用密码登录。",
+        nickname: "昵称",
+        createAccount: "创建账号",
+        haveAccount: "已经有账号？",
+        backLogin: "返回登录",
+        loginUsernamePlaceholder: "例如 alice",
+        signupUsernamePlaceholder: "小写字母/数字",
+        signupNicknamePlaceholder: "页面上显示的名字",
+        todayStatus: "今日状态",
+        anySeats: "还有座吗？",
+        todaySeats: "{campus} 今天有 {count} 个座位可以加入。",
+        todayNoSeats: "{campus} 今天还没有 Captain 开放房间。",
+        joinableSeats: "可加入座位",
+        openRooms: "开放房间",
+        earliestJoin: "最早可加入",
+        noTime: "暂无",
+        viewRooms: "查看可加入房间",
+        openMyRoom: "开放我的房间",
+        futureDays: "未来几天",
+        futureSummary: "{campus} 未来 7 天共有 {count} 个座位可能开放。",
+        showFutureDays: "查看未来几天",
+        hideFutureDays: "收起未来几天",
+        daySeats: "{count} 可加入座位",
+        dayRooms: "{count} 个房间",
+        dayEarliest: "{time} 最早",
+        noTimeYet: "暂无时间",
+        roomPlansTodayTitle: "{campus} · 今天的可加入房间",
+        roomPlansDateTitle: "{campus} · {date} 的房间",
+        roomHeadToday: "{campus} 今天房间",
+        roomHeadDate: "{campus} {date}",
+        joinableRooms: "{count} 个可加入房间",
+        noRoomsToday: "今天还没有开放房间。",
+        noRoomsDate: "这一天还没有开放房间。",
+        noSeatsToday: "今天还没有可加入座位。",
+        noSeatsDate: "这一天暂时没有可加入座位。",
+        becomeCaptainPromptToday: "已经到 StudiTUM 了吗？你可以成为 Seat Captain。",
+        becomeCaptainPromptDate: "如果你那天会先到场，可以提前发布房间计划。",
+        becomeCaptain: "成为 Seat Captain",
+        becomeCaptainLead: "如果你已经在 StudiTUM 抢到房间，可以开放剩余座位给其他同学。",
+        collapse: "收起",
+        moreSettings: "更多设置",
+        hideMoreSettings: "收起更多设置",
+        campus: "校区",
+        date: "日期",
+        captainArrival: "Seat Captain 到达时间",
+        startTime: "开始时间",
+        endTime: "结束时间",
+        roomType: "房间类型",
+        shareableSeats: "可开放座位数",
+        topic: "主题",
+        discussionMode: "讨论模式",
+        note: "备注",
+        publishRoom: "发布房间",
+        myCaptainPlans: "我的 Captain 计划",
+        myCaptainLead: "计划默认收起；展开后可以修改计划或到场后填写房间号。",
+        captainBoardLead: "最近发布过房间的 Captain 和可靠性参考。",
+        feedbackTitle: "测试反馈",
+        feedbackLead: "聊天、站内消息和问题反馈都放在这里。",
+        releaseTitle: "版本更新",
+        releaseLead: "每次发布后，这里会简要记录当前版本和最近改动。",
+        planned: "计划中",
+        arrived: "已到达",
+        completed: "已完成",
+        cancelled: "已取消",
+        fullReference: "已满 · 保留参考",
+        bookableSeats: "{count} 可预约",
+        bookableAfter: "{time} 后 {count} 可预约",
+        joined: "已加入",
+        waitingRoom: "等待 Seat Captain 到场确认房间号。",
+        joinButton: "申请加入",
+        start: "开始",
+        leave: "离开",
+        viewMembers: "查看成员和座位时段"
+      },
+      en: {
+        languageToggle: "中文",
+        brandSubtitle: "Captains arrive first. Everyone sits down directly.",
+        viewLocation: "View map",
+        refresh: "Refresh",
+        logout: "Log out",
+        authHeroLead: "Seat Captains arrive first and share open seats. Check today first, then choose your study time.",
+        authFlowLabel: "How it works",
+        authStep1Title: "Check today",
+        authStep1Text: "Choose Main Campus or Garching, then see whether seats are available today.",
+        authStep2Title: "Pick a time",
+        authStep2Text: "Choose when you plan to start and leave.",
+        authStep3Title: "Arrive and sit",
+        authStep3Text: "After the Captain confirms the room, join based on the shared info.",
+        authLocationTitle: "Main Campus / Garching StudiTUM",
+        authLocationText: "After login, choose a campus and join rooms there.",
+        authLocationLink: "View Garching",
+        welcomeBack: "Welcome back",
+        loginTitle: "Log in",
+        loginLead: "After login, you will first see whether seats are available today.",
+        username: "Username",
+        password: "Password",
+        loginButton: "Log in",
+        noAccount: "No account yet?",
+        createOne: "Create one",
+        newAccount: "New account",
+        signupTitle: "Sign up",
+        signupLead: "After creating an account, return to login and use your password.",
+        nickname: "Display name",
+        createAccount: "Create account",
+        haveAccount: "Already have an account?",
+        backLogin: "Back to login",
+        loginUsernamePlaceholder: "e.g. alice",
+        signupUsernamePlaceholder: "lowercase letters / numbers",
+        signupNicknamePlaceholder: "Name shown on the page",
+        todayStatus: "Today",
+        anySeats: "Any seats left?",
+        todaySeats: "{campus} has {count} seat(s) available today.",
+        todayNoSeats: "No Captain has opened a room at {campus} today.",
+        joinableSeats: "Available seats",
+        openRooms: "Open rooms",
+        earliestJoin: "Earliest join",
+        noTime: "None",
+        viewRooms: "View rooms",
+        openMyRoom: "Open my room",
+        futureDays: "Next few days",
+        futureSummary: "{campus} may have {count} seat(s) open in the next 7 days.",
+        showFutureDays: "View next days",
+        hideFutureDays: "Hide next days",
+        daySeats: "{count} available seat(s)",
+        dayRooms: "{count} room(s)",
+        dayEarliest: "{time} earliest",
+        noTimeYet: "No time yet",
+        roomPlansTodayTitle: "{campus} · Today's available rooms",
+        roomPlansDateTitle: "{campus} · Rooms on {date}",
+        roomHeadToday: "{campus} today",
+        roomHeadDate: "{campus} {date}",
+        joinableRooms: "{count} joinable room(s)",
+        noRoomsToday: "No rooms are open today.",
+        noRoomsDate: "No rooms are open on this day.",
+        noSeatsToday: "No seats are available today.",
+        noSeatsDate: "No seats are available on this day.",
+        becomeCaptainPromptToday: "Already at StudiTUM? You can become a Seat Captain.",
+        becomeCaptainPromptDate: "If you will arrive first that day, you can publish a room plan.",
+        becomeCaptain: "Become a Seat Captain",
+        becomeCaptainLead: "If you already got a room at StudiTUM, share the remaining seats with others.",
+        collapse: "Collapse",
+        moreSettings: "More settings",
+        hideMoreSettings: "Hide settings",
+        campus: "Campus",
+        date: "Date",
+        captainArrival: "Seat Captain arrival",
+        startTime: "Start",
+        endTime: "End",
+        roomType: "Room type",
+        shareableSeats: "Open seats",
+        topic: "Topic",
+        discussionMode: "Discussion mode",
+        note: "Note",
+        publishRoom: "Publish room",
+        myCaptainPlans: "My Captain plans",
+        myCaptainLead: "Plans are collapsed by default. Expand to edit or fill in the room after arrival.",
+        captainBoardLead: "Recent Seat Captains and reliability reference.",
+        feedbackTitle: "Test feedback",
+        feedbackLead: "Chat, direct messages, and issue feedback are here.",
+        releaseTitle: "Release notes",
+        releaseLead: "Each release briefly records the current version and recent changes.",
+        planned: "Planned",
+        arrived: "Arrived",
+        completed: "Completed",
+        cancelled: "Cancelled",
+        fullReference: "Full · reference only",
+        bookableSeats: "{count} available",
+        bookableAfter: "{time} after · {count} available",
+        joined: "Joined",
+        waitingRoom: "Waiting for the Seat Captain to confirm the room number.",
+        joinButton: "Join",
+        start: "Start",
+        leave: "Leave",
+        viewMembers: "View members and seat times"
+      }
+    };
+
+    function t(key, values = {}) {
+      const dictionary = I18N[state.language] || I18N.zh;
+      const template = dictionary[key] ?? I18N.zh[key] ?? key;
+      return Object.entries(values).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), template);
     }
 
     const state = {
@@ -4695,10 +4929,12 @@ body.campus-garching .campus-name-chip {
       releaseHistoryOpen: false,
       captainBoardOpen: false,
       selectedCampus: readSavedCampusId(),
+      language: readSavedLanguage(),
       expandedCaptainPlans: new Set()
     };
 
     const RELEASE_HISTORY = [
+      { version: "v0.2.33", date: "2026-04-29", changes: ["新增中英切换，覆盖登录页和核心房间共享流程。"] },
       { version: "v0.2.32", date: "2026-04-29", changes: ["优化手机端排版，修正房间标题装饰遮挡、按钮换行和详情卡片贴边。"] },
       { version: "v0.2.31", date: "2026-04-27", changes: ["调整校区色系：主校区改为城市蓝灰与春花点缀，Garching 改为青绿色草地主题。"] },
       { version: "v0.2.30", date: "2026-04-27", changes: ["细化校区背景图案，降低装饰对内容的视觉干扰。"] },
@@ -4905,19 +5141,17 @@ body.campus-garching .campus-name-chip {
     }
 
     function roomTypeLabel(type) {
-      return {
-        small_room: "小自习室",
-        medium_room: "中自习室",
-        large_classroom: "大教室"
-      }[type] || type;
+      const labels = state.language === "en"
+        ? { small_room: "Small study room", medium_room: "Medium study room", large_classroom: "Large classroom" }
+        : { small_room: "小自习室", medium_room: "中自习室", large_classroom: "大教室" };
+      return labels[type] || type;
     }
 
     function discussionLabel(mode) {
-      return {
-        quiet: "安静自习",
-        flexible: "可小声讨论",
-        discussion: "讨论型"
-      }[mode] || mode;
+      const labels = state.language === "en"
+        ? { quiet: "Quiet study", flexible: "Low-voice discussion", discussion: "Discussion" }
+        : { quiet: "安静自习", flexible: "可小声讨论", discussion: "讨论型" };
+      return labels[mode] || mode;
     }
 
     function campusById(campusId = state.selectedCampus) {
@@ -4926,6 +5160,16 @@ body.campus-garching .campus-name-chip {
 
     function currentCampus() {
       return campusById(state.selectedCampus);
+    }
+
+    function campusLabel(campusId = state.selectedCampus) {
+      const campus = campusById(campusId);
+      return state.language === "en" ? campus.labelEn : campus.label;
+    }
+
+    function campusTitle(campusId = state.selectedCampus) {
+      const campus = campusById(campusId);
+      return state.language === "en" ? campus.titleEn : campus.title;
     }
 
     function planCampusId(plan) {
@@ -4938,7 +5182,7 @@ body.campus-garching .campus-name-chip {
 
     function campusOptions(selected = state.selectedCampus) {
       return CAMPUS_OPTIONS.map((campus) => (
-        `<option value="${campus.id}" ${selected === campus.id ? "selected" : ""}>${campus.title}</option>`
+        `<option value="${campus.id}" ${selected === campus.id ? "selected" : ""}>${escapeHtml(campusTitle(campus.id))}</option>`
       )).join("");
     }
 
@@ -4951,17 +5195,17 @@ body.campus-garching .campus-name-chip {
 
     function roomTypeOptions(selected) {
       return [
-        ["small_room", "小自习室 · 4 人"],
-        ["medium_room", "中自习室 · 6 人"],
-        ["large_classroom", "大教室"]
+        ["small_room", `${roomTypeLabel("small_room")} · 4 ${state.language === "en" ? "people" : "人"}`],
+        ["medium_room", `${roomTypeLabel("medium_room")} · 6 ${state.language === "en" ? "people" : "人"}`],
+        ["large_classroom", roomTypeLabel("large_classroom")]
       ].map(([value, label]) => `<option value="${value}" ${selected === value ? "selected" : ""}>${label}</option>`).join("");
     }
 
     function discussionModeOptions(selected) {
       return [
-        ["quiet", "安静自习"],
-        ["flexible", "可小声讨论"],
-        ["discussion", "讨论型"]
+        ["quiet", discussionLabel("quiet")],
+        ["flexible", discussionLabel("flexible")],
+        ["discussion", discussionLabel("discussion")]
       ].map(([value, label]) => `<option value="${value}" ${selected === value ? "selected" : ""}>${label}</option>`).join("");
     }
 
@@ -5035,10 +5279,10 @@ body.campus-garching .campus-name-chip {
     }
 
     function planStatusLabel(plan) {
-      if (plan.status === "cancelled") return "已取消";
-      if (plan.status === "active") return "已到达";
-      if (plan.status === "completed") return "已完成";
-      return "计划中";
+      if (plan.status === "cancelled") return t("cancelled");
+      if (plan.status === "active") return t("arrived");
+      if (plan.status === "completed") return t("completed");
+      return t("planned");
     }
 
     function checkInOpensAt(plan) {
@@ -5167,17 +5411,19 @@ body.campus-garching .campus-name-chip {
 
     function availabilityStatusText(plan) {
       const slot = earliestAvailableSlot(plan);
-      if (!slot) return "已满 · 保留参考";
+      if (!slot) return t("fullReference");
       const prefix = slot.start > availabilityReferenceMinute(plan) ? `${timeFromMinutes(slot.start)} 后 ` : "";
-      return `${prefix}${slot.seats} 可预约`;
+      return prefix
+        ? t("bookableAfter", { time: timeFromMinutes(slot.start), count: slot.seats })
+        : t("bookableSeats", { count: slot.seats });
     }
 
     function availabilityTimelineHtml(plan) {
       const slots = availableSeatSegments(plan);
-      if (!slots.length) return `<div class="seat-timeline empty">剩余时段暂无可预约座位</div>`;
+      if (!slots.length) return `<div class="seat-timeline empty">${escapeHtml(state.language === "en" ? "No available seats in the remaining time slots" : "剩余时段暂无可预约座位")}</div>`;
       return `<div class="seat-timeline">${slots.slice(0, 4).map((slot) => `
-        <span class="seat-slot">${escapeHtml(timeFromMinutes(slot.start))}-${escapeHtml(timeFromMinutes(slot.end))} · ${slot.seats} 座</span>
-      `).join("")}${slots.length > 4 ? `<span class="muted">还有 ${slots.length - 4} 段</span>` : ""}</div>`;
+        <span class="seat-slot">${escapeHtml(timeFromMinutes(slot.start))}-${escapeHtml(timeFromMinutes(slot.end))} · ${slot.seats} ${state.language === "en" ? "seat(s)" : "座"}</span>
+      `).join("")}${slots.length > 4 ? `<span class="muted">${state.language === "en" ? `${slots.length - 4} more` : `还有 ${slots.length - 4} 段`}</span>` : ""}</div>`;
     }
 
     function defaultJoinWindow(plan) {
@@ -5206,20 +5452,17 @@ body.campus-garching .campus-name-chip {
     }
 
     function memberStatusLabel(status) {
-      return {
-        requested: "计划加入",
-        expected: "预计到达",
-        confirmed: "已到达",
-        cancelled: "已取消",
-        released: "已离开"
-      }[status] || status;
+      const labels = state.language === "en"
+        ? { requested: "Requested", expected: "Expected", confirmed: "Arrived", cancelled: "Cancelled", released: "Left" }
+        : { requested: "计划加入", expected: "预计到达", confirmed: "已到达", cancelled: "已取消", released: "已离开" };
+      return labels[status] || status;
     }
 
     function memberTimeSummary(member) {
       const parts = [];
-      if (member.eta) parts.push(`到 ${timeShort(member.eta)}`);
-      if (member.planned_leave_at) parts.push(`离 ${timeShort(member.planned_leave_at)}`);
-      if (member.released_at) parts.push("已释放座位");
+      if (member.eta) parts.push(state.language === "en" ? `arrive ${timeShort(member.eta)}` : `到 ${timeShort(member.eta)}`);
+      if (member.planned_leave_at) parts.push(state.language === "en" ? `leave ${timeShort(member.planned_leave_at)}` : `离 ${timeShort(member.planned_leave_at)}`);
+      if (member.released_at) parts.push(state.language === "en" ? "seat released" : "已释放座位");
       return parts.length ? ` · ${parts.join(" · ")}` : "";
     }
 
@@ -5749,6 +5992,109 @@ body.campus-garching .campus-name-chip {
       box.textContent = message;
     }
 
+    function setText(selector, value) {
+      const element = typeof selector === "string" && /^#[A-Za-z][\w-]*$/.test(selector) ? $(selector.slice(1)) : document.querySelector(selector);
+      if (element) element.textContent = value;
+    }
+
+    function setPlaceholder(id, value) {
+      const element = $(id);
+      if (element) element.placeholder = value;
+    }
+
+    function renderLanguageControls() {
+      document.documentElement.lang = state.language === "en" ? "en" : "zh-CN";
+      ["languageButton", "authLanguageButton"].forEach((id) => {
+        const button = $(id);
+        if (!button) return;
+        button.textContent = t("languageToggle");
+        button.setAttribute("aria-label", state.language === "en" ? "Switch to Chinese" : "Switch to English");
+      });
+    }
+
+    function applyStaticTranslations() {
+      renderLanguageControls();
+      setText(".auth-intro p", t("authHeroLead"));
+      document.querySelector(".auth-flow")?.setAttribute("aria-label", t("authFlowLabel"));
+      const authSteps = document.querySelectorAll(".auth-step");
+      [
+        ["authStep1Title", "authStep1Text"],
+        ["authStep2Title", "authStep2Text"],
+        ["authStep3Title", "authStep3Text"]
+      ].forEach(([titleKey, textKey], index) => {
+        const step = authSteps[index];
+        if (!step) return;
+        const strong = step.querySelector("strong");
+        const span = step.querySelector("span:last-child");
+        if (strong) strong.textContent = t(titleKey);
+        if (span) span.textContent = t(textKey);
+      });
+      setText(".auth-location strong", t("authLocationTitle"));
+      setText(".auth-location span", t("authLocationText"));
+      setText(".auth-location a", t("authLocationLink"));
+      setText("#loginPanel .section-kicker", t("welcomeBack"));
+      setText("#loginPanel h2", t("loginTitle"));
+      setText("#loginPanel .panel-head .muted", t("loginLead"));
+      setText("#signupPanel .section-kicker", t("newAccount"));
+      setText("#signupPanel h2", t("signupTitle"));
+      setText("#signupPanel .panel-head .muted", t("signupLead"));
+      const loginLabels = document.querySelectorAll("#loginPanel label.field > span");
+      if (loginLabels[0]) loginLabels[0].textContent = t("username");
+      if (loginLabels[1]) loginLabels[1].textContent = t("password");
+      const signupLabels = document.querySelectorAll("#signupPanel label.field > span");
+      if (signupLabels[0]) signupLabels[0].textContent = t("username");
+      if (signupLabels[1]) signupLabels[1].textContent = t("nickname");
+      if (signupLabels[2]) signupLabels[2].textContent = t("password");
+      setPlaceholder("loginUsername", t("loginUsernamePlaceholder"));
+      setPlaceholder("signupUsername", t("signupUsernamePlaceholder"));
+      setPlaceholder("signupNickname", t("signupNicknamePlaceholder"));
+      setText("#loginButton", t("loginButton"));
+      setText("#signupButton", t("createAccount"));
+      const loginSwitch = document.querySelector("#loginPanel .auth-switch");
+      if (loginSwitch) loginSwitch.firstChild.textContent = t("noAccount");
+      setText("#showSignupButton", t("createOne"));
+      const signupSwitch = document.querySelector("#signupPanel .auth-switch");
+      if (signupSwitch) signupSwitch.firstChild.textContent = t("haveAccount");
+      setText("#showLoginButton", t("backLogin"));
+      setText(".topbar .brand-copy .muted", t("brandSubtitle"));
+      setText("#refreshButton", t("refresh"));
+      setText("#logoutButton", t("logout"));
+      setText("#futureDaysPanel h2", t("futureDays"));
+      setText("#captainPublishTitle", t("becomeCaptain"));
+      setText("#becomeCaptainPanel .panel-head .muted", t("becomeCaptainLead"));
+      const formLabels = document.querySelectorAll("#captainFormBody label.field > span");
+      [t("campus"), t("date"), t("captainArrival"), t("startTime"), t("endTime"), t("roomType"), t("shareableSeats"), t("topic"), t("discussionMode"), t("note")]
+        .forEach((label, index) => { if (formLabels[index]) formLabels[index].textContent = label; });
+      setText("#createRoomPlanButton", t("publishRoom"));
+      setText("#myCaptainPlansPanel h2", t("myCaptainPlans"));
+      setText("#myCaptainPlansPanel .panel-head .muted", t("myCaptainLead"));
+      setText("#captainBoardPanel .panel-head .muted", t("captainBoardLead"));
+      setText("#helpFeedbackPanel h2", t("feedbackTitle"));
+      setText("#helpFeedbackPanel .panel-head .muted", t("feedbackLead"));
+      setText("#releasePanel h2", t("releaseTitle"));
+      setText("#releasePanel .panel-head .muted", t("releaseLead"));
+      $("roomType") && ($("roomType").innerHTML = roomTypeOptions($("roomType").value));
+      $("discussionMode") && ($("discussionMode").innerHTML = discussionModeOptions($("discussionMode").value));
+    }
+
+    function setLanguage(language) {
+      state.language = normalizeLanguage(language);
+      try {
+        window.localStorage.setItem("seatHappensLanguage", state.language);
+      } catch {
+        // Local storage can be unavailable in some embedded browsers.
+      }
+      if (state.session) {
+        renderApp();
+      } else {
+        renderAuth();
+      }
+    }
+
+    function toggleLanguage() {
+      setLanguage(state.language === "en" ? "zh" : "en");
+    }
+
     async function requireOk(result, fallbackMessage) {
       if (result.error) throw new Error(result.error.message || fallbackMessage);
       return result.data;
@@ -5781,7 +6127,7 @@ body.campus-garching .campus-name-chip {
       const nickname = $("signupNickname").value.trim() || username;
       const password = $("signupPassword").value;
       if (!username || password.length < 6) {
-        $("signupError").textContent = "用户名不能为空，密码至少 6 位。";
+        $("signupError").textContent = state.language === "en" ? "Username is required. Password must be at least 6 characters." : "用户名不能为空，密码至少 6 位。";
         return;
       }
 
@@ -5803,7 +6149,7 @@ body.campus-garching .campus-name-chip {
       $("signupUsername").value = "";
       $("signupNickname").value = "";
       $("signupPassword").value = "";
-      showAuthMode("login", "账号已创建，请用刚才设置的密码登录。");
+      showAuthMode("login", state.language === "en" ? "Account created. Log in with the password you just set." : "账号已创建，请用刚才设置的密码登录。");
     }
 
     async function login() {
@@ -5812,7 +6158,7 @@ body.campus-garching .campus-name-chip {
       const username = normalizeUsername($("loginUsername").value);
       const password = $("loginPassword").value;
       if (!username || !password) {
-        $("loginError").textContent = "请输入用户名和密码。";
+        $("loginError").textContent = state.language === "en" ? "Enter username and password." : "请输入用户名和密码。";
         return;
       }
 
@@ -5905,13 +6251,14 @@ body.campus-garching .campus-name-chip {
       applyCampusTheme();
       $("authView").classList.remove("hidden");
       $("appView").classList.add("hidden");
+      applyStaticTranslations();
       showAuthMode("login");
     }
 
     function syncSeatCaptainLabels() {
-      $("createRoomPlanButton").textContent = "发布房间";
+      $("createRoomPlanButton").textContent = t("publishRoom");
       const arrivalLabel = document.querySelector('input#captainArrival')?.previousElementSibling;
-      if (arrivalLabel) arrivalLabel.textContent = "Seat Captain 到达时间";
+      if (arrivalLabel) arrivalLabel.textContent = t("captainArrival");
       const boardTitle = document.querySelector("#captainBoard")?.closest(".panel")?.querySelector("h2");
       if (boardTitle) boardTitle.textContent = "Seat Captain Board";
     }
@@ -5920,6 +6267,7 @@ body.campus-garching .campus-name-chip {
       $("authView").classList.add("hidden");
       $("appView").classList.remove("hidden");
       $("roomPlanDate").value ||= today();
+      applyStaticTranslations();
       syncSeatCaptainLabels();
       renderUserBadge();
       renderCaptainFormState();
@@ -5945,18 +6293,18 @@ body.campus-garching .campus-name-chip {
       const switcher = $("campusSwitch");
       const campusInput = $("roomCampus");
 
-      if (title) title.textContent = campus.title;
+      if (title) title.textContent = campusTitle(campus.id);
       if (address) address.textContent = campus.address;
       if (link) {
         link.href = campus.mapUrl;
-        link.textContent = "查看位置";
+        link.textContent = t("viewLocation");
       }
       if (campusInput) campusInput.innerHTML = campusOptions(state.selectedCampus);
       if (!switcher) return;
 
       switcher.innerHTML = CAMPUS_OPTIONS.map((item) => `
         <button class="campus-choice ${item.id} ${item.id === state.selectedCampus ? "active" : ""}" data-campus="${item.id}" data-campus-tag="${item.heroTag}" type="button" aria-pressed="${item.id === state.selectedCampus}">
-          <strong>${escapeHtml(item.title)}</strong>
+          <strong>${escapeHtml(campusTitle(item.id))}</strong>
           <span>${escapeHtml(item.address)}</span>
         </button>
       `).join("");
@@ -5997,9 +6345,9 @@ body.campus-garching .campus-name-chip {
       $("captainFormBody")?.classList.toggle("hidden", !state.captainFormOpen);
       $("captainMoreSettings")?.classList.toggle("hidden", !state.captainMoreOpen);
       const formButton = $("toggleCaptainFormButton");
-      if (formButton) formButton.textContent = state.captainFormOpen ? "收起" : "开放我的房间";
+      if (formButton) formButton.textContent = state.captainFormOpen ? t("collapse") : t("openMyRoom");
       const moreButton = $("toggleCaptainMoreButton");
-      if (moreButton) moreButton.textContent = state.captainMoreOpen ? "收起更多设置" : "更多设置";
+      if (moreButton) moreButton.textContent = state.captainMoreOpen ? t("hideMoreSettings") : t("moreSettings");
     }
 
     function renderFoldStates() {
@@ -6007,11 +6355,11 @@ body.campus-garching .campus-name-chip {
       $("helpFeedbackBody")?.classList.toggle("hidden", !state.helpFeedbackOpen);
       $("releaseHistoryBody")?.classList.toggle("hidden", !state.releaseHistoryOpen);
       const boardButton = $("toggleCaptainBoardButton");
-      if (boardButton) boardButton.textContent = state.captainBoardOpen ? "收起" : "查看";
+      if (boardButton) boardButton.textContent = state.captainBoardOpen ? t("collapse") : (state.language === "en" ? "View" : "查看");
       const feedbackButton = $("toggleFeedbackPanelButton");
-      if (feedbackButton) feedbackButton.textContent = state.helpFeedbackOpen ? "收起" : "打开";
+      if (feedbackButton) feedbackButton.textContent = state.helpFeedbackOpen ? t("collapse") : (state.language === "en" ? "Open" : "打开");
       const releaseButton = $("toggleReleaseHistoryButton");
-      if (releaseButton) releaseButton.textContent = state.releaseHistoryOpen ? "收起" : "查看";
+      if (releaseButton) releaseButton.textContent = state.releaseHistoryOpen ? t("collapse") : (state.language === "en" ? "View" : "查看");
     }
 
     function todayRoomStats() {
@@ -6027,7 +6375,7 @@ body.campus-garching .campus-name-chip {
         joinablePlans,
         openRooms: joinablePlans.length,
         openSeats,
-        earliestTime: earliestSlot ? timeFromMinutes(earliestSlot.start) : "暂无"
+        earliestTime: earliestSlot ? timeFromMinutes(earliestSlot.start) : t("noTime")
       };
     }
 
@@ -6045,30 +6393,31 @@ body.campus-garching .campus-name-chip {
       const box = $("todayStatusHero");
       if (!box) return;
       const campus = currentCampus();
+      const campusName = campusLabel(campus.id);
       const stats = todayRoomStats();
       const hasSeats = stats.openSeats > 0;
       box.innerHTML = `
         <div class="today-hero-copy">
-          <div class="section-kicker">${escapeHtml(campus.label)} · 今日状态</div>
-          <h2 id="todayHeroTitle">还有座吗？</h2>
-          <p>${hasSeats ? `${escapeHtml(campus.label)} 今天有 ${stats.openSeats} 个座位可以加入。` : `${escapeHtml(campus.label)} 今天还没有 Captain 开放房间。`}</p>
+          <div class="section-kicker">${escapeHtml(campusName)} · ${escapeHtml(t("todayStatus"))}</div>
+          <h2 id="todayHeroTitle">${escapeHtml(t("anySeats"))}</h2>
+          <p>${hasSeats ? escapeHtml(t("todaySeats", { campus: campusName, count: stats.openSeats })) : escapeHtml(t("todayNoSeats", { campus: campusName }))}</p>
         </div>
         <div class="hero-metrics" aria-label="今日房间状态">
           <div class="hero-metric ${hasSeats ? "success" : "muted"}">
             <strong>${stats.openSeats}</strong>
-            <span>可加入座位</span>
+            <span>${escapeHtml(t("joinableSeats"))}</span>
           </div>
           <div class="hero-metric">
             <strong>${stats.openRooms}</strong>
-            <span>开放房间</span>
+            <span>${escapeHtml(t("openRooms"))}</span>
           </div>
           <div class="hero-metric">
             <strong>${escapeHtml(stats.earliestTime)}</strong>
-            <span>最早可加入</span>
+            <span>${escapeHtml(t("earliestJoin"))}</span>
           </div>
         </div>
         <div class="hero-actions">
-          <button id="todayHeroPrimaryButton" class="primary" type="button">${hasSeats ? "查看可加入房间" : "我来开放房间"}</button>
+          <button id="todayHeroPrimaryButton" class="primary" type="button">${hasSeats ? escapeHtml(t("viewRooms")) : escapeHtml(t("openMyRoom"))}</button>
         </div>
       `;
       $("todayHeroPrimaryButton").addEventListener("click", () => {
@@ -6087,7 +6436,7 @@ body.campus-garching .campus-name-chip {
     function renderRoomSummary() {
       const stats = weekRoomStats();
       const summary = $("futureDaysSummary");
-      if (summary) summary.textContent = `${currentCampus().label} 未来 7 天共有 ${stats.openSeats} 个座位可能开放。`;
+      if (summary) summary.textContent = t("futureSummary", { campus: campusLabel(), count: stats.openSeats });
       return stats;
     }
 
@@ -6097,7 +6446,7 @@ body.campus-garching .campus-name-chip {
       const toggle = $("toggleFutureDaysButton");
       const body = $("futureDaysBody");
       const stats = renderRoomSummary();
-      if (toggle) toggle.textContent = state.futureDaysOpen ? "收起未来几天" : "查看未来几天";
+      if (toggle) toggle.textContent = state.futureDaysOpen ? t("hideFutureDays") : t("showFutureDays");
       if (body) body.classList.toggle("hidden", !state.futureDaysOpen);
       box.replaceChildren();
       if (!state.futureDaysOpen) return;
@@ -6115,9 +6464,9 @@ body.campus-garching .campus-name-chip {
         card.className = `day-card ${dayState} ${date === selected ? "active" : ""}`;
         card.innerHTML = `
           <strong>${escapeHtml(dayLabel(date))}</strong>
-          <span class="day-status ${openSeats > 0 ? "open" : "closed"}">${openSeats} 可加入座位</span>
-          <span class="day-count">${plans.length} 个房间</span>
-          <span class="day-count">${firstSlot ? `${escapeHtml(timeFromMinutes(firstSlot.start))} 最早` : "暂无时间"}</span>
+          <span class="day-status ${openSeats > 0 ? "open" : "closed"}">${escapeHtml(t("daySeats", { count: openSeats }))}</span>
+          <span class="day-count">${escapeHtml(t("dayRooms", { count: plans.length }))}</span>
+          <span class="day-count">${firstSlot ? escapeHtml(t("dayEarliest", { time: timeFromMinutes(firstSlot.start) })) : escapeHtml(t("noTimeYet"))}</span>
         `;
         card.addEventListener("click", () => {
           $("roomPlanDate").value = date;
@@ -6274,8 +6623,8 @@ body.campus-garching .campus-name-chip {
         const seats = seatsLeftForWindowMinutes(plan, start, end);
         windowLabel.textContent = `${timeFromMinutes(start)}-${timeFromMinutes(end)}`;
         availableLabel.textContent = seats > 0
-          ? `该时段 ${seats} 个座位可预约`
-          : "该时段已满，请拖到有空位的时间段";
+          ? (state.language === "en" ? `${seats} seat(s) available in this time slot` : `该时段 ${seats} 个座位可预约`)
+          : (state.language === "en" ? "This time slot is full. Drag to an available time." : "该时段已满，请拖到有空位的时间段");
         availableLabel.classList.toggle("closed", seats <= 0);
         joinButton.disabled = seats <= 0;
       };
@@ -6297,7 +6646,7 @@ body.campus-garching .campus-name-chip {
           const start = Number(startInput.value);
           const end = Number(endInput.value);
           if (seatsLeftForWindowMinutes(plan, start, end) <= 0) {
-            alert("这个时段暂时没有可预约座位。请拖动开始或离开时间，选择有空位的时段。");
+            alert(state.language === "en" ? "No seats are available in this time slot. Drag the start or leave time to choose an available slot." : "这个时段暂时没有可预约座位。请拖动开始或离开时间，选择有空位的时段。");
             refreshJoinWindow(planId);
             return;
           }
@@ -6358,18 +6707,21 @@ body.campus-garching .campus-name-chip {
       const secondaryPlans = plans.filter((plan) => !primaryIds.has(plan.id));
       const openSeats = primaryPlans.reduce((sum, plan) => sum + seatsLeft(plan), 0);
       const selectedIsToday = selected === today();
+      const campusName = campusLabel();
 
-      if (title) title.textContent = selectedIsToday ? `${currentCampus().label} · 今天的可加入房间` : `${currentCampus().label} · ${dayLabel(selected)} 的房间`;
+      if (title) title.textContent = selectedIsToday
+        ? t("roomPlansTodayTitle", { campus: campusName })
+        : t("roomPlansDateTitle", { campus: campusName, date: dayLabel(selected) });
 
       const heading = document.createElement("div");
       heading.className = "room-list-head room-list-head-clean";
       heading.innerHTML = `
         <div class="room-list-title">
-          <strong>${selectedIsToday ? `${escapeHtml(currentCampus().label)} 今天房间` : `${escapeHtml(currentCampus().label)} ${escapeHtml(dayLabel(selected))}`}</strong>
+          <strong>${selectedIsToday ? escapeHtml(t("roomHeadToday", { campus: campusName })) : escapeHtml(t("roomHeadDate", { campus: campusName, date: dayLabel(selected) }))}</strong>
         </div>
         <div class="compact-list">
-          <span class="status-chip open">${openSeats} 可加入座位</span>
-          <span class="status-chip planned">${primaryPlans.length} 个可加入房间</span>
+          <span class="status-chip open">${escapeHtml(t("daySeats", { count: openSeats }))}</span>
+          <span class="status-chip planned">${escapeHtml(t("joinableRooms", { count: primaryPlans.length }))}</span>
         </div>
       `;
       box.appendChild(heading);
@@ -6377,16 +6729,16 @@ body.campus-garching .campus-name-chip {
       if (plans.length === 0) {
         box.insertAdjacentHTML("beforeend", `
           <div class="empty empty-action">
-            <strong>${selectedIsToday ? "今天还没有开放房间。" : "这一天还没有开放房间。"}</strong>
-            <span>${selectedIsToday ? "已经到 StudiTUM 了吗？你可以成为 Seat Captain。" : "如果你那天会先到场，可以提前发布房间计划。"}</span>
-            <button class="primary small" data-open-captain-inline type="button">开放我的房间</button>
+            <strong>${escapeHtml(selectedIsToday ? t("noRoomsToday") : t("noRoomsDate"))}</strong>
+            <span>${escapeHtml(selectedIsToday ? t("becomeCaptainPromptToday") : t("becomeCaptainPromptDate"))}</span>
+            <button class="primary small" data-open-captain-inline type="button">${escapeHtml(t("openMyRoom"))}</button>
           </div>
         `);
       } else if (primaryPlans.length === 0) {
         box.insertAdjacentHTML("beforeend", `
           <div class="empty empty-action">
-            <strong>${selectedIsToday ? "今天还没有可加入座位。" : "这一天暂时没有可加入座位。"}</strong>
-            ${selectedIsToday ? `<button class="primary small" data-open-captain-inline type="button">开放我的房间</button>` : ""}
+            <strong>${escapeHtml(selectedIsToday ? t("noSeatsToday") : t("noSeatsDate"))}</strong>
+            ${selectedIsToday ? `<button class="primary small" data-open-captain-inline type="button">${escapeHtml(t("openMyRoom"))}</button>` : ""}
           </div>
         `);
       }
@@ -6414,14 +6766,14 @@ body.campus-garching .campus-name-chip {
         const seatClass = left <= 0 ? "full" : left <= 1 ? "tight" : "open";
         const planStatusClass = plan.status === "cancelled" ? "cancelled" : plan.status === "active" ? "active" : "planned";
         const captainAchievements = primaryAchievementsForUser(plan.captain_id, 1);
-        const roomLabel = plan.actual_room_label ? `房间 ${plan.actual_room_label}` : roomTypeLabel(plan.room_type);
+        const roomLabel = plan.actual_room_label ? `${state.language === "en" ? "Room" : "房间"} ${plan.actual_room_label}` : roomTypeLabel(plan.room_type);
         const item = document.createElement("div");
         item.className = `item room-card room-card-clean ${fullnessClass} ${group === "secondary" ? "secondary-room" : ""}`;
         item.innerHTML = `
           <div class="room-card-main">
             <div>
               <strong>${escapeHtml(timeShort(plan.start_time))}-${escapeHtml(timeShort(plan.end_time))} · ${escapeHtml(roomLabel)}</strong>
-              <div class="muted captain-line"><span class="campus-name-chip">${escapeHtml(campusById(planCampusId(plan)).label)}</span> Seat Captain: ${avatarHtml(plan.captain_id, "small")} ${memberNameHtml(plan.captain_id, "captain-name")} ${renderAchievementChips(captainAchievements)}</div>
+              <div class="muted captain-line"><span class="campus-name-chip">${escapeHtml(campusLabel(planCampusId(plan)))}</span> Seat Captain: ${avatarHtml(plan.captain_id, "small")} ${memberNameHtml(plan.captain_id, "captain-name")} ${renderAchievementChips(captainAchievements)}</div>
             </div>
             <div class="compact-list">
               <span class="status-chip ${plan.status === "completed" ? "completed" : planStatusClass}">${planStatusLabel(plan)}</span>
@@ -6429,35 +6781,35 @@ body.campus-garching .campus-name-chip {
             </div>
           </div>
           <div class="room-card-meta">
-            <span><strong>${left}</strong><small>可加入座位</small></span>
-            <span><strong>${activeGuests.length}/${shareableSeatLimit(plan)}</strong><small>已加入</small></span>
-            <span><strong>${confirmed.length}</strong><small>已到达</small></span>
+            <span><strong>${left}</strong><small>${escapeHtml(t("joinableSeats"))}</small></span>
+            <span><strong>${activeGuests.length}/${shareableSeatLimit(plan)}</strong><small>${escapeHtml(t("joined"))}</small></span>
+            <span><strong>${confirmed.length}</strong><small>${escapeHtml(t("arrived"))}</small></span>
           </div>
-          ${plan.actual_room_label ? "" : `<div class="room-hint">等待 Seat Captain 到场确认房间号。</div>`}
-          ${cancelledLate ? `<div class="room-hint danger-text">Seat Captain 在开始前 12 小时内取消了计划，该房间当前不可用。</div>` : ""}
+          ${plan.actual_room_label ? "" : `<div class="room-hint">${escapeHtml(t("waitingRoom"))}</div>`}
+          ${cancelledLate ? `<div class="room-hint danger-text">${escapeHtml(state.language === "en" ? "The Seat Captain cancelled within 12 hours before start. This room is not available." : "Seat Captain 在开始前 12 小时内取消了计划，该房间当前不可用。")}</div>` : ""}
           ${!joined && left > 0 && planEnd > planStart && !["cancelled", "completed"].includes(plan.status) ? `
             <div class="join-controls">
               <div class="join-window-picker">
                 <div class="join-window-meta">
                   <strong data-room-join-window="${plan.id}">${escapeHtml(timeFromMinutes(joinWindow.start))}-${escapeHtml(timeFromMinutes(joinWindow.end))}</strong>
-                  <span class="join-window-availability ${windowSeats > 0 ? "" : "closed"}" data-room-join-available="${plan.id}">${windowSeats > 0 ? `该时段 ${windowSeats} 个座位可预约` : "该时段已满，请拖到有空位的时间段"}</span>
+                  <span class="join-window-availability ${windowSeats > 0 ? "" : "closed"}" data-room-join-available="${plan.id}">${windowSeats > 0 ? escapeHtml(state.language === "en" ? `${windowSeats} seat(s) available in this time slot` : `该时段 ${windowSeats} 个座位可预约`) : escapeHtml(state.language === "en" ? "This time slot is full. Drag to an available time." : "该时段已满，请拖到有空位的时间段")}</span>
                 </div>
                 <div class="join-slider-grid">
                   <label class="field">
-                    <span>开始</span>
+                    <span>${escapeHtml(t("start"))}</span>
                     <input data-room-join-start="${plan.id}" type="range" min="${planStart}" max="${planEnd}" step="${TIME_STEP_MINUTES}" value="${joinWindow.start}">
                   </label>
                   <label class="field">
-                    <span>离开</span>
+                    <span>${escapeHtml(t("leave"))}</span>
                     <input data-room-join-end="${plan.id}" type="range" min="${planStart}" max="${planEnd}" step="${TIME_STEP_MINUTES}" value="${joinWindow.end}">
                   </label>
                 </div>
               </div>
-              <button class="small primary" data-room-join="${plan.id}" type="button" ${windowSeats > 0 ? "" : "disabled"}>申请加入</button>
+              <button class="small primary" data-room-join="${plan.id}" type="button" ${windowSeats > 0 ? "" : "disabled"}>${escapeHtml(t("joinButton"))}</button>
             </div>
           ` : ""}
           <details class="room-extra">
-            <summary>查看成员和座位时段</summary>
+            <summary>${escapeHtml(t("viewMembers"))}</summary>
             <div class="stack">
               ${availabilityTimelineHtml(plan)}
               <div class="compact-list">
@@ -6469,21 +6821,21 @@ body.campus-garching .campus-name-chip {
                 ${members.length ? members.map((member) => {
                   const memberAchievements = primaryAchievementsForUser(member.user_id, 1);
                   return `<span class="pill member-line">${avatarHtml(member.user_id, "small")} ${memberNameHtml(member.user_id)}${renderAchievementChips(memberAchievements)} · ${escapeHtml(memberStatusLabel(member.status))}${escapeHtml(memberTimeSummary(member))}</span>`;
-                }).join("") : `<span class="muted">还没有人加入。</span>`}
+                }).join("") : `<span class="muted">${escapeHtml(state.language === "en" ? "No one has joined yet." : "还没有人加入。")}</span>`}
               </div>
             </div>
           </details>
           <div class="row room-actions">
-            ${joined && mine?.status !== "confirmed" && checkInReady ? `<button class="small" data-room-checkin="${mine.id}" type="button">我已到达</button>` : ""}
-            ${joined && mine?.status !== "confirmed" && !checkInReady ? `<span class="muted">未到可签到时间</span>` : ""}
-            ${canReleaseSeat ? `<button class="small primary" data-room-release-member="${mine.id}" type="button">提前离开并释放座位</button>` : ""}
-            ${joined && mine?.status !== "confirmed" ? `<button class="small danger" data-room-cancel-member="${mine.id}" type="button">取消加入</button>` : ""}
-            ${canEdit && plan.status !== "completed" ? `<button class="small" data-room-edit="${plan.id}" type="button">修改计划</button>` : ""}
-            ${canManageArrival && plan.status !== "completed" ? `<button class="small primary" data-room-arrival="${plan.id}" type="button">${plan.actual_room_label ? "更新房间信息" : "填写房间号"}</button>` : ""}
-            ${isCaptain && !canEdit ? `<span class="muted">开始前 12 小时内锁定核心信息</span>` : ""}
-            ${canManage && !["cancelled", "completed"].includes(plan.status) ? `<button class="small" data-room-status="${plan.id}" data-status="completed" type="button">完成承诺</button>` : ""}
-            ${canManage && !["cancelled", "completed"].includes(plan.status) ? `<button class="small danger" data-room-status="${plan.id}" data-status="cancelled" type="button">取消计划</button>` : ""}
-            ${isAdmin() ? `<button class="small danger" data-room-delete="${plan.id}" type="button">删除计划</button>` : ""}
+            ${joined && mine?.status !== "confirmed" && checkInReady ? `<button class="small" data-room-checkin="${mine.id}" type="button">${escapeHtml(state.language === "en" ? "I have arrived" : "我已到达")}</button>` : ""}
+            ${joined && mine?.status !== "confirmed" && !checkInReady ? `<span class="muted">${escapeHtml(state.language === "en" ? "Check-in time has not started" : "未到可签到时间")}</span>` : ""}
+            ${canReleaseSeat ? `<button class="small primary" data-room-release-member="${mine.id}" type="button">${escapeHtml(state.language === "en" ? "Leave early and release seat" : "提前离开并释放座位")}</button>` : ""}
+            ${joined && mine?.status !== "confirmed" ? `<button class="small danger" data-room-cancel-member="${mine.id}" type="button">${escapeHtml(state.language === "en" ? "Cancel join" : "取消加入")}</button>` : ""}
+            ${canEdit && plan.status !== "completed" ? `<button class="small" data-room-edit="${plan.id}" type="button">${escapeHtml(state.language === "en" ? "Edit plan" : "修改计划")}</button>` : ""}
+            ${canManageArrival && plan.status !== "completed" ? `<button class="small primary" data-room-arrival="${plan.id}" type="button">${escapeHtml(plan.actual_room_label ? (state.language === "en" ? "Update room info" : "更新房间信息") : (state.language === "en" ? "Enter room number" : "填写房间号"))}</button>` : ""}
+            ${isCaptain && !canEdit ? `<span class="muted">${escapeHtml(state.language === "en" ? "Core details are locked within 12 hours before start" : "开始前 12 小时内锁定核心信息")}</span>` : ""}
+            ${canManage && !["cancelled", "completed"].includes(plan.status) ? `<button class="small" data-room-status="${plan.id}" data-status="completed" type="button">${escapeHtml(state.language === "en" ? "Mark completed" : "完成承诺")}</button>` : ""}
+            ${canManage && !["cancelled", "completed"].includes(plan.status) ? `<button class="small danger" data-room-status="${plan.id}" data-status="cancelled" type="button">${escapeHtml(state.language === "en" ? "Cancel plan" : "取消计划")}</button>` : ""}
+            ${isAdmin() ? `<button class="small danger" data-room-delete="${plan.id}" type="button">${escapeHtml(state.language === "en" ? "Delete plan" : "删除计划")}</button>` : ""}
           </div>
         `;
         box.appendChild(item);
@@ -6495,8 +6847,8 @@ body.campus-garching .campus-name-chip {
         const fold = document.createElement("div");
         fold.className = "fold-row closed-room-toggle";
         fold.innerHTML = `
-          <button id="toggleClosedRoomsButton" type="button">${state.closedRoomsOpen ? "收起已满或已结束房间" : "查看已满或已结束房间"}</button>
-          <span class="muted">${secondaryPlans.length} 个房间已折叠</span>
+          <button id="toggleClosedRoomsButton" type="button">${escapeHtml(state.closedRoomsOpen ? (state.language === "en" ? "Hide full or ended rooms" : "收起已满或已结束房间") : (state.language === "en" ? "View full or ended rooms" : "查看已满或已结束房间"))}</button>
+          <span class="muted">${escapeHtml(state.language === "en" ? `${secondaryPlans.length} room(s) collapsed` : `${secondaryPlans.length} 个房间已折叠`)}</span>
         `;
         box.appendChild(fold);
         $("toggleClosedRoomsButton").addEventListener("click", () => {
@@ -6539,8 +6891,8 @@ body.campus-garching .campus-name-chip {
         const seats = seatsLeftForWindowMinutes(plan, start, end);
         windowLabel.textContent = `${timeFromMinutes(start)}-${timeFromMinutes(end)}`;
         availableLabel.textContent = seats > 0
-          ? `该时段 ${seats} 个座位可预约`
-          : "该时段已满，请拖到有空位的时间段";
+          ? (state.language === "en" ? `${seats} seat(s) available in this time slot` : `该时段 ${seats} 个座位可预约`)
+          : (state.language === "en" ? "This time slot is full. Drag to an available time." : "该时段已满，请拖到有空位的时间段");
         availableLabel.classList.toggle("closed", seats <= 0);
         joinButton.disabled = seats <= 0;
       };
@@ -6562,7 +6914,7 @@ body.campus-garching .campus-name-chip {
           const start = Number(startInput.value);
           const end = Number(endInput.value);
           if (seatsLeftForWindowMinutes(plan, start, end) <= 0) {
-            alert("这个时段暂时没有可预约座位。请拖动开始或离开时间，选择有空位的时段。");
+            alert(state.language === "en" ? "No seats are available in this time slot. Drag the start or leave time to choose an available slot." : "这个时段暂时没有可预约座位。请拖动开始或离开时间，选择有空位的时段。");
             refreshJoinWindow(planId);
             return;
           }
@@ -7090,11 +7442,11 @@ body.campus-garching .campus-name-chip {
     async function joinRoomPlan(planId, eta, plannedLeaveAt) {
       const plan = state.roomPlans.find((item) => item.id === planId);
       if (!plan || ["cancelled", "completed"].includes(plan.status)) {
-        alert("这个房间计划当前不可加入。");
+        alert(state.language === "en" ? "This room plan is not joinable right now." : "这个房间计划当前不可加入。");
         return;
       }
       if (seatsLeftForWindow(plan, eta, plannedLeaveAt) <= 0) {
-        alert("这个时段暂时没有可预约座位。请刷新后选择仍有空位的时段。");
+        alert(state.language === "en" ? "No seats are available in this time slot. Refreshing, then choose a slot with seats left." : "这个时段暂时没有可预约座位。请刷新后选择仍有空位的时段。");
         await loadApp();
         renderApp();
         return;
@@ -7390,6 +7742,8 @@ body.campus-garching .campus-name-chip {
       $("loginButton").addEventListener("click", login);
       $("showSignupButton").addEventListener("click", () => showAuthMode("signup"));
       $("showLoginButton").addEventListener("click", () => showAuthMode("login"));
+      $("authLanguageButton")?.addEventListener("click", toggleLanguage);
+      $("languageButton")?.addEventListener("click", toggleLanguage);
       $("logoutButton").addEventListener("click", logout);
       $("refreshButton").addEventListener("click", async () => {
         await loadApp();
