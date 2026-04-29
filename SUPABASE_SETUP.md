@@ -42,6 +42,10 @@ Supabase 项目用于 Seat Happens 的认证、数据库和 RLS。
 5. `sql/supabase_room_cancel_timing_migration.sql` -> `supabase/migrations/20260426000200_room_cancel_timing.sql`
 6. `sql/supabase_one_captain_plan_per_day_migration.sql` -> `supabase/migrations/20260426000300_one_captain_plan_per_day.sql`
 7. `sql/supabase_room_plan_time_guard_migration.sql` -> `supabase/migrations/20260426000400_room_plan_time_guard.sql`
+8. `sql/supabase_admin_tools_migration.sql` -> `supabase/migrations/20260426000500_admin_tools.sql`
+9. `sql/supabase_room_member_time_tracking_migration.sql` -> `supabase/migrations/20260426000600_room_member_time_tracking.sql`
+10. `sql/supabase_room_campus_split_migration.sql` -> `supabase/migrations/20260427000100_room_campus_split.sql`
+11. `sql/supabase_mensa_menu_migration.sql` -> `supabase/migrations/20260429000100_mensa_menu.sql`
 
 以后新增数据库改动时：
 
@@ -95,6 +99,25 @@ GitHub 需要配置这三个 secrets：
 - `SUPABASE_PROJECT_ID` = `egocecoudqerewvurumh`
 
 第一次运行 `Deploy Supabase Database` 时，把 `bootstrap_existing_remote` 设为 `true`。后续正常发布时设为 `false`。
+
+## Garching 食堂菜单自动同步
+
+当前实现：
+
+- 数据表：`public.mensa_menu_daily`
+- Edge Function：`supabase/functions/fetch-garching-menu`
+- 官方来源：`https://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_422_-de.html`
+- 前端：只在选择 Garching 校区时显示今日食堂预测模块
+
+部署顺序：
+
+1. 运行或部署 `sql/supabase_mensa_menu_migration.sql`
+2. 部署 Edge Function：`supabase functions deploy fetch-garching-menu --project-ref egocecoudqerewvurumh`
+3. 在 Supabase SQL Editor 里按需运行 `sql/supabase_mensa_menu_cron_setup.sql`
+
+`sql/supabase_mensa_menu_cron_setup.sql` 需要把 `YOUR_PUBLISHABLE_OR_ANON_KEY` 替换为前端使用的 publishable/anon key。该文件不会同步成 migration，因为它包含项目级 Vault secret 初始化。
+
+GitHub Actions 里也提供 `Deploy Supabase Functions` 手动 workflow；需要已有 `SUPABASE_ACCESS_TOKEN` 和 `SUPABASE_PROJECT_ID`。
 
 ## 管理员
 

@@ -1275,6 +1275,73 @@
       line-height: 1;
     }
 
+    .mensa-panel {
+      margin-bottom: 18px;
+    }
+
+    .mensa-body {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mensa-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-soft);
+    }
+
+    .mensa-score {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 66px;
+      min-height: 42px;
+      border: 1px solid #8bd8a6;
+      border-radius: 8px;
+      background: #edfff3;
+      color: var(--green);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .mensa-menu-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mensa-menu-item {
+      display: grid;
+      gap: 4px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .mensa-menu-item-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .mensa-category {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .mensa-source {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
     .bar-row {
       display: grid;
       grid-template-columns: 96px 1fr 44px;
@@ -3450,6 +3517,7 @@ main {
 .secondary-panel,
 .room-card-clean,
 .captain-plan-card,
+.mensa-panel,
 .feedback-item,
 .message-item,
 .release-item,
@@ -3522,6 +3590,7 @@ button {
 
 button:hover,
 .room-card-clean:hover,
+.mensa-panel:hover,
 .day-card:hover {
   transform: translate(-2px, -2px) rotate(-.35deg);
   box-shadow: 8px 8px 0 var(--v9-line) !important;
@@ -4492,6 +4561,18 @@ body.campus-garching .campus-name-chip {
 
     <section id="campusSwitch" class="campus-switch" aria-label="选择 StudiTUM 校区"></section>
 
+    <section id="mensaPanel" class="panel mensa-panel hidden">
+      <div class="panel-head clean-head">
+        <div>
+          <div class="section-kicker" id="mensaKicker">Garching Mensa</div>
+          <h2 id="mensaTitle">今日食堂预测</h2>
+          <div class="muted" id="mensaLead">只在选择 Garching 校区时显示。</div>
+        </div>
+        <a id="mensaSourceLink" class="mensa-source" href="https://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_422_-de.html" target="_blank" rel="noopener">官方食谱</a>
+      </div>
+      <div id="mensaBody" class="panel-body mensa-body"></div>
+    </section>
+
     <section id="todayStatusHero" class="panel today-hero" aria-labelledby="todayHeroTitle"></section>
 
     <section id="futureDaysPanel" class="panel">
@@ -4843,6 +4924,13 @@ body.campus-garching .campus-name-chip {
         dayRooms: "{count} 个房间",
         dayEarliest: "{time} 最早",
         noTimeYet: "暂无时间",
+        mensaTitle: "Garching 今日食堂预测",
+        mensaLead: "自动同步 Mensa Garching 食谱，并给出适合午饭的预测分。",
+        mensaSource: "官方食谱",
+        mensaEmpty: "今日食谱还没同步。部署 Supabase Function 后会自动更新。",
+        mensaUnavailable: "食谱暂不可用。",
+        mensaUpdated: "更新于 {time}",
+        mensaModel: "预测模型 {model}",
         roomPlansTodayTitle: "{campus} · 今天的可加入房间",
         roomPlansDateTitle: "{campus} · {date} 的房间",
         roomHeadToday: "{campus} 今天房间",
@@ -4945,6 +5033,13 @@ body.campus-garching .campus-name-chip {
         dayRooms: "{count} room(s)",
         dayEarliest: "{time} earliest",
         noTimeYet: "No time yet",
+        mensaTitle: "Garching lunch forecast",
+        mensaLead: "Mensa Garching menu is synced automatically with a lunch-fit score.",
+        mensaSource: "Official menu",
+        mensaEmpty: "Today's menu has not been synced yet. It will update after the Supabase Function is deployed.",
+        mensaUnavailable: "Menu is unavailable right now.",
+        mensaUpdated: "Updated {time}",
+        mensaModel: "Model {model}",
         roomPlansTodayTitle: "{campus} · Today's available rooms",
         roomPlansDateTitle: "{campus} · Rooms on {date}",
         roomHeadToday: "{campus} today",
@@ -5011,6 +5106,8 @@ body.campus-garching .campus-name-chip {
       feedback: [],
       directMessages: [],
       directMessagesError: "",
+      mensaMenu: null,
+      mensaMenuError: "",
       adminEmergencyPhone: "",
       roomViewMode: "today",
       captainFormOpen: false,
@@ -5030,6 +5127,7 @@ body.campus-garching .campus-name-chip {
     let autoRefreshRunning = false;
 
     const RELEASE_HISTORY = [
+      { version: "v0.2.35", date: "2026-04-29", changes: ["新增 Garching 食堂菜单缓存、自动预测评分和 Supabase Edge Function。"] },
       { version: "v0.2.34", date: "2026-04-29", changes: ["优化注册登录页语言入口，并加入房间数据自动刷新。"] },
       { version: "v0.2.33", date: "2026-04-29", changes: ["新增中英切换，覆盖登录页和核心房间共享流程。"] },
       { version: "v0.2.32", date: "2026-04-29", changes: ["优化手机端排版，修正房间标题装饰遮挡、按钮换行和详情卡片贴边。"] },
@@ -6354,6 +6452,20 @@ body.campus-garching .campus-name-chip {
         ? await requireOk(await supabase.from("room_plan_members").select("*").in("room_plan_id", roomPlanIds), "Cannot load room members")
         : [];
 
+      const mensaResult = await supabase
+        .from("mensa_menu_daily")
+        .select("*")
+        .eq("campus", "garching")
+        .eq("menu_date", today())
+        .maybeSingle();
+      if (mensaResult.error) {
+        state.mensaMenu = null;
+        state.mensaMenuError = mensaResult.error.message;
+      } else {
+        state.mensaMenu = mensaResult.data || null;
+        state.mensaMenuError = "";
+      }
+
       state.chat = await requireOk(
         await supabase.from("chat_messages").select("*").is("deleted_at", null).order("created_at", { ascending: false }).limit(50),
         "Cannot load chat"
@@ -6411,6 +6523,7 @@ body.campus-garching .campus-name-chip {
       renderCaptainFormState();
       renderFoldStates();
       renderCampusSwitcher();
+      renderMensaMenu();
       renderTodayStatusHero();
       renderRoomCalendar();
       renderMyCaptainActions();
@@ -6464,6 +6577,71 @@ body.campus-garching .campus-name-chip {
       state.roomViewMode = "today";
       $("roomPlanDate").value = today();
       renderApp();
+    }
+
+    function mensaItems() {
+      return Array.isArray(state.mensaMenu?.items) ? state.mensaMenu.items : [];
+    }
+
+    function formatMensaTime(value) {
+      if (!value) return "";
+      try {
+        return new Date(value).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      } catch {
+        return "";
+      }
+    }
+
+    function renderMensaMenu() {
+      const panel = $("mensaPanel");
+      const body = $("mensaBody");
+      if (!panel || !body) return;
+      const show = state.selectedCampus === "garching";
+      panel.classList.toggle("hidden", !show);
+      if (!show) return;
+
+      setText("#mensaTitle", t("mensaTitle"));
+      setText("#mensaLead", t("mensaLead"));
+      setText("#mensaSourceLink", t("mensaSource"));
+
+      if (state.mensaMenuError) {
+        body.innerHTML = `<div class="empty">${escapeHtml(t("mensaUnavailable"))}</div>`;
+        return;
+      }
+
+      const items = mensaItems();
+      if (!items.length) {
+        body.innerHTML = `<div class="empty">${escapeHtml(t("mensaEmpty"))}</div>`;
+        return;
+      }
+
+      const sorted = [...items].sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
+      const best = sorted[0];
+      const updatedAt = formatMensaTime(state.mensaMenu.fetched_at);
+      body.innerHTML = `
+        <div class="mensa-summary">
+          <div>
+            <strong>${escapeHtml(state.mensaMenu.summary || best.name || "")}</strong>
+            <div class="muted">${escapeHtml([
+              updatedAt ? t("mensaUpdated", { time: updatedAt }) : "",
+              t("mensaModel", { model: state.mensaMenu.prediction_model || "heuristic-v1" })
+            ].filter(Boolean).join(" · "))}</div>
+          </div>
+          <div class="mensa-score">${Number(best.score || 0).toFixed(1)}</div>
+        </div>
+        <div class="mensa-menu-list">
+          ${sorted.slice(0, 5).map((item) => `
+            <div class="mensa-menu-item">
+              <div class="mensa-menu-item-head">
+                <span class="mensa-category">${escapeHtml(item.category || "")}</span>
+                <span class="status-chip open">${Number(item.score || 0).toFixed(1)}/5</span>
+              </div>
+              <strong>${escapeHtml(item.name || "")}</strong>
+              <div class="muted">${escapeHtml(item.reason || "")}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
     }
 
     function renderUserBadge() {

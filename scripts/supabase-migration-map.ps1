@@ -60,5 +60,11 @@ function Get-SupabaseMigrationMap {
       Name = "room_campus_split"
       Target = "supabase/migrations/20260427000100_room_campus_split.sql"
     }
+    [pscustomobject]@{
+      Source = "sql/supabase_mensa_menu_migration.sql"
+      Version = "20260429000100"
+      Name = "mensa_menu"
+      Target = "supabase/migrations/20260429000100_mensa_menu.sql"
+    }
   )
 }
